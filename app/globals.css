@@ -147,3 +147,17 @@ input,textarea,.lookup-select{font-size:16px!important;min-height:48px}.form-tab
 .hero-visual.has-slider{margin-top:16px}
 .slider-controls{margin-top:16px;justify-content:flex-start}
 }
+
+/* Mobile hero order: eyebrow > title/description > IMAGE > buttons > arrows > notes */
+@media(max-width:760px){
+.hero{display:flex;flex-direction:column;gap:0}
+.hero-copy{display:contents}
+.hero-copy>.eyebrow{order:1}
+.hero-text{order:2}
+.hero-visual{order:3;margin:18px 0 0}
+.hero-cta{order:4}
+.slider-controls{order:5}
+.hero-foot{order:6}
+.hero-cta .hero-actions{margin-top:22px}
+.hero-visual.has-slider{margin-top:18px}
+}
