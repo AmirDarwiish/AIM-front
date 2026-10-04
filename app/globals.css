@@ -124,3 +124,14 @@ input,textarea,.lookup-select{font-size:16px!important;min-height:48px}.form-tab
 }
 @media(max-height:520px) and (max-width:480px){.scroll-services .services-layout{grid-template-columns:1fr}.scroll-services .service-showcase{grid-row:1;grid-column:1;height:320px}.scroll-services .service-list{grid-row:2;grid-column:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.scroll-services{height:auto;padding-bottom:55px}.services-stage{position:relative;top:auto;height:auto}.scroll-services .service-showcase{height:440px}.scroll-services .service-showcase .map-demo{transform:none!important}.map-result,.showcase-copy{animation:none!important}}
+
+/* ===== Hero slider: controls under CTA, image below on mobile, fade on change ===== */
+.slider-controls{margin-top:18px}
+.slider-controls button{width:44px;height:44px;display:grid;place-items:center;padding:0}
+.slider-image{animation:slide-fade .5s ease both}
+@keyframes slide-fade{from{opacity:0;scale:1.02}to{opacity:1;scale:1}}
+.hero-visual.has-slider>picture{display:block;width:100%}
+@media(max-width:760px){
+.hero-visual.has-slider{height:auto;margin-top:20px;overflow:visible}
+.slider-image{height:340px;border-radius:18px}
+}
