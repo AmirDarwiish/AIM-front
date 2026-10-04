@@ -135,3 +135,15 @@ input,textarea,.lookup-select{font-size:16px!important;min-height:48px}.form-tab
 .hero-visual.has-slider{height:auto;margin-top:20px;overflow:visible}
 .slider-image{height:340px;border-radius:18px}
 }
+
+/* Hero text stack: fixed height = tallest slide, so nothing jumps */
+.hero-stack{display:grid}
+.hero-slide{grid-area:1/1;min-width:0;visibility:hidden;opacity:0;transition:opacity .4s ease,visibility 0s linear .4s}
+.hero-slide.on{visibility:visible;opacity:1;transition:opacity .4s ease,visibility 0s}
+.hero-slide>p{font-size:17px;color:#647875;max-width:480px}
+.hero-visual.has-slider{touch-action:pan-y}
+@media(max-width:760px){
+.hero-slide>p{font-size:15px;max-width:100%}
+.hero-visual.has-slider{margin-top:16px}
+.slider-controls{margin-top:16px;justify-content:flex-start}
+}
