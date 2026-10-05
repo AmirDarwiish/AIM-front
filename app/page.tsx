@@ -58,7 +58,7 @@ const [reduced,setReduced]=useState(false),[shortViewport,setShortViewport]=useS
 useEffect(()=>{const media=window.matchMedia('(prefers-reduced-motion: reduce)');const update=()=>{setReduced(media.matches);setShortViewport(window.innerHeight<=520)};update();media.addEventListener('change',update);window.addEventListener('resize',update);return()=>{media.removeEventListener('change',update);window.removeEventListener('resize',update)}},[]);
 const [paused,setPaused]=useState(false);
 const touchX=useRef<number|null>(null);
-useEffect(()=>{const n=home?.sliders?.length||0;if(n<2||reduced||paused)return;const x=setTimeout(()=>setSlide(s=>(s+1)%n),2000);return()=>clearTimeout(x)},[home,slide,reduced,paused]);
+useEffect(()=>{const n=home?.sliders?.length||0;if(n<2||reduced||paused)return;const x=setTimeout(()=>setSlide(s=>(s+1)%n),5000);return()=>clearTimeout(x)},[home,slide,reduced,paused]);
 useEffect(()=>{if(reduced||shortViewport)return;let frame=0;
 const update=()=>{frame=0;const section=servicesRef.current,stage=stageRef.current;if(!section||!stage)return;
 const rect=section.getBoundingClientRect(),padding=parseFloat(getComputedStyle(section).paddingTop)||0,top=parseFloat(getComputedStyle(stage).top)||0;
