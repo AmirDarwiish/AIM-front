@@ -42,3 +42,38 @@ The home endpoint may include `statistics` with non-negative integer totals:
 The example documents field names only; provide actual database totals in production.
 Count available application countries, registered business entities, users and requests respectively. Do not substitute marketing leads for service requests.
 When all four valid totals are supplied, the site displays backend figures (including true zero values). Until then it shows an explicitly labeled illustrative set: 3 countries, 1,200 businesses, 8,500 users and 16,000 requests. These are design-preview figures, not verified platform metrics, and are editable in PlatformStats. The label disappears only when all four actual totals arrive. Values use Latin digits and count up on entering view, with reduced-motion support. Statistics use an imported CSS Module so their styles are bundled with the component.
+
+
+## Admin dashboard
+
+Open `/admin` on the same website. Arabic RTL dashboard with responsive navigation and the petrol/lime brand identity.
+
+Included screens:
+- Login/logout and a two-hour session. Uses existing backend admin accounts; no sample account is created.
+- Overview with **actual landing lead counts**, new/in-progress/closed totals, and latest incoming leads. These are separate from the public app statistics.
+- Leads: paginated search, request type/status/date filters, full details, status changes, internal notes and history. Status writes use numeric enum values (1–4), matching the current .NET JSON configuration. Reads support numeric and string values.
+- Sliders: Arabic/English content, desktop/mobile images, alt text, button labels/link, order, activation, edit and deletion.
+- Sections and nested items: Arabic/English content, images, order, visibility and deletion. `services` and `how` are reserved by the existing public page; other section keys render as CMS sections.
+- Business categories and cities CRUD, including deactivation when records are referenced.
+- Site names, logo, favicon and store links.
+- Media uploads within content editors and a separate upload screen. The backend has no media-list endpoint, so that screen accurately lists only uploads made there in the current session. Existing media IDs can also be reused.
+
+### Connection and session
+
+The dashboard calls same-origin Next.js route handlers; these forward only explicitly allowed backend admin routes. JWT stays in a Secure (production), HttpOnly, SameSite=Strict cookie and is never returned to the browser or stored in localStorage. Mutations require an Origin matching the request Host and reject cross-site Fetch Metadata. Backend JWT validation and permission policies remain authoritative. 401 clears the session; 403 shows a permission message and retains the session. No role-to-permission mapping is invented because login does not expose permissions.
+
+Set optional **server-only** `AIM_API_BASE_URL` to override the API origin; otherwise the dashboard uses `public/config.json` (currently `https://aim.runasp.net`). No extra browser CORS configuration is needed for dashboard requests. Deploy with Next.js server support on Vercel, not static export. API host must be reachable from Vercel, with the new backend version and database migrations deployed.
+
+Image upload limit is 3 MiB, leaving room for multipart headers under [Vercel's 4.5 MB function payload limit](https://vercel.com/docs/functions/limitations#request-body-size). Accepted file extensions match backend: PNG/JPG/JPEG/WEBP/ICO.
+
+### Backend dependencies
+
+- Fix PermissionSeeder to add missing permission codes to existing databases; the current all-or-nothing seed may cause 403 for content, media or lead actions.
+- Countries / city-country relationships and public app statistics are not present in this backend version. The dashboard states those dependencies and does not send unsupported settings or fabricate country IDs.
+- A media-list endpoint is required for a complete persistent media library. Public home provides previews for active content; inactive images may show their saved ID until replaced.
+- Applying frontend code does not deploy .NET changes or run database migrations.
+
+### Validation
+
+Run `npx tsc --noEmit`, `npx next build --webpack`, then `node tests/admin-integration.mjs`.
+The integration test starts an isolated fixture API and production Next.js server. It verifies token privacy/cookie flags, login failures, CSRF rejection, authenticated proxying, route/method restrictions, numeric status writes, multipart uploads, 403 propagation, expiration and logout. Optional `ADMIN_TEST_PORT` and `ADMIN_FIXTURE_PORT` select local test ports. It never contacts or mutates the production API. Actual admin-account testing and browser visual verification still require the deployed service.
