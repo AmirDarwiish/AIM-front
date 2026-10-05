@@ -34,3 +34,11 @@ The provided guide uses api.example.com as a placeholder. The actual API URL, CO
 - Both forms require a separate calling-code input and a national-number input. The API still receives a single `phone` string with a leading plus and country calling code, e.g. `+201012345678`. The user's phone country can differ from the business location.
 - Arabic/Persian digits and number separators are normalized. National trunk zero is removed for the explicitly listed numbering plans in `lib/phone.ts`; other plans preserve it. Validation checks format and length, not number ownership or every national numbering plan.
 - Until the countries endpoint and filtered cities contract are available, business submissions stay unavailable with a retry message. No country IDs or city assignments are invented; the contact form remains independently available.
+
+## Public platform statistics
+
+The home endpoint may include `statistics` with non-negative integer totals:
+`{ "availableCountries": 0, "registeredBusinesses": 0, "users": 0, "requests": 0 }`.
+The example documents field names only; provide actual database totals in production.
+Count available application countries, registered business entities, users and requests respectively. Do not substitute marketing leads for service requests.
+Each missing, null or invalid count displays an em dash; a real zero displays zero. Values are formatted by the current language and count up once on entering view, with reduced-motion support. No fallback totals are fabricated.
