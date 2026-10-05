@@ -11,7 +11,7 @@ function ServiceOrbit({lang,selected,onSelect}:{lang:Lang;selected:number;onSele
 const ar=lang==='ar';
 return <div className="service-orbit" role="group" aria-label={ar?'اختر خدمة من المدار':'Choose a service from the orbit'}>
 <div className="service-orbit-ring" aria-hidden="true"/><div className="service-orbit-ring inner" aria-hidden="true"/>
-<div className="service-orbit-center"><img src="/assets/mark-primary.svg" alt="All in Map"/></div>
+<div className="service-orbit-center"><MapDemo lang={lang} selected={selected}/></div>
 {categories.map((c,i)=><button key={c[0]} className={'service-planet'+(selected===i?' active':'')} style={{'--planet-angle':`${(i-selected)*60+180}deg`} as React.CSSProperties} onClick={()=>onSelect(i)} aria-label={ar?c[1]:c[2]} aria-pressed={selected===i}><span><img src={'/assets/services/'+c[0]+'-petrol.svg'} alt=""/></span></button>)}
 </div>}
 function MapDemo({lang,selected}:{lang:Lang;selected:number}){const ar=lang==='ar';return <div className="map-demo" aria-label={ar?'تصور توضيحي لخريطة الخدمات':'Illustrative service map'}>
