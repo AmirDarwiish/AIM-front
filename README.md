@@ -10,7 +10,8 @@ When unset, the site is an explicitly non-submitting design preview. No sample l
 Endpoints:
 - GET /api/public/website/home?lang=ar|en
 - GET /api/public/lookups/business-categories?lang=ar|en
-- GET /api/public/lookups/cities?lang=ar|en
+- GET /api/public/lookups/countries?lang=ar|en
+- GET /api/public/lookups/cities?lang=ar|en&countryId={id}
 - POST /api/public/leads with numeric requestType 1/2
 
 `lib/public-api.ts` owns typed API contracts, request timeouts, URL sanitization, and error normalization. `app/page.tsx` contains presentation components and form state. All server content is rendered as text, without HTML injection. Server order and returned localized text are preserved. The site fetches fresh content on page load/language changes; no content is persisted client-side. Lead fields never enter localStorage.
@@ -24,3 +25,12 @@ Use the package manager/lockfile supplied with this project. `pnpm dev`, `pnpm b
 
 ## Remaining live checks
 The provided guide uses api.example.com as a placeholder. The actual API URL, CORS and runtime Swagger contract must be tested when available. No live lead submission has been made during authoring.
+
+## Country and phone contract (frontend prepared ahead of backend)
+
+- Countries return localized `[{ "id": 1, "name": "..." }]` with actual backend IDs.
+- Cities accept required `countryId` and return only that country's cities as `[{ "id": 10, "name": "...", "countryId": 1 }]`. The frontend also checks each city's countryId before displaying it.
+- A business lead (`requestType: 1`) includes required numeric `countryId` and `cityId`; the server must validate that the city belongs to the country. General inquiries do not require a business location.
+- Both forms require a separate calling-code input and a national-number input. The API still receives a single `phone` string with a leading plus and country calling code, e.g. `+201012345678`. The user's phone country can differ from the business location.
+- Arabic/Persian digits and number separators are normalized. National trunk zero is removed for the explicitly listed numbering plans in `lib/phone.ts`; other plans preserve it. Validation checks format and length, not number ownership or every national numbering plan.
+- Until the countries endpoint and filtered cities contract are available, business submissions stay unavailable with a retry message. No country IDs or city assignments are invented; the contact form remains independently available.

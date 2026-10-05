@@ -207,3 +207,12 @@ input,textarea,.lookup-select{font-size:16px!important;min-height:48px}.form-tab
  .service-orbit-center .result-icon{width:18px;height:18px;padding:3px;border-radius:4px}
  .service-orbit-center .result-icon img{width:11px;height:11px}
 }
+
+/* Country calling code stays beside the national number in both directions. */
+.phone-field{grid-column:1/-1;min-width:0}
+.phone-field-title{font-size:13px;font-weight:600}
+.phone-inputs{display:grid;grid-template-columns:minmax(80px,110px) minmax(0,1fr);gap:12px;direction:ltr;margin-top:8px}
+.phone-inputs label{font-size:12px;min-width:0}
+.phone-inputs input{direction:ltr;text-align:left}
+html[dir=rtl] .phone-inputs label{text-align:right}
+.phone-field .field-error button{text-decoration:underline}

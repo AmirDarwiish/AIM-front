@@ -4,7 +4,8 @@ export type Section = Item & {sectionKey:string;subtitle?:string;items:Item[]};
 export type Slider = Item & {desktopImageUrl:string;mobileImageUrl?:string};
 export type HomeContent = {siteName:string;logoUrl?:string;faviconUrl?:string;appleAppStoreUrl?:string;googlePlayUrl?:string;sliders:Slider[];sections:Section[]};
 export type Lookup = {id:number;name:string};
-export type Lead = {requestType:1|2;fullName:string;phone:string;email?:string;businessName?:string;businessCategoryId?:number;cityId?:number;message?:string};
+export type CityLookup = Lookup & {countryId:number};
+export type Lead = {requestType:1|2;fullName:string;phone:string;email?:string;businessName?:string;businessCategoryId?:number;countryId?:number;cityId?:number;message?:string};
 export class ApiError extends Error {constructor(public status:number, public fields:Record<string,string[]>, message:string,public retryAfter=60){super(message)}}
 export function safeUrl(value?:string){if(!value)return undefined;try{const u=new URL(value,typeof window==='undefined'?'https://localhost':window.location.origin);return ['http:','https:'].includes(u.protocol)?u.href:undefined}catch{return undefined}}
 export async function request<T>(base:string,path:string,options:RequestInit={}):Promise<T>{
@@ -14,5 +15,7 @@ export async function request<T>(base:string,path:string,options:RequestInit={})
  return data as T;
 }
 export const getHome=(b:string,l:Lang)=>request<HomeContent>(b,`/api/public/website/home?lang=${l}`);
-export const getLookups=(b:string,l:Lang)=>Promise.all([request<Lookup[]>(b,`/api/public/lookups/business-categories?lang=${l}`),request<Lookup[]>(b,`/api/public/lookups/cities?lang=${l}`)]);
+export const getLookups=(b:string,l:Lang)=>Promise.all([request<Lookup[]>(b,`/api/public/lookups/business-categories?lang=${l}`),request<Lookup[]>(b,`/api/public/lookups/countries?lang=${l}`)]);
 export const createLead=(b:string,d:Lead)=>request<{success:boolean;leadId:number}>(b,'/api/public/leads',{method:'POST',body:JSON.stringify(d)});
+
+export const getCities=(b:string,l:Lang,countryId:number)=>request<CityLookup[]>(b,`/api/public/lookups/cities?lang=${l}&countryId=${encodeURIComponent(countryId)}`);
