@@ -20,3 +20,14 @@
  .cell h3{font-size:14px;margin-top:5px}
  .preview{margin-top:10px}
 }
+
+
+/* Keep the proof points visible without turning the ribbon into a full section. */
+.band{padding:22px 0 14px}
+.cell{padding:4px 20px 10px}
+.icon{width:32px;height:32px;margin-bottom:8px;border-radius:10px}
+.icon svg{width:18px;height:18px}
+.number{font-size:clamp(30px,3.6vw,48px);line-height:1.15}
+.cell h3{font-size:14px;margin-top:6px}
+.preview{margin-top:6px;font-size:11px}
+@media(max-width:760px){.band{padding:8px 0 12px}.cell{padding:16px 8px}.icon{display:none}.number{font-size:32px}.cell h3{font-size:12px}.preview{margin-top:8px}}

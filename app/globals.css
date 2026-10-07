@@ -216,3 +216,111 @@ input,textarea,.lookup-select{font-size:16px!important;min-height:48px}.form-tab
 html[dir=rtl] .phone-inputs label{text-align:right}
 .phone-field .field-error button{text-decoration:underline}
 
+
+
+/* Public landing: compact sections and a clear path to the app. */
+.landing{--section-space:64px;overflow:clip}
+.landing .section{width:min(1200px,calc(100% - 64px))}
+.landing section[id]{scroll-margin-top:94px}
+.landing .header{position:sticky;top:0;z-index:30;height:80px;padding-inline:max(32px,calc((100vw - 1200px)/2));background:#f7f7f0f5;backdrop-filter:blur(16px)}
+.landing .nav{gap:24px;font-size:13px}
+.landing .nav-actions{gap:12px}
+.landing .nav-download{padding:12px 18px;gap:10px;min-height:44px;white-space:nowrap}
+.landing .hero{min-height:0;padding-block:40px 48px;gap:48px}
+.landing .hero h1{font-size:clamp(34px,4vw,54px);line-height:1.35;letter-spacing:-1px;text-wrap:balance}
+.landing .hero-visual{height:450px;scale:1}
+.landing .hero-visual.has-slider picture,.landing .slider-image{height:100%;width:100%}
+.landing .slider-image{object-fit:cover;border-radius:28px}
+.landing .hero-actions{margin-top:28px;gap:22px}
+.landing .hero-foot{margin-top:24px}
+.landing .hero .eyebrow{margin-bottom:18px}
+.landing .orbit-services{height:auto;padding-block:48px 40px}
+.landing .orbit-stage{position:relative;top:auto;padding:0}
+.landing .orbit-heading{margin-bottom:16px}
+.landing .orbit-layout{gap:40px}
+.landing .service-orbit{--orbit-size:min(390px,38vw)}
+.landing .orbit-card{padding:24px 28px;box-shadow:none}
+.landing .service-download{display:inline-flex;margin-top:20px;color:var(--petrol);font-size:14px;gap:12px}
+.landing .how-section{padding-block:56px}
+.landing .how-section .section-heading{margin-bottom:28px}
+.landing .steps{margin-top:0;gap:32px}
+.landing .steps article{padding-top:22px}
+.landing .steps h3{margin-block:14px 10px}
+.landing .how-cta{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:32px;padding-top:28px;border-top:1px solid #ffffff25}
+.landing .how-cta p{font-size:19px;color:#f7f7f0}
+.landing .how-cta .btn{background:var(--lime);color:var(--petrol)}
+.landing .cms-band{padding-block:var(--section-space)}
+.landing .cms-section{gap:28px}
+.landing .cms-head{gap:40px}
+.landing .cms-copy{gap:14px}
+.landing .cms-copy .eyebrow{background:none;padding:0;border:0;color:var(--teal);font-size:12px}
+.landing .cms-copy h2{font-size:clamp(28px,3vw,38px)}
+.landing .cms-copy>p{line-height:1.85}
+.landing .cms-media{aspect-ratio:16/9;max-height:290px;box-shadow:none;border-radius:22px}
+.landing .cms-cards{gap:16px}
+.landing .cms-cards[data-count="4"]{grid-template-columns:repeat(4,minmax(0,1fr))}
+.landing .cms-item-body{padding:20px}
+.landing .cms-item-body h3{font-size:19px}
+.landing .cms-item{border-radius:16px}
+.landing .download{display:grid;grid-template-columns:240px minmax(0,1fr);gap:48px;align-items:center;margin-block:16px 0;padding:40px 48px;background:var(--petrol);color:var(--ivory);border-radius:28px;position:relative;overflow:hidden}
+.landing .download-art{position:relative;min-height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;isolation:isolate}
+.landing .download-art img{width:80px;height:108px;filter:brightness(0) invert(1)}
+.landing .download-art>span{font:11px Arial,sans-serif;letter-spacing:4px;color:var(--lime)}
+.landing .download-orbit{position:absolute;inset:0;border:1px solid #d4f45b45;border-radius:50%;z-index:-1;transform:rotate(-25deg)}
+.landing .download-orbit:before,.landing .download-orbit:after{content:'';position:absolute;border-radius:50%}
+.landing .download-orbit:before{inset:22px;border:1px dashed #d4f45b35}
+.landing .download-orbit:after{width:15px;height:15px;top:20px;left:36px;background:var(--lime);box-shadow:0 0 0 7px #d4f45b15}
+.landing .download h2{font-size:clamp(28px,3.2vw,40px);line-height:1.4;color:var(--ivory);margin:0 0 12px}
+.landing .download .eyebrow{color:var(--lime);margin-bottom:12px}
+.landing .download p{font-size:16px;color:#c5d8d3;max-width:54ch;line-height:1.85}
+.landing .store-links{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.landing .store-badge{display:flex;align-items:center;gap:14px;border:1px solid #ffffff38;background:#ffffff0a;color:white;padding:12px 18px;border-radius:12px;min-height:66px;transition:background .2s,transform .2s;direction:ltr}
+.landing .store-badge:hover{background:#ffffff16;transform:translateY(-2px)}
+.landing .store-badge span{display:grid;gap:3px;text-align:start}
+.landing .store-badge small{font-size:10px;font-weight:400}
+.landing .store-badge strong{font:600 19px Arial,sans-serif}
+.landing .download-unavailable .btn{margin-top:16px;background:var(--lime);color:var(--petrol)}
+.landing .join{padding-block:var(--section-space);gap:56px;align-items:start}
+.landing .join-copy{padding-top:16px}
+.landing .business-illustration{height:220px;margin-top:20px}
+.landing .form-card{box-shadow:0 12px 40px #073f4507;border-radius:22px}
+.landing .footer{padding-block:28px;gap:24px}
+.landing .footer>a{display:inline-flex;align-items:center;gap:8px}
+.landing a:focus-visible,.landing button:focus-visible{outline:3px solid #427c7d;outline-offset:5px}
+@media(max-width:1024px){
+ .landing .nav{gap:14px;font-size:12px}.landing .header{padding-inline:24px}
+ .landing .hero{gap:28px}.landing .hero-visual{height:390px}
+ .landing .cms-cards[data-count="4"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .landing .download{grid-template-columns:180px minmax(0,1fr);gap:28px;padding:32px}
+ .landing .download-art{min-height:190px}.landing .join{gap:32px}
+}
+@media(max-width:760px){
+ .landing{--section-space:40px}.landing .section{width:calc(100% - 32px)}
+ .landing .header{height:70px;padding-inline:16px;gap:8px}.landing section[id]{scroll-margin-top:82px}
+ .landing .api-logo{max-width:108px;max-height:38px}.landing .header .brand img:last-child{width:86px}.landing .header .brand{gap:5px}
+ .landing .nav-actions{gap:2px}.landing .language{min-width:36px;font-size:11px;gap:4px}.landing .language svg{display:none}
+ .landing .nav-download{font-size:11px;padding:10px;gap:5px}.landing .nav-download svg{width:15px}.landing .mobile-toggle{min-width:36px}
+ .landing .nav.open{top:70px;gap:0;padding:12px 20px}.landing .nav.open a{padding:14px 0;font-size:15px}
+ .landing .hero{padding-block:28px 32px;gap:0;align-items:stretch}
+ .landing .hero h1{font-size:clamp(30px,8vw,40px);line-height:1.35;margin-bottom:14px}
+ .landing .hero .eyebrow{margin-bottom:14px;align-self:flex-start}
+ .landing .hero-cta{order:3}.landing .hero-visual{order:5;height:330px;margin-top:22px}
+ .landing .hero-visual.has-slider{height:auto;aspect-ratio:4/3;margin-top:22px}
+ .landing .slider-image{border-radius:20px;object-fit:cover}
+ .landing .hero-actions{margin-top:22px;gap:18px}.landing .hero-actions .btn{padding:14px 16px;font-size:13px}
+ .landing .hero-foot{order:6;margin-top:18px;justify-content:center}.landing .slider-controls{order:4;margin-top:12px}
+ .landing .orbit-services{padding-block:36px 32px}.landing .orbit-heading{margin-bottom:8px}
+ .landing .orbit-layout{gap:4px}.landing .service-orbit{--orbit-size:min(290px,calc(100vw - 40px))}
+ .landing .orbit-card{padding:18px 20px}.landing .orbit-card h3{font-size:25px}.landing .service-download{margin-top:12px}
+ .landing .orbit-hint{font-size:11px}.landing .how-section{padding-block:40px}.landing .steps{gap:20px}
+ .landing .steps article{padding-top:18px}.landing .steps h3{margin:0 0 8px}.landing .steps p{font-size:14px}
+ .landing .how-cta{align-items:flex-start;flex-direction:column;margin-top:24px;padding-top:24px;gap:14px}.landing .how-cta p{font-size:17px}
+ .landing .how-cta .btn{width:100%;justify-content:center}
+ .landing .cms-section{gap:22px}.landing .cms-head{gap:24px}.landing .cms-media{aspect-ratio:16/9}
+ .landing .cms-cards{gap:12px}.landing .cms-item-body{padding:18px}.landing .cms-item-body h3{font-size:18px}
+ .landing .download{grid-template-columns:1fr;padding:28px 24px;gap:0;margin-top:0;border-radius:22px}
+ .landing .download-art{display:none}.landing .download h2{font-size:30px}.landing .download p{font-size:15px}
+ .landing .store-links{gap:10px;margin-top:20px}.landing .store-badge{flex:1 1 180px;justify-content:center}
+ .landing .join{gap:24px}.landing .join-copy{padding:0}.landing .footer{padding:24px 16px}
+}
+@media(max-width:420px){.landing .cms-cards[data-count="4"]{grid-template-columns:1fr}.landing .hero-actions{gap:14px}.landing .hero-actions .btn{width:100%;justify-content:center}.landing .hero-actions .text-link{margin-inline:auto}.landing .header .brand img:last-child{width:72px}.landing .api-logo{max-width:90px}}
