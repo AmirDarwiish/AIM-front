@@ -1,23 +1,52 @@
-# LA Construction website and dashboard
+# LA Construction — managed corporate website
 
-This branch converts only the landing website. The mobile application is outside this repository and was not changed.
+Only the dedicated landing website and its dashboard are changed. No mobile application code or APIs are involved.
 
-## Deployment order
+## Coordinated deployment
 
-1. Deploy the paired `AIM-landing-page` branch and apply `20261025190000_AddConstructionPortfolio` to the dedicated landing database. Back up the database first: the migration changes site branding and deactivates previous landing content, without deleting it.
-2. Deploy this branch with Next.js server support. Preserve the existing server-only `AIM_API_BASE_URL`; it remains the compatible name of the API origin. `public/config.json` is the fallback. No secrets belong in public config.
-3. Open `/admin` with an existing admin account. The API's existing CONTENT_VIEW / CONTENT_MANAGE and MEDIA_MANAGE permissions remain authoritative.
+Deploy the paired AIM-landing-page API and apply its EF migrations through `20261025203000_ManagedHomepageContent` **before deploying this frontend**. Preserve existing production connection/JWT settings. This frontend deliberately does not publish placeholder company copy, fake services, testimonials, photos or statistics when the backend is unavailable.
 
-## Content
+The server-only `AIM_API_BASE_URL` remains the compatible origin setting; `public/config.json` is the fallback. Deploy as a Next.js application with server support. Public content is rendered on the server with no persistent content cache. New requests reflect publication and ordering changes.
 
-- **واجهة البداية:** desktop/mobile image, bilingual headline, description and CTA. With no active slider, a locally bundled architectural illustration and authored brand introduction appear; the illustration is not represented as an actual completed project.
-- **أقسام الموقع:** `la-about`, `la-services`, `la-projects` (project-section title), `la-contact`. Service cards are the nested items of `la-services`. Other keys beginning `la-` render as additional sections; legacy All in Map sections do not render. Hidden About/Services/Contact sections stay hidden; the projects catalogue remains available independently.
-- **المشاريع:** title, URL slug, summary, full description, location, category, year, cover, order and publication state. The English fields fall back to Arabic when omitted. Plain-text paragraphs preserve line breaks and are escaped, never injected as HTML.
-- Gallery entries support uploaded photos, uploaded MP4/WebM, or HTTPS MP4/WebM / YouTube / Vimeo links; optional captions and video poster images; explicit reorder and remove actions. Saves replace the ordered gallery atomically.
-- Uploads are limited to **3 MiB** to fit the existing Next/Vercel proxy. For larger videos upload to a video host and paste the URL. Use web-optimized images. Videos do not autoplay or load their player until selected; native video uses metadata preload and inline playback. Caption fields are image descriptions, not a substitute for accessible video subtitles; add subtitles through the selected video host when required.
-- Projects list and detail pages render on the server on each request, including metadata; publication changes appear on a new request. Public lists are paginated. No fake project examples or company statistics are published. Until the API supplies la-prefixed construction sections, legacy content is ignored and the public contact form is disabled in preview.
-- **إعدادات الموقع:** company email, phone, address, WhatsApp, Instagram, LinkedIn, logo and favicon. Store badges and app acquisition flows have been removed.
-- **طلبات التواصل:** inquiries use the existing GeneralInquiry enum value 2 and appear in the existing leads workflow. The public form uses a same-origin proxy; the backend remains the rate limit authority. With the existing 10/minute per-IP policy, server-proxied contact inquiries share the frontend server IP quota; adjust this policy for the expected deployment traffic before a high-volume launch.
+## Dashboard
+
+Use existing `/admin` accounts and CONTENT_VIEW / CONTENT_MANAGE / MEDIA_MANAGE permissions. The **الصفحات وأقسام الرئيسية** screen provides human-readable section types. Edit Arabic/English title, subtitle, description, image, CTA, display order, active status and homepage visibility. Use **العناصر** to edit a section's individual entries. Homepage visibility can hide an About or Services preview while retaining its independent page; active status hides the section everywhere. Page-only sections are controlled through active status.
+
+| Section | Display and editing |
+| --- | --- |
+| `la-hero` | Homepage introduction. Own title/body/CTA and optional image. Active slider content can supply its image/title. No stock illustration is substituted automatically. |
+| `la-about` | Company-page heading/intro plus optional homepage summary. |
+| `la-about-story` | Company story heading/body/photo; if body is omitted the stored la-about body is used. |
+| `la-values` | Company-page principles, authored as nested items. |
+| `la-services` | Services overview and nested services with title, subtitle, full body and image. Active items have `/services/{id}` detail pages. |
+| `la-process` | Service workflow heading and step cards. |
+| `la-service-cta` | Editable service-detail inquiry panel. |
+| `la-projects` | Homepage featured-project section. Select **مشروع مميز في الرئيسية** in each project's editor; only published featured projects appear. |
+| `la-before-after` | Each entry needs a before image and after image, optional description and related project. |
+| `la-testimonials` | Name/title, subtitle, written review, screenshot or video, optional video poster and related project. Text-only reviews are supported. |
+| `la-films` | Site film entries with video URL/upload, cover, title, description and optional related project. |
+| `la-stats` | Actual values in item titles and labels in descriptions. No computed or invented marketing totals. |
+| `la-partners` | Genuine supplied customer/partner logo images. |
+| `la-faq` | Questions in item titles and answers in descriptions. |
+| `la-cta` | Shared final call to action, also positioned by homepage section order. |
+| `la-contact` | Contact-page heading and introduction. |
+| `la-footer` | Footer tagline, secondary heading/description and contact link. |
+
+Other `la-` sections can render as generic homepage content. Empty testimonials, films, comparisons, statistics, FAQ and partners sections are omitted. A missing/hidden service returns 404. A failed content request displays a retry state rather than a fictitious service or company introduction.
+
+## Media and mobile behavior
+
+Client stories and site films use native horizontal scroll snapping, swipe, keyboard support, labelled previous/next controls and native modal dialogs. Screenshots expand at their natural aspect ratio. Videos are mounted only after a user opens the relevant story; closing the dialog unmounts the player. There is no autoplay or automatic carousel rotation.
+
+Before/after comparisons use a native keyboard-accessible range input, with resettable selection for multiple projects. Homepage featured work uses a large leading project with two supporting projects on desktop and a single column on mobile. Proof sections preserve their content ratios and hide when their required media is missing.
+
+Uploads remain limited to **3 MiB** for the existing Vercel/Next proxy. Use external HTTPS MP4/WebM or YouTube/Vimeo links for larger videos. Captions describe media; video subtitles are supplied through the chosen video host when needed. Only published related projects receive public links. Referenced comparison and video files cannot be deleted while still in use.
+
+Tajawal 400/500/700 is bundled in `app/tajawal.css` with the SIL OFL at `public/assets/Tajawal-OFL.txt`. Icons are monochrome SVG. The existing architectural illustration remains a repository asset but is no longer used as an automatic substitute for company work.
+
+## Contact
+
+The `/contact` form records name, phone, optional email, service, location and message through GeneralInquiry type 2. Submissions appear in dashboard leads; no outgoing-email integration is implied. Existing JWT HttpOnly cookies, CSRF protection and admin proxy restrictions remain unchanged. The current backend per-IP inquiry limiter applies to the frontend server IP for server-proxied requests; account for expected traffic in hosting configuration.
 
 ## Validation
 
@@ -29,30 +58,4 @@ node tests/admin-integration.mjs
 node tests/construction-integration.mjs
 ```
 
-The fixture tests never contact production or create real inquiries. They verify SSR content and project rendering, inactive section behavior, XSS escaping, project metadata, image lazy loading, click-to-play media, 404, contact proxy protection, admin session privacy, permissions propagation and uploads. Mobile CSS covers 320px through desktop layouts, stacked galleries and forms, RTL/LTR, reduced motion and touch-sized controls. A live device/browser visual check remains required: the provided cloud browser cannot connect to this executor's localhost, and the successful Vercel preview deployment requires Vercel sign-in.
-
-## Assets
-
-`la-mark.svg` and favicon are editable vector recreations of the selected LA monogram direction. `architecture.svg` packages a compressed generated WebP hero in a text SVG container. It is a brand illustration, replaceable through the slider editor. The generated source image is not used as a claimed company project.
-
-
-## Corporate pages update
-
-The main navigation now opens separate `/about`, `/services`, `/services/{itemId}`, `/projects`, `/projects/{slug}` and `/contact` pages, with Arabic/English content and active navigation. The homepage is a concise overview. Existing CMS data is reused, with no new API schema or database migration.
-
-- `la-about`: company title, introduction and photo on `/about`.
-- `la-services`: service overview and nested service records; every active item receives a detail page. Inactive/removed items return 404.
-- `la-values`: optional company principles section and cards on `/about`.
-- `la-process`: optional steps/cards on service details.
-- `la-contact`: contact page title and introduction; company contact settings remain in the existing settings screen.
-- The `/contact` inquiry form adds service and location to the existing GeneralInquiry message. No outgoing email integration is implied; submissions remain visible in dashboard leads.
-- Tajawal 400/500/700 is bundled as embedded WOFF in `app/tajawal.css`, with its SIL Open Font License at `public/assets/Tajawal-OFL.txt`. It is served from this application, without runtime Google Fonts requests. It applies to public content and dashboard, preserving the logo artwork.
-
-TypeScript, production build, existing admin integration and expanded corporate integration tests cover the new routes and form contract. Browser visual/device QA remains limited by the preview environment described above.
-
-
-## Frontend detail polish
-
-The public stylesheet now uses one shared container and responsive spacing scale across homepage, company, services, portfolio and contact pages. Section spacing scales from 48 to 88 px, layout gaps from 28 to 64 px, and headings/cards/forms use a consistent internal rhythm. The intro copy no longer has an arbitrary top offset; service-card links align at the bottom on desktop; long content can wrap; mobile sections use a single column with accessible touch targets. Arabic headings have natural character spacing and all public editorial type remains Tajawal.
-
-Text arrow glyphs in back links, social links, footer and project/service calls to action were replaced by monochrome Lucide SVG icons. Source and public-home content scans found no pictographic emoji. No customer content or stored CMS records were changed. TypeScript, production build and the existing corporate/admin integration checks pass; live device/browser visual QA remains limited by the previously documented preview access restrictions.
+The fixtures never contact production or create real leads. They cover CMS-only pages, hidden/empty/error states, section ordering, featured-project requests, comparison range rendering, review/film SSR and lazy players, FAQ, service details/404, inquiry protections, metadata, escaped content, admin sessions and content payload forwarding. Live browser/device interaction and visual QA remain unverified: the supplied cloud browser cannot reach executor localhost and Vercel previews require sign-in. Perform a real device pass after coordinated deployment.
