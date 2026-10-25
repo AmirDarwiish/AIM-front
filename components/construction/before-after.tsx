@@ -1,0 +1,10 @@
+'use client';
+import Link from 'next/link';
+import { useState } from 'react';
+import { ArrowLeftRight, ArrowLeft, ArrowRight } from 'lucide-react';
+import { imageUrl } from '@/lib/construction';
+import type { Item, Lang } from '@/lib/public-api';
+export default function BeforeAfter({items,lang}:{items:Item[];lang:Lang}){
+ const [selected,setSelected]=useState(0),[position,setPosition]=useState(50);const item=items[selected],en=lang==='en';if(!item)return null;
+ return <div className="la-comparison"><div className="la-comparison-canvas"><img src={imageUrl(item.imageUrl)} alt={`${item.title} — ${en?'Before':'قبل'}`} width="1400" height="900" loading="lazy"/><img className="la-comparison-after" src={imageUrl(item.afterImageUrl)} alt={`${item.title} — ${en?'After':'بعد'}`} width="1400" height="900" loading="lazy" style={{clipPath:`inset(0 0 0 ${position}%)`}}/><span className="la-comparison-label la-comparison-before-label">{en?'Before':'قبل'}</span><span className="la-comparison-label la-comparison-after-label">{en?'After':'بعد'}</span><div className="la-comparison-handle" aria-hidden="true" style={{left:`${position}%`}}><span><ArrowLeftRight size={22}/></span></div><input type="range" min="0" max="100" value={position} onChange={e=>setPosition(Number(e.target.value))} aria-label={en?'Compare before and after':'قارن بين قبل وبعد'} aria-valuetext={`${position}%`} dir="ltr"/></div><div className="la-comparison-caption"><div><h3>{item.title}</h3>{item.description&&<p>{item.description}</p>}</div>{item.projectSlug&&<Link className="la-text-link" href={`/projects/${encodeURIComponent(item.projectSlug)}?lang=${lang}`}>{en?'Project details':'تفاصيل المشروع'}{en?<ArrowRight size={18}/>:<ArrowLeft size={18}/>}</Link>}</div>{items.length>1&&<div className="la-comparison-tabs" role="group" aria-label={en?'Choose a transformation':'اختر مشروع المقارنة'}>{items.map((entry,i)=><button key={entry.id} aria-pressed={selected===i} onClick={()=>{setSelected(i);setPosition(50)}}>{entry.title}</button>)}</div>}</div>;
+}
