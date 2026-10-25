@@ -1,6 +1,6 @@
 export type Lang = 'ar' | 'en';
-export type Item = {id:number;title:string;description?:string;imageUrl?:string;buttonText?:string;buttonUrl?:string;sortOrder:number};
-export type Section = Item & {sectionKey:string;subtitle?:string;items:Item[]};
+export type Item = {id:number;title:string;description?:string;imageUrl?:string;subtitle?:string;afterImageUrl?:string;videoUrl?:string;projectId?:number;projectSlug?:string;buttonText?:string;buttonUrl?:string;sortOrder:number};
+export type Section = Item & {sectionKey:string;showOnHome?:boolean;items:Item[]};
 export type Slider = Item & {desktopImageUrl:string;mobileImageUrl?:string};
 export type PlatformStatistics = {availableCountries?:number|null;registeredBusinesses?:number|null;users?:number|null;requests?:number|null};
 export type HomeContent = {siteName:string;logoUrl?:string;faviconUrl?:string;appleAppStoreUrl?:string;googlePlayUrl?:string;sliders:Slider[];sections:Section[];statistics?:PlatformStatistics|null};
