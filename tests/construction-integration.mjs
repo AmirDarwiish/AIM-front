@@ -38,7 +38,7 @@ try{
  assert.ok(showcaseEnHtml.includes('VISUAL DEMONSTRATION'));
  assert.ok(showcaseEnHtml.includes('images.pexels.com'));
  assert.ok(showcaseEnHtml.includes('Men_at_work_in_building_site.webm'));
- assert.ok(showcaseEnHtml.includes('not completed LA Construction'));
+ assert.ok(showcaseEnHtml.includes('does not represent completed LA Construction commissions'));
  const showcaseAr=await fetch(origin+'/showcase?lang=ar');assert.equal(showcaseAr.status,200);const showcaseArHtml=await showcaseAr.text();
  assert.ok(showcaseArHtml.includes('معاينة بصرية'));
  assert.ok(showcaseArHtml.includes('dir="rtl"'));
