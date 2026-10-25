@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { X, Play, ArrowLeft, ArrowRight, ZoomIn } from 'lucide-react';
 import { imageUrl, videoSource, type Project } from '@/lib/construction';
 import type { Lang } from '@/lib/public-api';
-function Video({url,poster,caption,lang}:{url:string;poster?:string;caption:string;lang:Lang}){
- const [playing,setPlaying]=useState(false);const source=videoSource(url);
+export function Video({url,poster,caption,lang,startOpen=false}:{url:string;poster?:string;caption:string;lang:Lang;startOpen?:boolean}){
+ const [playing,setPlaying]=useState(startOpen);const source=videoSource(url);
  if(!source)return <p>{lang==='en'?'Video unavailable':'الفيديو غير متاح'}</p>;
  return <div className="la-video">{!playing?<button onClick={()=>setPlaying(true)} aria-label={`${lang==='en'?'Play':'تشغيل'} ${caption}`}>{imageUrl(poster)&&<img src={imageUrl(poster)} alt="" loading="lazy"/>}<span><Play size={28}/>{lang==='en'?'Watch video':'مشاهدة الفيديو'}</span></button>:source.type==='embed'?<iframe src={source.url} title={caption} allow="fullscreen; picture-in-picture; encrypted-media" allowFullScreen referrerPolicy="strict-origin-when-cross-origin"/>:<video src={source.url} poster={imageUrl(poster)} controls playsInline preload="metadata"><track kind="captions"/>{lang==='en'?'Your browser cannot play this video.':'المتصفح لا يدعم الفيديو.'}</video>}</div>;
 }

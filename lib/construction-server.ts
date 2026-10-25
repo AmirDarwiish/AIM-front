@@ -8,9 +8,9 @@ export async function publicData<T>(path:string):Promise<T>{
  return res.json();
 }
 export const siteData=cache(async(lang:Lang):Promise<SiteContent|null>=>{
- try{const home=await publicData<SiteContent>(`website/home?lang=${lang}`);return (home.sections||[]).some(s=>s.sectionKey.startsWith('la-'))?home:null;}catch{return null;}
+ try{const home=await publicData<SiteContent>(`website/home?lang=${lang}`);return /^LA\s+Construction$/i.test(home.siteName||'')||(home.sections||[]).some(s=>s.sectionKey.startsWith('la-'))?home:null;}catch{return null;}
 });
 export async function homeData(lang:Lang){
- const [home,projects]=await Promise.all([siteData(lang),publicData<ProjectPage>(`projects?lang=${lang}&pageSize=4`).catch(()=>null)]);
+ const [home,projects]=await Promise.all([siteData(lang),publicData<ProjectPage>(`projects?lang=${lang}&pageSize=4&featuredOnly=true`).catch(()=>null)]);
  return {home,projects};
 }
