@@ -34,3 +34,5 @@ jobs:
         run: pnpm exec tsc --noEmit
       - name: Production build
         run: pnpm run build
+      - name: Dashboard integration regression (isolated fixture API)
+        run: node tests/admin-integration.mjs
