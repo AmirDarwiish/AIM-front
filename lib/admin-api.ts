@@ -65,7 +65,7 @@ export async function adminRequest<T>(path: string, options: RequestInit = {}): 
         if (res.status === 401 && !isSession)
             window.dispatchEvent(new Event('aim-session-expired'));
         const fields = data?.errors ? Object.values(data.errors).flat().join(' • ') : '';
-        const message = res.status === 403 ? 'ليس لديك صلاحية لهذا الإجراء. راجع صلاحيات حسابك مع المسؤول.' : res.status === 401 ? (data?.error || 'انتهت الجلسة. سجّل الدخول مرة أخرى.') : fields || data?.error || data?.detail || (res.status >= 500 ? 'حدث خطأ بالسيرفر. حاول مرة أخرى.' : 'تعذر تنفيذ الطلب.');
+        const message = res.status === 403 ? 'ليس لديك صلاحية لهذا الإجراء. راجع صلاحيات حسابك مع المسؤول.' : res.status === 401 ? (data?.error || 'انتهت الجلسة. سجّل الدخول مرة أخرى.') : fields || data?.error || data?.detail || (data as {title?:string})?.title || (res.status >= 500 ? 'حدث خطأ بالسيرفر. حاول مرة أخرى.' : 'تعذر تنفيذ الطلب.');
         const translations:Record<string,string>={
             'Category is referenced by existing leads. Deactivate instead.':'هذا النشاط مرتبط بطلبات موجودة. يمكنك إخفاؤه بدلًا من حذفه.',
             'City is referenced by existing leads. Deactivate instead.':'هذه المدينة مرتبطة بطلبات موجودة. يمكنك إخفاؤها بدلًا من حذفها.',
