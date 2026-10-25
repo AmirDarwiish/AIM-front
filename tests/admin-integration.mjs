@@ -40,6 +40,9 @@ try{
  const list=await call('/api/admin-proxy/admin/leads?page=2&status=3');assert.equal(list.status,200);assert.equal(last.auth,`Bearer ${token}`);assert.equal(last.path,'/api/admin/leads?page=2&status=3');assert.equal(list.headers.get('cache-control'),'no-store');
  assert.equal((await call('/api/admin-proxy/admin/leads/1/status','PATCH',{status:3})).status,204);
  assert.equal((await call('/api/admin-proxy/admin/leads/1/status','PATCH',{status:3},{Origin:'https://untrusted.invalid'})).status,403);
+
+ const contentWrite=await call('/api/admin-proxy/admin/sections/11/items','POST',{titleAr:'Fixture review',videoUrl:'https://youtu.be/abcdefghijk',afterImageMediaId:12,projectId:5,isActive:true});assert.equal(contentWrite.status,200);assert.equal(JSON.parse(last.body).videoUrl,'https://youtu.be/abcdefghijk');assert.equal(JSON.parse(last.body).projectId,5);
+ const visibilityWrite=await call('/api/admin-proxy/admin/sections/11','PUT',{sectionKey:'la-testimonials',showOnHome:false,isActive:true});assert.equal(visibilityWrite.status,200);assert.equal(JSON.parse(last.body).showOnHome,false);
  assert.equal((await call('/api/admin-proxy/admin/site-settings')).status,403);
  assert.equal((await call('/api/admin-proxy/auth/login','POST',{email:'x'})).status,404);
  assert.equal((await call('/api/admin-proxy/admin/media','GET')).status,404);
