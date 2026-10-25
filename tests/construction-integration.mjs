@@ -33,6 +33,16 @@ try{
  let ready=false;for(let i=0;i<30;i++){try{if((await fetch(origin+'/admin',{signal:AbortSignal.timeout(1000)})).ok){ready=true;break}}catch{}await new Promise(r=>setTimeout(r,200))}assert.ok(ready,logs);
  const home=await (await fetch(origin+'/?lang=en')).text();assert.ok(home.includes('CMS about title'));assert.ok(home.includes('fixture-villa'));assert.ok(!home.includes('A considered approach.'));assert.ok(home.includes('la-site'));assert.ok(home.includes('architecture.svg'));
 
+ const showcaseEn=await fetch(origin+'/showcase?lang=en');assert.equal(showcaseEn.status,200);const showcaseEnHtml=await showcaseEn.text();
+ assert.ok(showcaseEnHtml.includes('Where precision'));
+ assert.ok(showcaseEnHtml.includes('VISUAL DEMONSTRATION'));
+ assert.ok(showcaseEnHtml.includes('images.pexels.com'));
+ assert.ok(showcaseEnHtml.includes('Men_at_work_in_building_site.webm'));
+ assert.ok(showcaseEnHtml.includes('does not represent completed LA Construction commissions'));
+ const showcaseAr=await fetch(origin+'/showcase?lang=ar');assert.equal(showcaseAr.status,200);const showcaseArHtml=await showcaseAr.text();
+ assert.ok(showcaseArHtml.includes('معاينة بصرية'));
+ assert.ok(showcaseArHtml.includes('dir="rtl"'));
+ assert.ok(showcaseArHtml.includes('فيلا معاصرة'));
  const about=await fetch(origin+'/about?lang=en');assert.equal(about.status,200);const aboutHtml=await about.text();assert.ok(aboutHtml.includes('CMS company story heading'));assert.ok(aboutHtml.includes('CMS company story body'));assert.ok(!aboutHtml.includes('Built around'));assert.ok(!aboutHtml.includes('Clarity from the start'));
  const services=await fetch(origin+'/services?lang=en');assert.equal(services.status,200);const serviceHtml=await services.text();assert.ok(serviceHtml.includes('CMS expertise'));assert.ok(serviceHtml.includes('/services/41?lang=en'));
  const service=await fetch(origin+'/services/41?lang=en');assert.equal(service.status,200);const serviceDetail=await service.text();assert.ok(serviceDetail.includes('A service from CMS.'));assert.ok(serviceDetail.includes('CMS service subtitle'));assert.ok(serviceDetail.includes('CMS working process'));assert.ok(!serviceDetail.includes('Understand the brief'));

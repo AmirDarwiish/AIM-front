@@ -1,0 +1,40 @@
+name: LA Construction frontend validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'app/**'
+      - 'components/construction/**'
+      - 'lib/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/la-construction-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm exec tsc --noEmit
+      - name: Production build
+        run: pnpm run build
+      - name: Public website and lead-flow regression (isolated fixture API)
+        run: node tests/construction-integration.mjs
+      - name: Dashboard integration regression (isolated fixture API)
+        run: node tests/admin-integration.mjs
