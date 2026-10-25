@@ -252,3 +252,14 @@
   .la-site .la-brand img, .la-site .la-service-thumb img,
   .la-site .la-service-cover img, .la-site .la-project-arrow { transition: none; }
 }
+
+/* Final mobile RTL review: gradient must follow the vertical copy on both directions. */
+@media (max-width: 640px) {
+  .la-site[dir=rtl] .la-hero-shade,
+  .la-site[dir=ltr] .la-hero-shade {
+    background: linear-gradient(0deg, rgba(13,17,15,.92), rgba(13,17,15,.24) 90%);
+  }
+}
+@media (max-width: 360px) {
+  .la-site { --la-gutter: 16px; }
+}
