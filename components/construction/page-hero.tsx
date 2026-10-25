@@ -1,0 +1,3 @@
+import Link from 'next/link';
+import type { Lang } from '@/lib/public-api';
+export default function PageHero({lang,title,description,label,number}:{lang:Lang;title:string;description?:string;label:string;number:string}){const en=lang==='en';return <section className="la-page-hero"><div className="la-wrap"><nav className="la-breadcrumb" aria-label={en?'Breadcrumb':'مسار الصفحة'}><Link href={`/?lang=${lang}`}>{en?'Home':'الرئيسية'}</Link><span aria-hidden="true">/</span><span>{label}</span></nav><div className="la-page-heading"><div><span className="la-eyebrow">LA CONSTRUCTION / {number}</span><h1>{title}</h1>{description&&<p className="la-lead">{description}</p>}</div><span className="la-page-number" aria-hidden="true">{number}</span></div></div></section>}
