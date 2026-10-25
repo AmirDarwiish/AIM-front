@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { apiBase } from './admin-server';
 import type { Lang } from './public-api';
 import type { SiteContent, ProjectPage } from './construction';
@@ -6,8 +7,10 @@ export async function publicData<T>(path:string):Promise<T>{
  if(!res.ok)throw Object.assign(new Error('Content unavailable'),{status:res.status});
  return res.json();
 }
-// Never turn a failed request into a fake project or a successful empty response.
+export const siteData=cache(async(lang:Lang):Promise<SiteContent|null>=>{
+ try{const home=await publicData<SiteContent>(`website/home?lang=${lang}`);return (home.sections||[]).some(s=>s.sectionKey.startsWith('la-'))?home:null;}catch{return null;}
+});
 export async function homeData(lang:Lang){
- const [home,projects]=await Promise.allSettled([publicData<SiteContent>(`website/home?lang=${lang}`),publicData<ProjectPage>(`projects?lang=${lang}&pageSize=4`)]);
- return {home:home.status==='fulfilled'&&(home.value.sections||[]).some(s=>s.sectionKey.startsWith('la-'))?home.value:null,projects:projects.status==='fulfilled'?projects.value:null};
+ const [home,projects]=await Promise.all([siteData(lang),publicData<ProjectPage>(`projects?lang=${lang}&pageSize=4`).catch(()=>null)]);
+ return {home,projects};
 }
