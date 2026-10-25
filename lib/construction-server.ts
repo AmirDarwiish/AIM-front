@@ -9,5 +9,5 @@ export async function publicData<T>(path:string):Promise<T>{
 // Never turn a failed request into a fake project or a successful empty response.
 export async function homeData(lang:Lang){
  const [home,projects]=await Promise.allSettled([publicData<SiteContent>(`website/home?lang=${lang}`),publicData<ProjectPage>(`projects?lang=${lang}&pageSize=4`)]);
- return {home:home.status==='fulfilled'?home.value:null,projects:projects.status==='fulfilled'?projects.value:null};
+ return {home:home.status==='fulfilled'&&(home.value.sections||[]).some(s=>s.sectionKey.startsWith('la-'))?home.value:null,projects:projects.status==='fulfilled'?projects.value:null};
 }
