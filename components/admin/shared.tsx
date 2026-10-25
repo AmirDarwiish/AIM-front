@@ -36,8 +36,9 @@ export function Modal({ title, children, onClose }: {
     useEffect(() => { const el = ref.current; el?.showModal(); return () => el?.close(); }, []);
     return <dialog ref={ref} className={s.modal} onCancel={e => { e.preventDefault(); onClose(); }} aria-labelledby="aim-dialog-title"><div className={s.modalHeader}><h2 id="aim-dialog-title">{title}</h2><button className={s.iconButton} onClick={onClose} aria-label="إغلاق"><X size={21}/></button></div><div className={s.modalBody}>{children}</div></dialog>;
 }
-export function MediaPicker({ label, value, onChange, required = false, preview, onBusyChange }: {
+export function MediaPicker({ label, value, onChange, required = false, preview, onBusyChange, video = false }: {
     label: string;
+    video?: boolean;
     value: number | null;
     onChange: (id: number | null) => void;
     required?: boolean;
@@ -49,8 +50,8 @@ export function MediaPicker({ label, value, onChange, required = false, preview,
     const initialId=useRef(value);
     const url = value ? safeUrl(upload?.id === value ? upload.url : value===initialId.current?preview:undefined) : undefined;
     async function handle(file?: File) { if (!file)
-        return; setError(''); if (!/\.(png|jpe?g|webp|ico)$/i.test(file.name)) {
-        setError('اختر صورة PNG أو JPG أو WEBP أو ICO.');
+        return; setError(''); if (!(video ? /\.(mp4|webm)$/i : /\.(png|jpe?g|webp|ico)$/i).test(file.name)) {
+        setError(video ? 'اختر فيديو MP4 أو WebM.' : 'اختر صورة PNG أو JPG أو WEBP أو ICO.');
         return;
     } if (file.size > 3 * 1024 * 1024) {
         setError('حجم الصورة يجب ألا يتجاوز 3 ميجابايت.');
@@ -71,7 +72,7 @@ export function MediaPicker({ label, value, onChange, required = false, preview,
         if (input.current)
             input.current.value = '';
     } }
-    return <div className={s.mediaPicker}><label>{label}{required && <b> *</b>}</label><div className={s.uploadRow}>{url ? <img className={s.imagePreview} src={url} alt={label}/> : <div className={s.imagePlaceholder}><ImageIcon size={24}/></div>}<div><button type="button" className={s.secondary} onClick={() => input.current?.click()} disabled={busy}>{busy ? <LoaderCircle className={s.spin} size={17}/> : <Upload size={17}/>} {busy ? 'جاري الرفع…' : value ? 'تغيير الصورة' : 'رفع صورة'}</button><p className={s.hint}>{value ? `الصورة المحفوظة #${value}` : 'PNG، JPG، WEBP، ICO • حتى 3 MB'}</p></div>{value && !required && <button type="button" className={s.iconButton} onClick={() => { onChange(null); setUpload(null); }} aria-label="إزالة الصورة من المحتوى"><X size={18}/></button>}</div><input className={s.hidden} ref={input} type="file" accept=".png,.jpg,.jpeg,.webp,.ico" onChange={e => handle(e.target.files?.[0])}/><details className={s.existingMedia}><summary>استخدام رقم صورة مرفوعة مسبقًا</summary><input aria-label={`رقم ${label}`} type="number" min="1" value={value ?? ''} onChange={e => onChange(e.target.value ? Number(e.target.value) : null)}/></details><ErrorNotice message={error}/></div>;
+    return <div className={s.mediaPicker}><label>{label}{required && <b> *</b>}</label><div className={s.uploadRow}>{url ? video ? <video className={s.imagePreview} src={url} preload="none" controls playsInline/> : <img className={s.imagePreview} src={url} alt={label}/> : <div className={s.imagePlaceholder}><ImageIcon size={24}/></div>}<div><button type="button" className={s.secondary} onClick={() => input.current?.click()} disabled={busy}>{busy ? <LoaderCircle className={s.spin} size={17}/> : <Upload size={17}/>} {busy ? 'جاري الرفع…' : value ? 'تغيير الملف' : video ? 'رفع فيديو' : 'رفع صورة'}</button><p className={s.hint}>{value ? `الصورة المحفوظة #${value}` : video ? 'MP4، WebM • حتى 3 MB' : 'PNG، JPG، WEBP، ICO • حتى 3 MB'}</p></div>{value && !required && <button type="button" className={s.iconButton} onClick={() => { onChange(null); setUpload(null); }} aria-label="إزالة الصورة من المحتوى"><X size={18}/></button>}</div><input className={s.hidden} ref={input} type="file" accept={video ? ".mp4,.webm" : ".png,.jpg,.jpeg,.webp,.ico"} onChange={e => handle(e.target.files?.[0])}/><details className={s.existingMedia}><summary>استخدام رقم صورة مرفوعة مسبقًا</summary><input aria-label={`رقم ${label}`} type="number" min="1" value={value ?? ''} onChange={e => onChange(e.target.value ? Number(e.target.value) : null)}/></details><ErrorNotice message={error}/></div>;
 }
 export function ActiveBadge({ active }: {
     active: boolean;

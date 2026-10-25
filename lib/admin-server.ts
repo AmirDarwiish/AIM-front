@@ -37,6 +37,8 @@ export function allowedPath(method: string, path: string) {
     if (method === 'GET' && path === 'public/website/home')
         return true;
     const list = method === 'GET';
+    if (path === 'admin/projects') return list || method === 'POST';
+    if (/^admin\/projects\/\d+$/.test(path)) return list || ['PUT','DELETE'].includes(method);
     if (path === 'admin/site-settings')
         return list || method === 'PUT';
     if (path === 'admin/leads')
