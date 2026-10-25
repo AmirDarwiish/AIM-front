@@ -49,3 +49,10 @@ The main navigation now opens separate `/about`, `/services`, `/services/{itemId
 - Tajawal 400/500/700 is bundled as embedded WOFF in `app/tajawal.css`, with its SIL Open Font License at `public/assets/Tajawal-OFL.txt`. It is served from this application, without runtime Google Fonts requests. It applies to public content and dashboard, preserving the logo artwork.
 
 TypeScript, production build, existing admin integration and expanded corporate integration tests cover the new routes and form contract. Browser visual/device QA remains limited by the preview environment described above.
+
+
+## Frontend detail polish
+
+The public stylesheet now uses one shared container and responsive spacing scale across homepage, company, services, portfolio and contact pages. Section spacing scales from 48 to 88 px, layout gaps from 28 to 64 px, and headings/cards/forms use a consistent internal rhythm. The intro copy no longer has an arbitrary top offset; service-card links align at the bottom on desktop; long content can wrap; mobile sections use a single column with accessible touch targets. Arabic headings have natural character spacing and all public editorial type remains Tajawal.
+
+Text arrow glyphs in back links, social links, footer and project/service calls to action were replaced by monochrome Lucide SVG icons. Source and public-home content scans found no pictographic emoji. No customer content or stored CMS records were changed. TypeScript, production build and the existing corporate/admin integration checks pass; live device/browser visual QA remains limited by the previously documented preview access restrictions.
