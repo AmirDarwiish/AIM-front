@@ -12,3 +12,5 @@ export function videoSource(value?:string):{type:'file'|'embed';url:string}|null
  return /\.(mp4|webm)$/i.test(u.pathname)?{type:'file',url:u.href}:null;
  }catch{return null;}
 }
+
+export function linkUrl(value?:string){if(!value)return undefined;if((value.startsWith('/')&&!value.startsWith('//')&&!value.includes('\\'))||value.startsWith('#'))return value;try{const url=new URL(value);return ['https:','http:'].includes(url.protocol)?url.href:undefined;}catch{return undefined;}}
