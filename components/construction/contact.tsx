@@ -1,0 +1,12 @@
+'use client';
+import { useState, type FormEvent } from 'react';
+import { ArrowUpRight } from 'lucide-react';
+import type { Lang } from '@/lib/public-api';
+export default function Contact({lang}:{lang:Lang}){
+ const en=lang==='en';const [busy,setBusy]=useState(false),[error,setError]=useState(''),[sent,setSent]=useState(false);
+ async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();if(busy||sent)return;setBusy(true);setError('');const form=new FormData(e.currentTarget);try{
+ const res=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({requestType:2,fullName:form.get('name'),phone:String(form.get('phone')).replace(/[٠-٩]/g,d=>String('٠١٢٣٤٥٦٧٨٩'.indexOf(d))).trim(),email:form.get('email')||undefined,message:form.get('message')})});
+ const data=await res.json() as {success?:boolean;errors?:Record<string,string[]>;error?:string;message?:string};if(!res.ok||data.success!==true)throw new Error(Object.values(data.errors||{}).flat().join(' • ')||data.error||data.message||(en?'Please try again.':'تعذر إرسال الطلب. حاول مرة أخرى.'));setSent(true);
+ }catch(e){setError((e as Error).message)}finally{setBusy(false)}}
+ return <form className="la-contact-form" onSubmit={submit}><div className="la-fields"><label>{en?'Your name':'الاسم'}<input name="name" autoComplete="name" required maxLength={200}/></label><label>{en?'Phone with country code':'الهاتف مع كود الدولة'}<input name="phone" autoComplete="tel" type="tel" dir="ltr" placeholder="+20…" required pattern="\+?[0-9٠-٩\s()-]{8,22}" maxLength={30}/></label><label className="la-full">{en?'Email address':'البريد الإلكتروني'}<input name="email" type="email" autoComplete="email" dir="ltr" maxLength={254}/></label><label className="la-full">{en?'Tell us about your project':'احكيلنا عن مشروعك'}<textarea name="message" required rows={3} maxLength={2000}/></label></div><div role="status" aria-live="polite">{sent?<p className="la-success">{en?'Thank you. Your inquiry has been received.':'شكرًا لك، تم استلام رسالتك وسنتواصل معك.'}</p>:<button className="la-button la-button-dark" disabled={busy}>{busy?(en?'Sending…':'جاري الإرسال…'):(en?'Send inquiry':'إرسال الطلب')}<ArrowUpRight size={19}/></button>}</div>{error&&<p className="la-error" role="alert">{error}</p>}</form>;
+}
