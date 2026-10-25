@@ -34,5 +34,7 @@ jobs:
         run: pnpm exec tsc --noEmit
       - name: Production build
         run: pnpm run build
+      - name: Public website and lead-flow regression (isolated fixture API)
+        run: node tests/construction-integration.mjs
       - name: Dashboard integration regression (isolated fixture API)
         run: node tests/admin-integration.mjs
