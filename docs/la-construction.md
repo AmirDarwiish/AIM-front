@@ -15,7 +15,7 @@ This branch converts only the landing website. The mobile application is outside
 - **المشاريع:** title, URL slug, summary, full description, location, category, year, cover, order and publication state. The English fields fall back to Arabic when omitted. Plain-text paragraphs preserve line breaks and are escaped, never injected as HTML.
 - Gallery entries support uploaded photos, uploaded MP4/WebM, or HTTPS MP4/WebM / YouTube / Vimeo links; optional captions and video poster images; explicit reorder and remove actions. Saves replace the ordered gallery atomically.
 - Uploads are limited to **3 MiB** to fit the existing Next/Vercel proxy. For larger videos upload to a video host and paste the URL. Use web-optimized images. Videos do not autoplay or load their player until selected; native video uses metadata preload and inline playback. Caption fields are image descriptions, not a substitute for accessible video subtitles; add subtitles through the selected video host when required.
-- Projects list and detail pages render on the server on each request, including metadata; publication changes appear on a new request. Public lists are paginated. No fake project examples or company statistics are published.
+- Projects list and detail pages render on the server on each request, including metadata; publication changes appear on a new request. Public lists are paginated. No fake project examples or company statistics are published. Until the API supplies la-prefixed construction sections, legacy content is ignored and the public contact form is disabled in preview.
 - **إعدادات الموقع:** company email, phone, address, WhatsApp, Instagram, LinkedIn, logo and favicon. Store badges and app acquisition flows have been removed.
 - **طلبات التواصل:** inquiries use the existing GeneralInquiry enum value 2 and appear in the existing leads workflow. The public form uses a same-origin proxy; the backend remains the rate limit authority. With the existing 10/minute per-IP policy, server-proxied contact inquiries share the frontend server IP quota; adjust this policy for the expected deployment traffic before a high-volume launch.
 
@@ -29,7 +29,7 @@ node tests/admin-integration.mjs
 node tests/construction-integration.mjs
 ```
 
-The fixture tests never contact production or create real inquiries. They verify SSR content and project rendering, inactive section behavior, XSS escaping, project metadata, image lazy loading, click-to-play media, 404, contact proxy protection, admin session privacy, permissions propagation and uploads. Mobile CSS covers 320px through desktop layouts, stacked galleries and forms, RTL/LTR, reduced motion and touch-sized controls. A live device/browser visual check remains required: the provided cloud browser cannot connect to this executor's localhost.
+The fixture tests never contact production or create real inquiries. They verify SSR content and project rendering, inactive section behavior, XSS escaping, project metadata, image lazy loading, click-to-play media, 404, contact proxy protection, admin session privacy, permissions propagation and uploads. Mobile CSS covers 320px through desktop layouts, stacked galleries and forms, RTL/LTR, reduced motion and touch-sized controls. A live device/browser visual check remains required: the provided cloud browser cannot connect to this executor's localhost, and the successful Vercel preview deployment requires Vercel sign-in.
 
 ## Assets
 
