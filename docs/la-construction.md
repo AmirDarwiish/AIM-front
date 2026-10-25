@@ -34,3 +34,18 @@ The fixture tests never contact production or create real inquiries. They verify
 ## Assets
 
 `la-mark.svg` and favicon are editable vector recreations of the selected LA monogram direction. `architecture.svg` packages a compressed generated WebP hero in a text SVG container. It is a brand illustration, replaceable through the slider editor. The generated source image is not used as a claimed company project.
+
+
+## Corporate pages update
+
+The main navigation now opens separate `/about`, `/services`, `/services/{itemId}`, `/projects`, `/projects/{slug}` and `/contact` pages, with Arabic/English content and active navigation. The homepage is a concise overview. Existing CMS data is reused, with no new API schema or database migration.
+
+- `la-about`: company title, introduction and photo on `/about`.
+- `la-services`: service overview and nested service records; every active item receives a detail page. Inactive/removed items return 404.
+- `la-values`: optional company principles section and cards on `/about`.
+- `la-process`: optional steps/cards on service details.
+- `la-contact`: contact page title and introduction; company contact settings remain in the existing settings screen.
+- The `/contact` inquiry form adds service and location to the existing GeneralInquiry message. No outgoing email integration is implied; submissions remain visible in dashboard leads.
+- Tajawal 400/500/700 is bundled as embedded WOFF in `app/tajawal.css`, with its SIL Open Font License at `public/assets/Tajawal-OFL.txt`. It is served from this application, without runtime Google Fonts requests. It applies to public content and dashboard, preserving the logo artwork.
+
+TypeScript, production build, existing admin integration and expanded corporate integration tests cover the new routes and form contract. Browser visual/device QA remains limited by the preview environment described above.
