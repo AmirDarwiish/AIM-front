@@ -1,19 +1,60 @@
-/* Architectural depth: light, layers and short transforms instead of heavy 3D assets. */
-.la-site{--la-depth-shadow:0 16px 38px #17251b12,0 3px 8px #17251b0a;--la-card-tilt:-1.5deg}
-.la-site[dir=rtl]{--la-card-tilt:1.5deg}
-.la-site .la-hero h1{text-shadow:0 3px 24px #00000038}
+/* Architectural massing and extruded photo planes: lightweight, server-rendered geometry. */
+.la-site{--la-depth-shadow:0 18px 38px #17251b1a;--la-photo-angle:-3deg}
+.la-site[dir=rtl]{--la-photo-angle:3deg}
+.la-site .la-architecture-scene{width:100%;min-width:0;perspective:1000px;pointer-events:auto;overflow:visible}
+.la-site .la-architecture-scene svg{display:block;width:100%;height:auto;overflow:visible;transform:rotateX(var(--scene-x,0deg)) rotateY(var(--scene-y,0deg));transition:transform .28s ease-out}
+.la-site .la-hero-spatial{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.9fr);align-items:center;gap:24px;position:relative}
+.la-site .la-hero-text{min-width:0;position:relative;z-index:2}
+.la-site .la-hero-spatial h1{font-size:clamp(42px,4.8vw,66px);line-height:1.32;text-shadow:0 3px 24px #00000038}
+.la-site .la-hero-model{max-width:460px;justify-self:center;filter:drop-shadow(0 20px 26px #0003)}
+.la-site .la-hero{padding-block:48px 64px}
 .la-site .la-hero .la-button{box-shadow:0 8px 28px #00000024,inset 0 1px 0 #ffffffa6}
-.la-site :is(.la-project-image,.la-intro-image,.la-company-photo,.la-service-cover,.la-service-detail-photo){border-radius:10px;box-shadow:var(--la-depth-shadow)}
-.la-site .la-project-image{transition:transform .45s ease,box-shadow .45s ease;transform-origin:center}
-.la-site .la-project-arrow{border-radius:50%;background:#fafaf7ed;box-shadow:0 6px 18px #101c2430;backdrop-filter:blur(8px)}
-.la-site .la-intro-image,.la-site .la-company-photo{box-shadow:12px 12px 0 #e5e9e1,0 18px 40px #17251b15}
-.la-site .la-service-grid article:nth-child(n){padding:18px;background:linear-gradient(145deg,#fff,#fafbf8);border-radius:12px;box-shadow:0 10px 26px #17251b0d,inset 0 1px 0 #ffffff;transition:transform .4s ease,box-shadow .4s ease}
-.la-site .la-service-thumb{border-radius:7px;box-shadow:0 5px 16px #17251b12}
-.la-site .la-service-copy{min-width:0}
-.la-site .la-media-testimonials .la-story-card{box-shadow:0 8px 20px #17251b0c,inset 0 1px 0 #fff}
+.la-site .la-page-heading{display:grid;grid-template-columns:minmax(0,1fr) 240px;align-items:center;gap:32px;margin-top:12px}
+.la-site .la-page-heading>.la-architecture-scene{width:240px;justify-self:end;margin-block:-34px -28px}
+.la-site .la-page-heading h1{font-size:clamp(32px,4vw,54px)}
+.la-site .la-page-hero{background:linear-gradient(125deg,#e5e9e0,#f5f6f2 70%);overflow:hidden}
+.la-site .la-project-image,.la-site .la-service-cover{border-radius:6px;transform:perspective(1200px) rotateX(var(--surface-x,1deg)) rotateY(var(--surface-y,var(--la-photo-angle)));box-shadow:7px 9px 0 #d6dacc,14px 22px 32px #17251b20;transition:transform .3s ease-out,box-shadow .3s ease}
+.la-site .la-project-card{padding:0 4px 8px;min-width:0}
+.la-site .la-project-arrow{border-radius:50%;background:#fafaf7ed;box-shadow:0 6px 18px #101c2430}
+.la-site .la-intro-image,.la-site .la-company-photo{border-radius:6px;box-shadow:10px 12px 0 #c9d0bf,18px 24px 38px #17251b20;transform:perspective(1200px) rotateY(var(--la-photo-angle)) rotateX(1deg)}
+.la-site .la-service-grid article:nth-child(n){padding:0 0 20px;background:#fff;border-radius:10px;box-shadow:0 4px 0 #d6dacc,0 15px 30px #17251b12;overflow:hidden;transition:transform .3s ease-out,box-shadow .3s ease}
+.la-site .la-service-grid .la-service-copy{padding-inline:22px;min-width:0}
+.la-site .la-service-model{display:block;width:100%;aspect-ratio:1.55;overflow:hidden;position:relative;background:radial-gradient(ellipse at 50% 65%,#fdfbf4,#e7ece2);margin-bottom:20px}
+.la-site .la-service-model>.la-architecture-scene{height:100%;width:100%;max-width:350px;margin-inline:auto}
+.la-site .la-service-model svg{height:100%;width:100%;object-fit:contain}
+.la-site .la-media-testimonials .la-story-card{box-shadow:0 5px 0 #dbe0d3,0 12px 22px #17251b0e}
 .la-site .la-carousel-track{padding-top:4px;padding-bottom:18px}
+.la-site .la-project-cover{width:min(1280px,calc(100% - var(--la-gutter)*2));margin-inline:auto;border-radius:7px;overflow:hidden;box-shadow:0 10px 0 #d3d8c9,0 24px 40px #17251b1c;transform:perspective(1800px) rotateX(1deg)}
+.la-site .la-service-detail-photo{border-radius:8px;box-shadow:0 9px 0 #d3d8c9,0 18px 30px #17251b16}
+.la-site .la-service-grid p{margin-bottom:18px}
+.la-site .la-services-catalogue .la-service-copy h2{font-size:clamp(26px,3vw,38px);line-height:1.5;margin-bottom:16px}
 .la-site .la-contact-form :where(input,textarea,select){box-shadow:0 2px 5px #17251b04}
 .la-site .la-phone-country select,.la-site .la-phone-control>input{box-shadow:none}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+ .la-site .la-project-card:hover .la-project-image{box-shadow:9px 12px 0 #cbd2c1,18px 28px 40px #17251b30}
+ .la-site .la-service-grid article:hover{transform:perspective(1200px) rotateX(var(--surface-x,0deg)) rotateY(var(--surface-y,0deg)) translateY(-3px)}
+}
+@media(max-width:980px){
+ .la-site .la-page-heading{grid-template-columns:minmax(0,1fr) 180px;gap:20px}
+ .la-site .la-page-heading>.la-architecture-scene{width:180px;margin-block:-16px}
+ .la-site .la-hero-spatial{grid-template-columns:1.4fr .8fr}
+}
+@media(max-width:760px){
+ .la-site .la-hero-spatial{display:block;position:static}
+ .la-site .la-hero-model{width:160px;position:absolute;top:12px;inset-inline-end:16px;opacity:.95;filter:drop-shadow(0 10px 14px #0003)}
+ .la-site .la-hero-spatial h1{font-size:clamp(34px,9vw,48px);line-height:1.4}
+ .la-site .la-hero{padding-block:120px 40px;min-height:560px}
+ .la-site .la-page-heading{grid-template-columns:minmax(0,1fr) 95px;gap:12px;margin-top:16px}
+ .la-site .la-page-heading>.la-architecture-scene{width:120px;justify-self:center;margin-block:0}
+ .la-site .la-page-heading h1{font-size:clamp(28px,7vw,36px);line-height:1.4}
+ .la-site .la-page-heading .la-lead{font-size:15px}
+ .la-site .la-intro-image,.la-site .la-company-photo{box-shadow:5px 7px 0 #c9d0bf,10px 14px 20px #17251b14;transform:none}
+ .la-site .la-mobile-card-content .la-project-image{box-shadow:4px 5px 0 #d6dacc,7px 11px 18px #17251b18;transform:perspective(900px) rotateY(var(--la-photo-angle))}
+ .la-site .la-mobile-card-content .la-service-copy{padding-inline:18px}
+ .la-site .la-service-model{aspect-ratio:1.45;margin-bottom:16px}
+ .la-site .la-service-cover{box-shadow:4px 6px 0 #d6dacc,8px 12px 20px #17251b15;transform:none}
+ .la-site .la-project-cover{transform:none;box-shadow:0 6px 0 #d3d8c9,0 14px 24px #17251b18}
+}
 
 /* A distinct footer silhouette, with CMS copy and real contact information only. */
 .la-site .la-footer-modern{position:relative;isolation:isolate;padding-top:40px;border:0;border-radius:28px 28px 0 0;background:radial-gradient(ellipse at 88% 0%,#37463a80,transparent 60%),#151c18;box-shadow:0 -10px 30px #17251b0a;color:#f2f3eb}
@@ -37,11 +78,6 @@
 .la-site .la-footer-modern .la-footer-base{border-color:#ffffff1a;padding-block:16px;min-height:56px;color:#9eac9e}
 .la-site .la-footer-base>a{display:inline-flex;align-items:center;min-height:40px;font-size:13px;color:#dfe5d9}
 
-@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
- .la-site .la-project-card:hover .la-project-image,.la-site .la-project-card:focus-visible .la-project-image{transform:perspective(1200px) rotateX(1deg) rotateY(var(--la-card-tilt)) translateY(-5px);box-shadow:0 24px 42px #17251b22,0 5px 12px #17251b0d}
- .la-site .la-service-grid article:hover{transform:perspective(1200px) rotateX(1deg) translateY(-5px);box-shadow:0 20px 36px #17251b1c,inset 0 1px 0 #fff}
- .la-site .la-footer-project:hover .la-footer-project-icon{transform:translateY(-4px) rotate(-6deg);box-shadow:0 14px 30px #0005,inset 0 1px 0 #ffffffb3}
-}
 @media(max-width:760px){
  .la-site .la-intro-image,.la-site .la-company-photo{box-shadow:6px 6px 0 #e5e9e1,0 10px 22px #17251b12}
  .la-site .la-mobile-card-content .la-project-image{box-shadow:0 5px 14px #17251b16}
@@ -59,5 +95,5 @@
  .la-site .la-footer-modern .la-footer-base{padding-block:12px;gap:12px}
 }
 @media(prefers-reduced-motion:reduce){
- .la-site .la-project-image,.la-site .la-service-grid article,.la-site .la-footer-project-icon{transition:none;transform:none!important}
+ .la-site :is(.la-architecture-scene svg,.la-project-image,.la-service-cover,.la-project-cover,.la-intro-image,.la-company-photo,.la-service-grid article,.la-footer-project-icon){transition:none;transform:none!important}
 }

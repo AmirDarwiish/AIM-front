@@ -1,3 +1,5 @@
+'use client';
+import {moveSpatialSurface,resetSpatialSurface} from '@/lib/spatial-interaction';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { imageUrl, type Project } from '@/lib/construction';
@@ -20,7 +22,7 @@ export default function Projects({
         return (
           <Link
             href={`/projects/${encodeURIComponent(project.slug)}?lang=${lang}`}
-            className="la-project-card"
+            className="la-project-card" onPointerMove={moveSpatialSurface} onPointerLeave={resetSpatialSurface}
             key={project.id}
           >
             <div className="la-project-image">
