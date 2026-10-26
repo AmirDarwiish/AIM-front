@@ -13,6 +13,24 @@
 .la-site .la-wrap,.la-site .la-hero-copy{width:min(1280px,calc(100% - var(--la-gutter)*2))}
 .la-site :where(h1,h2,h3){font-weight:500;text-wrap:balance}
 .la-site h2{font-size:clamp(28px,3.2vw,44px);line-height:1.4}
+/* Arabic stays naturally shaped and aligned; never stretch glyphs to fill a line. */
+.la-site{text-align:start}
+.la-site[lang=ar] :where(h1,h2,h3,p,li,blockquote,figcaption,label,summary,.la-eyebrow){letter-spacing:normal;word-spacing:normal;text-align:start;text-justify:none;word-break:normal;hyphens:none;overflow-wrap:break-word}
+.la-site .la-prose{max-width:none;text-align:start}
+.la-site .la-prose p{white-space:pre-line;line-height:1.95;margin-bottom:18px}
+.la-site .la-section-head>.la-text-link{flex-shrink:0;white-space:nowrap}
+.la-site .la-project-title{padding-block:24px 32px}
+.la-site .la-project-title h1{font-size:clamp(34px,4.5vw,60px);line-height:1.35;max-width:1000px}
+.la-site .la-project-title>.la-eyebrow{margin-top:18px;margin-bottom:10px}
+.la-site .la-project-title .la-lead{margin-top:14px;max-width:780px;font-size:17px}
+.la-site .la-project-facts{margin-top:20px!important;padding-top:16px;gap:16px 40px}
+.la-site .la-story{grid-template-columns:180px minmax(0,1fr);gap:32px;align-items:start}
+.la-site .la-gallery[data-count='1']{grid-template-columns:minmax(0,1fr)}
+.la-site .la-gallery[data-count='1'] .la-gallery-image{aspect-ratio:16/8;max-height:520px}
+.la-site .la-project-index .la-project-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.la-site .la-service-detail{row-gap:24px}
+.la-site .la-service-detail-photo{grid-column:1/-1;aspect-ratio:16/7;max-height:520px;overflow:hidden;margin:0}
+.la-site .la-service-detail-photo img{width:100%;height:100%;object-fit:cover}
 .la-site .la-eyebrow{color:var(--la-bronze);font-size:11px;font-weight:600;letter-spacing:.1em}
 .la-site[lang=ar] .la-eyebrow{letter-spacing:0}
 .la-site .la-header{position:sticky;top:0;min-height:84px;padding-inline:var(--la-gutter);background:#fafaf7f5;border-bottom:0;backdrop-filter:blur(12px)}
@@ -87,14 +105,14 @@
  .la-site .la-services-catalogue article:nth-child(even)>.la-service-copy{grid-column:1;grid-row:1}
 }
 .la-site .la-services-catalogue article{padding-block:12px 28px}
-.la-site .la-services-catalogue .la-service-cover{aspect-ratio:4/3}
+.la-site .la-services-catalogue .la-service-cover{aspect-ratio:3/2;max-height:380px}
 .la-site .la-services-catalogue h3{font-size:clamp(26px,3vw,38px)}
 .la-site .la-page-hero{padding-block:20px 32px;background:#f1f3ef;border:0}
 .la-site .la-breadcrumb{font-size:12px}
 .la-site .la-page-heading{margin-top:22px;display:block}
 .la-site .la-page-heading h1{font-size:clamp(34px,4.5vw,60px);line-height:1.35;max-width:980px}
 .la-site .la-page-heading .la-lead{font-size:17px;line-height:1.85;margin-top:14px;max-width:720px}
-.la-site .la-company-photo{aspect-ratio:5/4;overflow:hidden}
+.la-site .la-company-photo{aspect-ratio:3/2;max-height:420px;overflow:hidden}
 .la-site .la-values-band{padding-block:var(--la-section-space);background:#f1f3ef}
 .la-site .la-values-grid article{padding-top:18px}
 /* Open inquiry layout: clear fields, without a surrounding card. */
@@ -141,9 +159,9 @@
 .la-site .la-corporate-footer{padding-top:40px;border:0;background:#191e1a;color:#eee9de}
 .la-site .la-corporate-footer .la-brand img{filter:brightness(0) invert(1)}
 .la-site .la-corporate-footer .la-brand{color:#f0eade}
-.la-site .la-footer-columns{grid-template-columns:1.5fr 1fr;padding-bottom:28px;gap:28px}
+.la-site .la-footer-columns{grid-template-columns:1fr auto;align-items:start;padding-bottom:24px;gap:28px}
 .la-site .la-footer-columns h2{font-size:13px;font-weight:600;color:#c5aa82}
-.la-site .la-footer-columns nav{gap:4px}
+.la-site .la-footer-columns nav{display:flex;flex-wrap:wrap;gap:8px 24px;max-width:520px}
 .la-site .la-footer-columns nav a{font-size:15px;color:#eee9de}
 .la-site .la-footer-columns p,.la-site .la-footer-base{color:#bbb9ad}
 .la-site .la-footer-base{border-color:#ffffff26;padding-block:18px}
@@ -205,6 +223,18 @@
  .la-site .la-project-grid{gap:28px}
  .la-site .la-featured-grid[data-count='3'] .la-project-card:nth-child(n) .la-project-image,.la-site .la-project-index .la-project-image{aspect-ratio:5/4}
  .la-site .la-project-card h3{font-size:23px}
+ .la-site .la-project-title{padding-block:20px 26px}
+ .la-site .la-project-title h1{font-size:clamp(30px,8vw,40px);line-height:1.4}
+ .la-site .la-project-title .la-lead{font-size:16px}
+ .la-site .la-story{grid-template-columns:1fr;gap:12px}
+ .la-site .la-story>.la-eyebrow{margin-bottom:0}
+ .la-site .la-gallery[data-count='1'] .la-gallery-image{aspect-ratio:4/3}
+ .la-site .la-service-detail{grid-template-columns:1fr;gap:22px}
+ .la-site .la-service-detail-photo{aspect-ratio:4/3}
+ .la-site .la-service-detail aside{padding:22px}
+ .la-site .la-service-detail aside h2{font-size:26px}
+ .la-site .la-services-catalogue .la-service-cover{aspect-ratio:4/3}
+ .la-site .la-project-index .la-project-grid{grid-template-columns:1fr}
  .la-site .la-service-grid article{padding-block:20px}
  .la-site .la-service-thumb{aspect-ratio:3/2;margin-bottom:16px}
  .la-site .la-services-catalogue article{padding-block:8px 24px}
@@ -230,6 +260,7 @@
  .la-site .la-corporate-footer{padding-top:28px}
  .la-site .la-footer-columns{grid-template-columns:1fr;gap:24px;padding-bottom:24px}
  .la-site .la-footer-columns h2{font-size:13px}
+ .la-site .la-footer-columns nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 20px;max-width:none}
  .la-site .la-footer-columns>div:first-child{grid-column:auto}
 }
 @media(max-width:360px){.la-site{--la-gutter:16px}.la-site .la-header{gap:10px}.la-site .la-header-actions{gap:8px}.la-site .la-brand{gap:8px}.la-site .la-brand>span{font-size:9px;letter-spacing:1px}}

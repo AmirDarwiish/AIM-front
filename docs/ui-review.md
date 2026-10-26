@@ -16,3 +16,19 @@ Reviewed the public production website at https://aim-front-jade.vercel.app/?lan
 ## Verification and limits
 
 TypeScript, production webpack build and corporate/admin integration suites are required for this change. Desktop visual checks use the actual live browser. Responsive CSS was reviewed for 320, 360, 390, 760, 980 and desktop widths, but these are source-level checks: the cloud browser has no supported viewport/device emulation API. An attempted data-URL viewport harness was rejected by browser policy and was not retried through a workaround. No real phone/touch-device test is claimed. Live browser rendering and complete mobile verification should remain distinct in release notes.
+
+
+## Typography and alignment pass — 26 October 2026
+
+Reviewed the current public domain, https://la-constructions.vercel.app, in desktop Chrome at 1363 × 936. Read and inspected 22 Arabic/English routes: Home, About, Services, all three service details, Projects, all three project details and Contact. Full-page visual checks covered each page type. Main content contained no literal U+0640 tatweel and no justified paragraphs; no horizontal document overflow was observed.
+
+Changes:
+- Keep Arabic paragraphs, labels and headings aligned to the start, with natural word/letter spacing and wrapping at words. Retain Tajawal and the Latin brand mark.
+- Match project-detail headings and introductory spacing to the other corporate pages. Remove the duplicate category facts row; location/year remain when provided.
+- Give a single gallery image the full available row instead of leaving an empty second column.
+- Move service-detail photography into a full-width row below the text and inquiry panel, removing the large blank space under the shorter panel.
+- Reduce oversized About/service catalogue imagery. Fit three project-index cards in the available width and hide pagination for a single page.
+- Split project-description lines into separate readable paragraphs and reduce the oversized story label column.
+- Arrange footer links across the desktop row and in two columns on phones, reducing unused footer height.
+
+TypeScript, webpack production build and the existing corporate integration suite passed. Mobile layout review remains source-level for 320–760 px; no phone viewport screenshot or touch-device test is claimed. Homepage rails, automatic movement, the before-footer review section and CMS-backed content remain in place.
