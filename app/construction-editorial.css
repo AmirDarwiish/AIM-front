@@ -169,6 +169,7 @@
 .la-site .la-media-testimonials .la-preview-action>span{font-size:12px}
 .la-site .la-media-testimonials .la-story-card-body{padding:20px;gap:14px}
 .la-site .la-media-testimonials .la-story-attribution h3{font-size:21px;line-height:1.5}
+.la-site .la-carousel-controls{justify-content:flex-end}
 .la-site .la-carousel-controls button{border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 1px #26372b12}
 .la-site .la-media-dialog{position:fixed;top:50%;left:50%;right:auto;bottom:auto;transform:translate(-50%,-50%);margin:0}
 .la-site .la-lightbox-close,.la-site .la-lightbox>div>button{min-width:44px;min-height:44px}
@@ -255,7 +256,5 @@
  .la-site .la-mobile-card-dots button{display:grid;place-items:center;width:32px;height:44px;padding:0}
  .la-site .la-mobile-card-dots button>span{display:block;width:6px;height:6px;border-radius:6px;background:#c7cdc3}
  .la-site .la-mobile-card-dots button[aria-current=true]>span{width:20px;background:#8b704b}
- .la-site .la-mobile-card-position{font-size:12px;font-variant-numeric:tabular-nums}
- .la-site .la-mobile-card-play{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#eef1eb;color:#34432f}
 }
-@media(prefers-reduced-motion:reduce){.la-site .la-mobile-card-play{display:none}.la-site .la-project-image>img,.la-site .la-services-catalogue .la-service-cover img{transition:none;transform:none!important}}
+@media(prefers-reduced-motion:reduce){.la-site .la-project-image>img,.la-site .la-services-catalogue .la-service-cover img{transition:none;transform:none!important}}
