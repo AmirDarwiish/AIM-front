@@ -73,6 +73,19 @@
 .la-site .la-service-grid article>.la-service-copy{display:flex;flex-direction:column;align-items:flex-start;flex:1;height:auto}
 .la-site .la-service-grid h3{font-size:clamp(22px,2vw,27px);line-height:1.5;margin-bottom:10px}
 .la-site .la-service-grid p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;line-height:1.85;margin-bottom:18px}
+/* Alternating image and text creates rhythm without extra decoration. */
+.la-site .la-services-catalogue .la-service-cover img{transition:transform .5s ease}
+.la-site .la-services-catalogue .la-service-cover:hover img{transform:scale(1.025)}
+.la-site .la-service-detail aside{background:#f1f3ef;border:0}
+.la-site .la-text-link{transition:color .18s,border-color .18s}
+.la-site .la-text-link:hover{color:#806543;border-color:#806543}
+.la-site .la-project-card:focus-visible{outline:2px solid #806543;outline-offset:6px}
+.la-site .la-project-card:focus-visible .la-project-image>img{transform:scale(1.025)}
+@media(min-width:761px){
+ .la-site .la-services-catalogue article:nth-child(even):has(.la-service-cover){grid-template-columns:1.1fr 1fr}
+ .la-site .la-services-catalogue article:nth-child(even)>.la-service-cover{grid-column:2;grid-row:1}
+ .la-site .la-services-catalogue article:nth-child(even)>.la-service-copy{grid-column:1;grid-row:1}
+}
 .la-site .la-services-catalogue article{padding-block:12px 28px}
 .la-site .la-services-catalogue .la-service-cover{aspect-ratio:4/3}
 .la-site .la-services-catalogue h3{font-size:clamp(26px,3vw,38px)}
@@ -100,6 +113,18 @@
 .la-site .la-contact-form :where(input,textarea,select):disabled{opacity:.65;cursor:not-allowed}
 .la-site .la-contact-form .la-form-hint{font-size:13px;line-height:1.8;margin-top:10px}
 .la-site .la-contact-form .la-button{min-height:56px;border-radius:4px;margin-top:24px;min-width:210px}
+/* The native country menu remains keyboard and mobile accessible. */
+.la-site .la-phone-field{min-width:0}
+.la-site .la-phone-control{display:flex;align-items:stretch;gap:0;margin-top:9px;min-height:56px;background:white;border:1px solid #d8ddd5;border-radius:6px}
+.la-site .la-phone-control:focus-within{outline:2px solid #8b704b;outline-offset:2px;border-color:#8b704b}
+.la-site .la-phone-country{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;min-width:116px;padding-inline:12px;border-inline-end:1px solid #e2e6df;color:var(--la-ink)}
+.la-site .la-phone-country img{width:24px;height:18px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px #00000012}
+.la-site .la-phone-country>span{font-size:15px;font-variant-numeric:tabular-nums}
+.la-site .la-phone-country>svg{flex-shrink:0}
+.la-site .la-contact-form .la-phone-country select{position:absolute;inset:0;width:100%;height:100%;min-height:0;opacity:0;margin:0;padding:0!important;cursor:pointer}
+.la-site .la-contact-form .la-phone-control>input{flex:1;min-width:0;width:0;margin:0;border:0;border-radius:0 6px 6px 0;box-shadow:none;outline:none;background:transparent}
+.la-site .la-contact-form .la-phone-control>input:focus{outline:none;box-shadow:none}
+.la-site .la-phone-field .la-form-hint{font-size:12px;margin-top:7px}
 .la-site .la-contact-guide{padding-top:0}
 .la-site .la-contact-guide h2{font-size:28px}
 .la-site .la-contact-guide ol{margin:20px 0 0;padding-inline-start:26px;display:grid;gap:20px;list-style:decimal-leading-zero}
@@ -180,4 +205,4 @@
  .la-site .la-footer-columns>div:first-child{grid-column:auto}
 }
 @media(max-width:360px){.la-site{--la-gutter:16px}.la-site .la-header{gap:10px}.la-site .la-header-actions{gap:8px}.la-site .la-brand{gap:8px}.la-site .la-brand>span{font-size:9px;letter-spacing:1px}}
-@media(prefers-reduced-motion:reduce){.la-site .la-project-image>img{transition:none;transform:none}}
+@media(prefers-reduced-motion:reduce){.la-site .la-project-image>img,.la-site .la-services-catalogue .la-service-cover img{transition:none;transform:none!important}}
