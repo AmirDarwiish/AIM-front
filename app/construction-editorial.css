@@ -147,8 +147,29 @@
 .la-site .la-footer-columns nav a{font-size:15px;color:#eee9de}
 .la-site .la-footer-columns p,.la-site .la-footer-base{color:#bbb9ad}
 .la-site .la-footer-base{border-color:#ffffff26;padding-block:18px}
-.la-site .la-faq-list details{padding-block:18px}
-.la-site .la-faq-list summary{font-weight:500}
+/* Compact FAQ with native disclosure behaviour and a clear open state. */
+.la-site .la-faq-section{align-items:start;grid-template-columns:.75fr 1.5fr}
+.la-site .la-faq-section .la-section-head{margin-bottom:0;align-items:flex-start}
+.la-site .la-faq-list details{padding-block:20px;border-color:#26372b14}
+.la-site .la-faq-list summary{display:flex;align-items:center;justify-content:space-between;gap:20px;list-style:none;padding-inline-end:0;font-weight:500;font-size:18px;line-height:1.8}
+.la-site .la-faq-list summary::-webkit-details-marker{display:none}
+.la-site .la-faq-toggle{display:grid;place-items:center;width:34px;height:34px;flex-shrink:0;border-radius:50%;background:#eef1eb;color:#384b3b}
+.la-site .la-faq-minus{display:none}
+.la-site .la-faq-list details[open] .la-faq-plus{display:none}
+.la-site .la-faq-list details[open] .la-faq-minus{display:block}
+.la-site .la-faq-list details[open] .la-faq-toggle{background:#1b251f;color:#fff}
+.la-site .la-faq-list details p{margin-top:14px;padding-inline-end:54px;font-size:16px;line-height:1.95}
+.la-site .la-client-stories{background:#f0f2ee}
+.la-site .la-review-preview-note{font-size:13px;line-height:1.8;color:#656d61;margin-block:-10px 20px}
+.la-site .la-media-testimonials .la-carousel-track{grid-auto-columns:calc((100% - 56px)/3.15);gap:24px;scrollbar-width:none}
+.la-site .la-media-testimonials .la-carousel-track::-webkit-scrollbar{display:none}
+.la-site .la-media-testimonials .la-story-card{border:0;background:#fff;border-radius:8px;overflow:hidden}
+.la-site .la-media-testimonials .la-story-preview{aspect-ratio:9/11;background:#fff}
+.la-site .la-media-testimonials .la-preview-action{inset-inline:auto 14px;bottom:14px;border-radius:4px;padding:10px 12px;background:#ffffffed}
+.la-site .la-media-testimonials .la-preview-action>span{font-size:12px}
+.la-site .la-media-testimonials .la-story-card-body{padding:20px;gap:14px}
+.la-site .la-media-testimonials .la-story-attribution h3{font-size:21px;line-height:1.5}
+.la-site .la-carousel-controls button{border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 1px #26372b12}
 .la-site .la-lightbox-close,.la-site .la-lightbox>div>button{min-width:44px;min-height:44px}
 .la-site .la-nav-scrim{position:fixed;inset:0;z-index:19;background:#12171155;cursor:default}
 @media(max-width:1100px){.la-site .la-contact-link{display:none}}
@@ -192,6 +213,11 @@
  .la-site .la-contact-panel{padding:0}
  .la-site .la-contact-panel>h2{font-size:26px;margin-bottom:22px}
  .la-site .la-contact-guide h2{font-size:26px}
+ .la-site .la-faq-section{grid-template-columns:1fr;gap:18px}
+ .la-site .la-faq-list summary{font-size:17px}
+ .la-site .la-faq-list details p{padding-inline-end:0;font-size:15px}
+ .la-site .la-media-testimonials .la-carousel-track{grid-auto-columns:86%;gap:16px}
+ .la-site .la-review-preview-note{margin-top:0}
  .la-site .la-contact-page{grid-template-columns:1fr;gap:28px;padding-block:28px 36px}
  .la-site .la-contact-page .la-contact-panel{order:-1}
  .la-site .la-contact-form .la-fields{grid-template-columns:1fr;gap:18px}
