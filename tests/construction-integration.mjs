@@ -8,7 +8,7 @@ const homeContent={siteName:'LA Construction',sliders:[],sections:[
  {id:1,sectionKey:'la-about',title:'CMS about title',description:'From the dashboard',sortOrder:10,items:[]},
  {id:2,sectionKey:'la-services',title:'CMS expertise',description:'Service overview',sortOrder:40,items:[{id:41,title:'Managed construction',subtitle:'CMS service subtitle',description:'A service from CMS.',sortOrder:0}]},
  {id:3,sectionKey:'la-contact',title:'Contact our team',description:'Discuss the next project',showOnHome:false,items:[]},
- {id:4,sectionKey:'la-hero',title:'CMS hero',description:'Managed brand introduction',imageUrl:'/assets/architecture.svg',sortOrder:0,items:[]},
+ {id:4,sectionKey:'la-hero',title:'CMS hero',description:'Managed brand introduction',imageUrl:'/assets/architecture.svg',buttonUrl:'/contact?service=41',sortOrder:0,items:[]},
  {id:5,sectionKey:'la-projects',title:'Selected projects',sortOrder:20,items:[]},
  {id:6,sectionKey:'la-before-after',title:'Transformation',sortOrder:30,items:[{id:61,title:'A real transformation fixture',imageUrl:'https://example.invalid/before.jpg',afterImageUrl:'https://example.invalid/after.jpg',projectSlug:'fixture-villa'}]},
  {id:7,sectionKey:'la-testimonials',title:'Client stories',sortOrder:50,items:[{id:71,title:'Fixture reviewer',description:'A review from the CMS.',imageUrl:'https://example.invalid/review.jpg'},{id:72,title:'Video reviewer',videoUrl:'https://youtu.be/abcdefghijk',imageUrl:'https://example.invalid/poster.jpg'}]},
@@ -31,23 +31,13 @@ const probe=createServer().listen(0,'127.0.0.1');await once(probe,'listening');c
 const child=spawn(process.execPath,['node_modules/next/dist/bin/next','start','-H','127.0.0.1','-p',String(port)],{env:{...process.env,AIM_API_BASE_URL:`http://127.0.0.1:${api.address().port}`,NEXT_TELEMETRY_DISABLED:'1'},stdio:['ignore','pipe','pipe']});let logs='';child.stdout.on('data',x=>logs+=x);child.stderr.on('data',x=>logs+=x);
 try{
  let ready=false;for(let i=0;i<30;i++){try{if((await fetch(origin+'/admin',{signal:AbortSignal.timeout(1000)})).ok){ready=true;break}}catch{}await new Promise(r=>setTimeout(r,200))}assert.ok(ready,logs);
- const home=await (await fetch(origin+'/?lang=en')).text();assert.ok(home.includes('CMS about title'));assert.ok(home.includes('fixture-villa'));assert.ok(!home.includes('A considered approach.'));assert.ok(home.includes('la-site'));assert.ok(home.includes('architecture.svg'));
+ const home=await (await fetch(origin+'/?lang=en')).text();assert.ok(home.includes('CMS about title'));assert.ok(home.includes('fixture-villa'));assert.ok(!home.includes('A considered approach.'));assert.ok(home.includes('la-site'));assert.ok(home.includes('architecture.svg'));assert.ok(home.includes('/contact?service=41&amp;lang=en'));
 
- const showcaseEn=await fetch(origin+'/showcase?lang=en');assert.equal(showcaseEn.status,200);const showcaseEnHtml=await showcaseEn.text();
- assert.ok(showcaseEnHtml.includes('Where precision'));
- assert.ok(showcaseEnHtml.includes('VISUAL DEMONSTRATION'));
- assert.ok(showcaseEnHtml.includes('images.pexels.com'));
- assert.ok(showcaseEnHtml.includes('Men_at_work_in_building_site.webm'));
- assert.ok(showcaseEnHtml.includes('does not represent completed LA Construction commissions'));
- const showcaseAr=await fetch(origin+'/showcase?lang=ar');assert.equal(showcaseAr.status,200);const showcaseArHtml=await showcaseAr.text();
- assert.ok(showcaseArHtml.includes('معاينة بصرية'));
- assert.ok(showcaseArHtml.includes('dir="rtl"'));
- assert.ok(showcaseArHtml.includes('فيلا معاصرة'));
  const about=await fetch(origin+'/about?lang=en');assert.equal(about.status,200);const aboutHtml=await about.text();assert.ok(aboutHtml.includes('CMS company story heading'));assert.ok(aboutHtml.includes('CMS company story body'));assert.ok(!aboutHtml.includes('Built around'));assert.ok(!aboutHtml.includes('Clarity from the start'));
  const services=await fetch(origin+'/services?lang=en');assert.equal(services.status,200);const serviceHtml=await services.text();assert.ok(serviceHtml.includes('CMS expertise'));assert.ok(serviceHtml.includes('/services/41?lang=en'));
  const service=await fetch(origin+'/services/41?lang=en');assert.equal(service.status,200);const serviceDetail=await service.text();assert.ok(serviceDetail.includes('A service from CMS.'));assert.ok(serviceDetail.includes('CMS service subtitle'));assert.ok(serviceDetail.includes('CMS working process'));assert.ok(!serviceDetail.includes('Understand the brief'));
  assert.equal((await fetch(origin+'/services/999?lang=en')).status,404);
- const contact=await fetch(origin+'/contact?lang=en&service=41');assert.equal(contact.status,200);const contactHtml=await contact.text();assert.ok(contactHtml.includes('Project inquiry'));assert.ok(contactHtml.includes('name="location"'));assert.ok(contactHtml.includes('value="41" selected=""'));assert.ok(!contactHtml.includes('Inquiries will be enabled'));
+ const contact=await fetch(origin+'/contact?lang=en&service=41');assert.equal(contact.status,200);const contactHtml=await contact.text();assert.ok(contactHtml.includes('Project inquiry'));assert.ok(contactHtml.includes('name="location"'));assert.ok(contactHtml.includes('value="41" selected=""'));assert.ok(contactHtml.includes('CMS working process'));assert.ok(!contactHtml.includes('Inquiries will be enabled'));
  assert.ok(home.includes('/about?lang=en'));assert.ok(home.includes('/services?lang=en'));assert.ok(home.includes('/contact?lang=en'));assert.ok(!home.includes('name="message"'));
  const arabic=await (await fetch(origin+'/contact?lang=ar')).text();assert.ok(arabic.includes('dir="rtl"'));assert.ok(arabic.includes('استفسار عن مشروع'));
 

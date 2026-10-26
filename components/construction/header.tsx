@@ -2,12 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import type { Lang } from '@/lib/public-api';
 
 export default function Header({ lang, logoUrl }: { lang: Lang; logoUrl?: string }) {
   const [open, setOpen] = useState(false);
+  const menuButton=useRef<HTMLButtonElement>(null);
+  const nav=useRef<HTMLElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const en = lang === 'en';
   const pathname = usePathname();
@@ -28,11 +30,22 @@ export default function Header({ lang, logoUrl }: { lang: Lang; logoUrl?: string
 
   useEffect(() => {
     const close = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape') {setOpen(false);menuButton.current?.focus()}
     };
     window.addEventListener('keydown', close);
     return () => window.removeEventListener('keydown', close);
   }, []);
+
+  useEffect(()=>{
+    if(!open)return;
+    const previous=document.body.style.overflow;
+    document.body.style.overflow='hidden';
+    nav.current?.querySelector<HTMLAnchorElement>('a')?.focus({preventScroll:true});
+    const desktop=window.matchMedia('(min-width:981px)');
+    const closeOnDesktop=()=>{if(desktop.matches)setOpen(false)};
+    desktop.addEventListener('change',closeOnDesktop);
+    return()=>{document.body.style.overflow=previous;desktop.removeEventListener('change',closeOnDesktop)};
+  },[open]);
 
   const links = [
     ['/', en ? 'Home' : 'الرئيسية'],
@@ -43,12 +56,13 @@ export default function Header({ lang, logoUrl }: { lang: Lang; logoUrl?: string
   ];
 
   return (
-    <header className={`la-header ${scrolled ? 'is-scrolled' : ''} ${open ? 'is-menu-open' : ''}`}>
+    <><header className={`la-header ${scrolled ? 'is-scrolled' : ''} ${open ? 'is-menu-open' : ''}`}>
       <Link className="la-brand" href={`/?lang=${lang}`} aria-label="LA Construction">
         <img src={logoUrl || '/assets/la-mark.svg'} alt="" width="54" height="60" />
         <span><b>LA</b> CONSTRUCTION</span>
       </Link>
       <nav
+        ref={nav}
         id="la-navigation"
         className={open ? 'la-nav is-open' : 'la-nav'}
         aria-label={en ? 'Main navigation' : 'القائمة الرئيسية'}
@@ -75,6 +89,7 @@ export default function Header({ lang, logoUrl }: { lang: Lang; logoUrl?: string
           {en ? 'Start a project' : 'ابدأ مشروعك'}<ArrowUpRight size={16} />
         </Link>
         <button
+          ref={menuButton}
           type="button"
           className="la-menu"
           onClick={() => setOpen(value => !value)}
@@ -83,6 +98,6 @@ export default function Header({ lang, logoUrl }: { lang: Lang; logoUrl?: string
           aria-label={en ? (open ? 'Close menu' : 'Open menu') : (open ? 'إغلاق القائمة' : 'فتح القائمة')}
         >{open ? <X size={24} /> : <Menu size={24} />}</button>
       </div>
-    </header>
+    </header>{open&&<button type="button" className="la-nav-scrim" aria-label={en?'Close navigation':'إغلاق القائمة الخارجية'} onClick={()=>{setOpen(false);menuButton.current?.focus()}}/>}</>
   );
 }
