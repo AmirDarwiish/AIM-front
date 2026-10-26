@@ -170,6 +170,7 @@
 .la-site .la-media-testimonials .la-story-card-body{padding:20px;gap:14px}
 .la-site .la-media-testimonials .la-story-attribution h3{font-size:21px;line-height:1.5}
 .la-site .la-carousel-controls button{border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 1px #26372b12}
+.la-site .la-media-dialog{position:fixed;top:50%;left:50%;right:auto;bottom:auto;transform:translate(-50%,-50%);margin:0}
 .la-site .la-lightbox-close,.la-site .la-lightbox>div>button{min-width:44px;min-height:44px}
 .la-site .la-nav-scrim{position:fixed;inset:0;z-index:19;background:#12171155;cursor:default}
 @media(max-width:1100px){.la-site .la-contact-link{display:none}}
