@@ -41,7 +41,11 @@ export type LeadActivity = {
 export type MediaRecord = {
     id: number;
     url: string;
+    contentType?: string;
+    originalFileName?: string;
+    size?: number;
 };
+export type MediaPage = {items:MediaRecord[];totalCount:number;page:number;pageSize:number};
 export class AdminError extends Error {
     constructor(public status: number, message: string) { super(message); }
 }

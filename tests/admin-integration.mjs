@@ -17,6 +17,7 @@ const upstream=createServer(async(req,res)=>{
  if(req.url==='/api/admin/site-settings'){res.statusCode=403;res.end(JSON.stringify({error:'Denied'}));return}
  if(req.url==='/api/admin/leads/401'){res.statusCode=401;res.end('{}');return}
  if(req.url==='/api/admin/leads/1/status'){assert.equal(JSON.parse(body).status,3);res.statusCode=204;res.end();return}
+ if(req.url.startsWith('/api/admin/media')&&req.method==='GET'){res.end(JSON.stringify({items:[{id:42,url:'https://fixture.invalid/image.png',contentType:'image/png'}],totalCount:1,page:1,pageSize:24}));return}
  if(req.url==='/api/admin/media'){res.end(JSON.stringify({id:42,url:'https://fixture.invalid/image.png'}));return}
  res.end(JSON.stringify({items:[],totalCount:0,page:1,pageSize:20}));
 });
@@ -45,7 +46,7 @@ try{
  const visibilityWrite=await call('/api/admin-proxy/admin/sections/11','PUT',{sectionKey:'la-testimonials',showOnHome:false,isActive:true});assert.equal(visibilityWrite.status,200);assert.equal(JSON.parse(last.body).showOnHome,false);
  assert.equal((await call('/api/admin-proxy/admin/site-settings')).status,403);
  assert.equal((await call('/api/admin-proxy/auth/login','POST',{email:'x'})).status,404);
- assert.equal((await call('/api/admin-proxy/admin/media','GET')).status,404);
+ const library=await call('/api/admin-proxy/admin/media?type=image&page=1','GET');assert.equal(library.status,200);assert.equal((await library.json()).items[0].id,42);
  assert.equal((await call('/api/admin-proxy/admin/leads/1','DELETE')).status,404);
  const form=new FormData();form.append('file',new Blob(['fixture'],{type:'image/png'}),'fixture.png');const upload=await call('/api/admin-proxy/admin/media','POST',form);assert.equal(upload.status,200);assert.equal((await upload.json()).id,42);assert.match(last.contentType,/multipart\/form-data; boundary=/);assert.match(last.body,/name="file"/);
  const expired=await call('/api/admin-proxy/admin/leads/401');assert.equal(expired.status,401);assert.match(expired.headers.get('set-cookie'),/Max-Age=0/i);
