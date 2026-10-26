@@ -15,7 +15,7 @@ export default function Services({
 }) {
   return (
     <div className={expanded ? 'la-services-catalogue' : 'la-service-grid'}>
-      {items.map((item, index) => {
+      {items.map((item) => {
         const href = `/services/${item.id}?lang=${lang}`;
         const image = imageUrl(item.imageUrl);
         return (
@@ -30,7 +30,6 @@ export default function Services({
               </Link>
             )}
             <div className="la-service-copy">
-              <span className="la-service-number">{String(index + 1).padStart(2, '0')}</span>
               <h3><Link href={href}>{item.title}</Link></h3>
               {item.description && <p>{item.description}</p>}
               <Link className="la-text-link" href={href}>

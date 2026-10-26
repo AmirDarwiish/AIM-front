@@ -15,7 +15,7 @@ export default function Projects({
 }) {
   return (
     <div className={`la-project-grid ${featured ? 'la-featured-grid' : ''}`} data-count={items.length}>
-      {items.map((project, index) => {
+      {items.map((project) => {
         const cover = imageUrl(project.coverUrl);
         return (
           <Link
@@ -34,19 +34,16 @@ export default function Projects({
                   decoding="async"
                 />
               ) : (
-                <span className="la-project-placeholder">LA / {String(index + 1).padStart(2, '0')}</span>
+                <span className="la-project-placeholder" aria-hidden="true">LA</span>
               )}
-              <span className="la-project-index" aria-hidden="true">
-                {String(index + 1).padStart(2, '0')}
-              </span>
               <span className="la-project-arrow" aria-hidden="true">
                 <ArrowUpRight size={23} />
               </span>
             </div>
-            <div className="la-project-meta">
-              <span>{project.category}</span>
-              <span>{project.year}</span>
-            </div>
+            {(project.category||project.year)&&<div className="la-project-meta">
+              {project.category&&<span>{project.category}</span>}
+              {project.year&&<span>{project.year}</span>}
+            </div>}
             <h3>{project.title}</h3>
             {project.summary && <p className="la-project-summary">{project.summary}</p>}
             {project.location && <p>{project.location}</p>}
