@@ -24,6 +24,8 @@
 .la-site .la-service-model svg{height:100%;width:100%;object-fit:contain}
 .la-site .la-media-testimonials .la-story-card{box-shadow:0 5px 0 #dbe0d3,0 12px 22px #17251b0e}
 .la-site .la-carousel-track{padding-top:4px;padding-bottom:18px}
+.la-site .la-cover-gallery,.la-site .la-cover-gallery>figure,.la-site .la-cover-gallery .la-gallery-image{width:100%;height:100%;aspect-ratio:auto}
+.la-site .la-cover-gallery figcaption{display:none}
 .la-site .la-project-cover{width:min(1280px,calc(100% - var(--la-gutter)*2));margin-inline:auto;border-radius:7px;overflow:hidden;box-shadow:0 10px 0 #d3d8c9,0 24px 40px #17251b1c;transform:perspective(1800px) rotateX(1deg)}
 .la-site .la-service-detail-photo{border-radius:8px;box-shadow:0 9px 0 #d3d8c9,0 18px 30px #17251b16}
 .la-site .la-service-grid p{margin-bottom:18px}
