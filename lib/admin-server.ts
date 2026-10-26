@@ -64,7 +64,8 @@ export function allowedPath(method: string, path: string) {
     if (/^admin\/lookups\/(business-categories|cities)\/\d+$/.test(path))
         return ['PUT', 'DELETE'].includes(method);
     if (path === 'admin/media')
-        return method === 'POST';
+        return list || method === 'POST';
+    if (path === 'admin/media/external') return method === 'POST';
     if (/^admin\/media\/\d+$/.test(path))
         return method === 'DELETE';
     return false;
