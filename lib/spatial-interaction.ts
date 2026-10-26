@@ -3,6 +3,7 @@ import type {PointerEvent} from 'react';
 export function moveSpatialSurface(event:PointerEvent<HTMLElement>){
  if(event.pointerType!=='mouse'||window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
  const el=event.currentTarget,rect=el.getBoundingClientRect();
+ if(!rect.width||!rect.height)return;
  el.style.setProperty('--surface-x',`${((event.clientY-rect.top)/rect.height-.5)*-6}deg`);
  el.style.setProperty('--surface-y',`${((event.clientX-rect.left)/rect.width-.5)*8}deg`);
 }
