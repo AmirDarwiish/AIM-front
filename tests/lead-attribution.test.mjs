@@ -1,0 +1,13 @@
+import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+const source=ts.transpileModule(readFileSync('lib/lead-attribution.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;
+const saved=new Map(),context={exports:{},URL,URLSearchParams,window:{location:{search:'?utm_source=google&utm_medium=organic&email=private@example.invalid',hostname:'la-construction.online'}},document:{referrer:'https://www.google.com/search?q=private'},sessionStorage:{getItem:k=>saved.get(k),setItem:(k,v)=>saved.set(k,v)}};
+vm.runInNewContext(source,context);context.exports.captureLeadSource();
+const stored=[...saved.values()][0];assert.ok(stored.includes('google'));assert.ok(!stored.includes('private'));assert.ok(!stored.includes('/search'));
+context.window.location.search='?guide=renovation-planning';context.document.referrer='https://la-construction.online/guides';
+const summary=context.exports.leadSourceSummary();assert.ok(summary.includes('utm_source: google'));assert.ok(summary.includes('guide: renovation-planning'));
+context.window.location.search='?utm_source=changed';context.exports.captureLeadSource();assert.equal([...saved.values()][0],stored);
+context.sessionStorage.getItem=()=>{throw new Error('disabled')};context.sessionStorage.setItem=()=>{throw new Error('disabled')};context.window.location.search='?guide=renovation-planning';assert.doesNotThrow(()=>context.exports.captureLeadSource());assert.ok(context.exports.leadSourceSummary().includes('guide: renovation-planning'));
+console.log('PASS: first campaign survives internal navigation; guide source recorded; no personal query/full referrer stored; storage-disabled inquiry still works.');

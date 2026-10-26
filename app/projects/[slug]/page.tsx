@@ -1,3 +1,4 @@
+import { seo } from '@/lib/seo';
 import { publicData } from '@/lib/construction-server';
 import Link from 'next/link';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
@@ -10,7 +11,8 @@ import Gallery from '@/components/construction/gallery';
 export const dynamic='force-dynamic';
 const getProject=cache((slug:string,lang:string)=>publicData<Project>(`projects/${encodeURIComponent(slug)}?lang=${lang}`));
 type Props={params:Promise<{slug:string}>;searchParams:Promise<{lang?:string}>};
-export async function generateMetadata({params,searchParams}:Props){try{const p=await getProject((await params).slug,language((await searchParams).lang));return {title:`${p.title} | LA Construction`,description:p.summary,openGraph:{title:p.title,description:p.summary,...(imageUrl(p.coverUrl)?{images:[p.coverUrl!]}:{})}}}catch{return {title:'Project | LA Construction'}}}
+export async function generateMetadata({params,searchParams}:Props){const lang=language((await searchParams).lang),slug=(await params).slug;try{const p=await getProject(slug,lang);return seo(`/projects/${encodeURIComponent(slug)}`,lang,`${p.title} | LA Construction`,p.summary||p.description?.slice(0,160)||p.title,imageUrl(p.coverUrl));}catch{return {title:'Project | LA Construction',robots:{index:false}}}}
+
 export default async function ProjectDetail({params,searchParams}:Props){
  const lang=language((await searchParams).lang),en=lang==='en';let p:Project;
  try{p=await getProject((await params).slug,lang)}catch(e){if((e as {status?:number}).status===404)notFound();throw e;}

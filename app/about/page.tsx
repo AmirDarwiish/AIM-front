@@ -1,3 +1,4 @@
+import { seo } from '@/lib/seo';
 import { siteData } from '@/lib/construction-server';
 import { language, imageUrl } from '@/lib/construction';
 import { section, contentParagraphs } from '@/lib/corporate-content';
@@ -6,7 +7,7 @@ import Footer from '@/components/construction/footer';
 import PageHero from '@/components/construction/page-hero';
 import Unavailable from '@/components/construction/unavailable';
 export const dynamic='force-dynamic';
-export async function generateMetadata({searchParams}:{searchParams:Promise<{lang?:string}>}){const lang=language((await searchParams).lang),home=await siteData(lang),about=section(home,'la-about');return {title:`${about?.title||(lang==='en'?'About':'عن الشركة')} | LA Construction`,description:about?.description?.slice(0,160)}}
+export async function generateMetadata({searchParams}:{searchParams:Promise<{lang?:string}>}){const lang=language((await searchParams).lang),home=await siteData(lang),about=section(home,'la-about');return seo('/about',lang,lang==='en'?'About LA Construction | LA Construction':'عن الشركة | LA Construction',about?.description?.slice(0,160)||(lang==='en'?'Explore LA Construction services and discuss the scope of your next project.':'تعرف على LA Construction وخدمات البناء والتشطيبات والتجديد وناقش معنا نطاق مشروعك.'))}
 export default async function About({searchParams}:{searchParams:Promise<{lang?:string}>}){
  const lang=language((await searchParams).lang),en=lang==='en',home=await siteData(lang),about=section(home,'la-about'),story=section(home,'la-about-story'),values=section(home,'la-values');
  const photo=imageUrl(story?.imageUrl||about?.imageUrl);

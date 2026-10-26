@@ -1,3 +1,4 @@
+import { seo } from '@/lib/seo';
 import { siteData } from '@/lib/construction-server';
 import { language, imageUrl } from '@/lib/construction';
 import { section, serviceItems } from '@/lib/corporate-content';
@@ -7,7 +8,7 @@ import PageHero from '@/components/construction/page-hero';
 import Contact from '@/components/construction/contact';
 import CompanyDetails from '@/components/construction/company-details';
 export const dynamic='force-dynamic';
-export async function generateMetadata({searchParams}:{searchParams:Promise<{lang?:string}>}){const en=(await searchParams).lang==='en';return {title:`${en?'Contact':'تواصل معنا'} | LA Construction`,description:en?'Tell LA Construction about your next project.':'تواصل مع LA Construction وشاركنا متطلبات مشروعك القادم.'}}
+export async function generateMetadata({searchParams}:{searchParams:Promise<{lang?:string}>}){const lang=language((await searchParams).lang);return seo('/contact',lang,lang==='en'?'Request a project quotation | LA Construction':'اطلب عرض سعر لمشروعك | LA Construction',lang==='en'?'Share your project location, space and required work. Contact LA Construction about construction, finishing or renovation.':'شاركنا موقع المشروع والمساحة والأعمال المطلوبة. تواصل مع LA Construction لطلب عرض سعر للبناء أو التشطيب أو التجديد.');}
 export default async function ContactPage({searchParams}:{searchParams:Promise<{lang?:string;service?:string}>}){
  const query=await searchParams,lang=language(query.lang),en=lang==='en',home=await siteData(lang),content=section(home,'la-contact'),services=serviceItems(home,lang),process=section(home,'la-process');
  const hasDetails=!!(home?.contactEmail||home?.contactPhone||home?.addressAr||home?.addressEn||home?.whatsappUrl||home?.instagramUrl||home?.linkedinUrl);

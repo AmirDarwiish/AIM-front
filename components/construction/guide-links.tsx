@@ -1,0 +1,5 @@
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import { guides } from '@/lib/construction-guides';
+import type { Lang } from '@/lib/public-api';
+export default function GuideLinks({lang}:{lang:Lang}){const en=lang==='en';return <section className="la-wrap la-guides-section"><div className="la-section-head"><div><span className="la-eyebrow">{en?'BEFORE YOU BUILD':'قبل ما تبدأ'}</span><h2>{en?'A clearer start for your project.':'قرارات أوضح لمشروعك.'}</h2><p>{en?'Practical guides to scope, quotations and renovation planning.':'أدلة تساعدك تحدد احتياجاتك وتقارن العروض وتجهز للتنفيذ.'}</p></div><Link className="la-text-link" href={`/guides?lang=${lang}`}>{en?'All guides':'كل الأدلة'}<ArrowUpRight size={18}/></Link></div><div className="la-guide-grid">{guides.map((g,i)=><article key={g.slug}><span className="la-eyebrow">0{i+1}</span><h3><Link href={`/guides/${g.slug}?lang=${lang}`}>{g[lang].title}</Link></h3><p>{g[lang].summary}</p><Link className="la-text-link" href={`/guides/${g.slug}?lang=${lang}`}>{en?'Read the guide':'اقرأ الدليل'}<ArrowUpRight size={18}/></Link></article>)}</div></section>;}
