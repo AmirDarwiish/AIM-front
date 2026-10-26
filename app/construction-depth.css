@@ -169,3 +169,30 @@
 @media(prefers-reduced-motion:reduce){
  .la-site :is(.la-project-card,.la-story-card,.la-values-grid article){transition:none;transform:none!important}
 }
+
+/* Quiet architectural engraving, confined to each card rather than a full border. */
+.la-site :is(.la-project-card,.la-service-grid article,.la-services-catalogue article,.la-story-card,.la-values-grid article,.la-service-detail aside,.la-gallery>figure,.la-contact-panel){
+ position:relative;isolation:isolate;
+}
+.la-site :is(.la-project-card,.la-service-grid article,.la-services-catalogue article,.la-story-card,.la-values-grid article,.la-service-detail aside,.la-gallery>figure,.la-contact-panel)::after{
+ content:"";position:absolute;inset-inline-end:12px;bottom:10px;width:88px;height:72px;
+ z-index:-1;pointer-events:none;opacity:.25;
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 88 72' fill='none'%3E%3Cg stroke='%23947750' stroke-width='.8' stroke-linejoin='round'%3E%3Cpath d='M19 45 47 29 75 45 47 61Z M19 45V29L47 13 75 29V45 M19 29 47 45 75 29 M47 45V61 M47 13V29'/%3E%3Cpath d='M7 52 47 75 87 52 M31 6 47-3 63 6' opacity='.35'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;
+}
+.la-site[dir=rtl] :is(.la-project-card,.la-service-grid article,.la-services-catalogue article,.la-story-card,.la-values-grid article,.la-service-detail aside,.la-gallery>figure,.la-contact-panel)::after{transform:scaleX(-1)}
+.la-site :is(.la-project-card,.la-service-grid article,.la-services-catalogue article,.la-story-card,.la-values-grid article,.la-service-detail aside,.la-gallery>figure,.la-contact-panel)::before{
+ content:"";position:absolute;inset-inline-start:24px;bottom:10px;width:36px;height:1px;
+ pointer-events:none;background:linear-gradient(90deg,#a78b61a6,#a78b6110);z-index:1;
+}
+.la-site .la-service-model{background:radial-gradient(ellipse at 50% 65%,#fdfbf4,#e7ece2)}
+.la-site .la-service-model::before{
+ content:"";position:absolute;inset:14px;pointer-events:none;opacity:.34;
+ background:linear-gradient(#a78b6160,#a78b6160) left top/24px 1px no-repeat,
+ linear-gradient(#a78b6160,#a78b6160) left top/1px 24px no-repeat,
+ linear-gradient(#a78b6160,#a78b6160) right bottom/24px 1px no-repeat,
+ linear-gradient(#a78b6160,#a78b6160) right bottom/1px 24px no-repeat;
+}
+@media(max-width:760px){
+ .la-site :is(.la-project-card,.la-service-grid article,.la-services-catalogue article,.la-story-card,.la-values-grid article,.la-service-detail aside,.la-gallery>figure,.la-contact-panel)::after{width:64px;height:52px;opacity:.2;inset-inline-end:10px;bottom:8px}
+ .la-site :is(.la-project-card,.la-service-grid article,.la-services-catalogue article,.la-story-card,.la-values-grid article,.la-service-detail aside,.la-gallery>figure,.la-contact-panel)::before{inset-inline-start:20px;width:28px;bottom:8px}
+}
