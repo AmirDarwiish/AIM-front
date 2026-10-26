@@ -263,3 +263,15 @@
 @media (max-width: 360px) {
   .la-site { --la-gutter: 16px; }
 }
+
+/* CMS photography completes the company introduction without replacing the current design. */
+.la-site .la-home-intro.has-image{grid-template-columns:.9fr 1fr;align-items:center;gap:clamp(32px,7vw,100px)}
+.la-site .la-intro-content{display:grid;grid-template-columns:1fr 1fr;gap:var(--la-layout-gap)}
+.la-site .la-home-intro.has-image .la-intro-content{display:block}
+.la-site .la-home-intro.has-image .la-lead{margin-top:28px}
+.la-site .la-intro-image{position:relative;aspect-ratio:4/4.5;padding-bottom:28px;padding-inline-end:26px}
+.la-site .la-intro-image:after{content:'';position:absolute;inset:28px 0 0 28px;border:1px solid #aa8b6238;pointer-events:none}
+.la-site .la-intro-image img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;filter:saturate(.7)}
+.la-site .la-intro-image>span{position:absolute;bottom:0;inset-inline-start:0;font-family:Arial,sans-serif;font-size:10px;letter-spacing:3px;color:var(--la-bronze)}
+.la-site .la-project-summary{font-size:15px;line-height:1.9;color:var(--la-muted);margin-top:12px;max-width:580px}
+@media(max-width:760px){.la-site .la-home-intro.has-image,.la-site .la-intro-content{grid-template-columns:1fr;gap:28px}.la-site .la-intro-image{aspect-ratio:5/4;max-height:420px}.la-site .la-home-intro.has-image .la-lead{margin-top:20px}}
