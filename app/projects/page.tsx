@@ -1,3 +1,4 @@
+import { seo } from '@/lib/seo';
 import { publicData, siteData } from '@/lib/construction-server';
 import Link from 'next/link';
 import { language, imageUrl, type ProjectPage } from '@/lib/construction';
@@ -7,7 +8,8 @@ import Footer from '@/components/construction/footer';
 import Projects from '@/components/construction/projects';
 import PageHero from '@/components/construction/page-hero';
 export const dynamic='force-dynamic';
-export const metadata={title:'المشاريع | LA Construction',description:'استكشف مشاريع LA Construction في الإنشاءات والتشطيبات والتجديد.'};
+export async function generateMetadata({searchParams}:{searchParams:Promise<{lang?:string;page?:string}>}){const q=await searchParams,lang=language(q.lang),page=Math.max(1,Math.min(10000,Number.parseInt(q.page||'1')||1));return seo('/projects',lang,lang==='en'?'Construction & Finishing Projects | LA Construction':'مشاريع البناء والتشطيبات | LA Construction',lang==='en'?'Explore LA Construction projects, photographs, project details and completed work.':'استكشف مشاريع LA Construction في الإنشاءات والتشطيبات والتجديد بالصور وتفاصيل كل مشروع.',undefined,page);}
+
 export default async function ProjectIndex({searchParams}:{searchParams:Promise<{lang?:string;page?:string}>}){
  const search=await searchParams,lang=language(search.lang),en=lang==='en',page=Math.max(1,Math.min(10000,Number.parseInt(search.page||'1')||1));const home=await siteData(lang),content=section(home,'la-projects');let data:ProjectPage|null=null;
  try{data=await publicData<ProjectPage>(`projects?lang=${lang}&page=${page}`)}catch{}

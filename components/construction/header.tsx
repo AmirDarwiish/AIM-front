@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { captureLeadSource } from '@/lib/lead-attribution';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
@@ -15,6 +16,7 @@ export default function Header({ lang, logoUrl }: { lang: Lang; logoUrl?: string
   const pathname = usePathname();
 
   useEffect(() => {
+    captureLeadSource();
     document.documentElement.lang = lang;
     document.documentElement.dir = en ? 'ltr' : 'rtl';
   }, [lang, en]);

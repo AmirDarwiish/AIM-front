@@ -19,7 +19,7 @@ export function linkUrl(value?:string){if(!value)return undefined;if((value.star
 export function localizedLink(value:string|undefined,lang:Lang){
  const safe=linkUrl(value);if(!safe)return undefined;
  const url=new URL(safe,'https://local.invalid');
- const local=safe.startsWith('/')||['aim-front-jade.vercel.app','la-constructions.vercel.app'].includes(url.hostname);
+ const local=safe.startsWith('/')||['aim-front-jade.vercel.app','la-constructions.vercel.app','la-construction.online','www.la-construction.online'].includes(url.hostname);
  if(!local||safe.startsWith('#'))return safe;
  url.searchParams.set('lang',lang);return url.pathname+url.search+url.hash;
 }

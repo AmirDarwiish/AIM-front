@@ -50,6 +50,15 @@ try{
  const detail=await fetch(origin+'/projects/fixture-villa?lang=en');assert.equal(detail.status,200);const html=await detail.text();assert.ok(html.includes('First paragraph.'));assert.ok(html.includes('Second paragraph.'));assert.ok(!html.includes('<script>unsafe</script>'));assert.ok(html.includes('loading="lazy"'));assert.ok(!html.includes('<iframe'));assert.ok(!html.includes('autoplay'));assert.ok(html.includes('og:title'));
  const originalAssets=project.assets;project.assets=[{id:15,kind:'image',url:project.coverUrl}];const singleCoverHtml=await (await fetch(origin+'/projects/fixture-villa?lang=en')).text();assert.ok(singleCoverHtml.includes('la-project-cover'));assert.ok(!singleCoverHtml.includes('la-project-gallery'));project.assets=originalAssets;
  assert.equal((await fetch(origin+'/projects/missing')).status,404);
+
+ const robots=await (await fetch(origin+'/robots.txt')).text();assert.ok(robots.includes('Sitemap: https://la-construction.online/sitemap.xml'));assert.ok(robots.includes('Disallow: /admin'));
+ const sitemap=await (await fetch(origin+'/sitemap.xml')).text();assert.ok(sitemap.includes('https://la-construction.online/services/41'));assert.ok(sitemap.includes('/projects/fixture-villa'));assert.ok(sitemap.includes('hreflang="en"'));assert.ok(sitemap.includes('/guides/finishing-cost-checklist'));
+ assert.ok(home.includes('rel="canonical" href="https://la-construction.online/?lang=en"'));assert.ok(home.includes('application/ld+json'));assert.ok(home.includes('Request a quotation'));
+ const schemas=[...home.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map(x=>JSON.parse(x[1]));assert.ok(schemas.some(x=>x['@graph']?.some(n=>n['@type']==='Service'&&n.name==='Managed construction')));
+ const paged=await (await fetch(origin+'/projects?lang=en&page=2')).text();assert.ok(paged.includes('https://la-construction.online/projects?lang=en&amp;page=2'));
+ for(const lang of ['ar','en'])for(const slug of ['finishing-cost-checklist','renovation-planning','turnkey-project-scope']){const r=await fetch(`${origin}/guides/${slug}?lang=${lang}`);assert.equal(r.status,200);const h=await r.text();assert.ok(h.includes('application/ld+json'));assert.ok(h.includes(`guide=${slug}`));assert.ok(h.includes('rel="canonical"'));}
+ assert.equal((await fetch(origin+'/guides/missing')).status,404);
+ const adminHtml=await (await fetch(origin+'/admin')).text();assert.ok(adminHtml.includes('noindex, nofollow'));
  const inquiry={requestType:2,fullName:'Fixture',phone:'+201000000000',message:'Testing only'};
  assert.equal((await fetch(origin+'/api/contact',{method:'POST',headers:{'Content-Type':'application/json',Origin:'https://attacker.invalid'},body:JSON.stringify(inquiry)})).status,403);
  assert.equal((await fetch(origin+'/api/contact',{method:'POST',headers:{'Content-Type':'application/json',Origin:origin},body:JSON.stringify({...inquiry,requestType:1})})).status,400);

@@ -1,0 +1,18 @@
+.la-guides-section{padding-block:clamp(48px,7vw,96px)}
+.la-guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.la-guide-grid article{display:flex;flex-direction:column;padding:clamp(22px,3vw,36px);border:1px solid #b5a58a55;border-radius:20px;background:linear-gradient(145deg,#fff,#f5f1e9);box-shadow:0 14px 32px #342b1810,inset 0 1px 0 #fff}
+.la-guide-grid h3{font-size:clamp(20px,2vw,27px);line-height:1.6;margin-block:16px}
+.la-guide-grid h3 a{color:inherit;text-decoration:none}
+.la-guide-grid p{line-height:1.9;margin-block:0 24px;color:#5b5b52}
+.la-guide-grid .la-text-link{margin-top:auto}
+.la-guide-body{max-width:860px;padding-block:40px 80px}
+.la-guide-body>section{margin-block:40px}
+.la-guide-body h2{font-size:clamp(24px,3vw,34px);line-height:1.6;margin-bottom:16px}
+.la-guide-body p,.la-guide-body li{font-size:18px;line-height:2;color:#4b4b43}
+.la-guide-checklist{padding:clamp(22px,4vw,40px);background:#f2eee6;border-radius:20px;border:1px solid #b5a58a55}
+.la-guide-checklist ul{padding-inline-start:24px}
+.la-guide-body .la-button{margin-top:16px}
+.la-form-reassurance{font-size:14px;color:#56564d;line-height:1.8;margin-block:12px 20px}
+@media(max-width:760px){.la-guide-grid{grid-template-columns:1fr}.la-guide-body p,.la-guide-body li{font-size:17px}.la-guide-grid h3{font-size:24px}}
+
+.la-hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:20px 28px}.la-hero-quote{color:inherit;display:inline-flex;align-items:center;gap:10px;text-underline-offset:6px;font-weight:600;min-height:44px}.la-hero-quote:focus-visible{outline:2px solid currentColor;outline-offset:5px}
