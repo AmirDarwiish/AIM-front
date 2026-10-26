@@ -59,3 +59,15 @@ node tests/construction-integration.mjs
 ```
 
 The fixtures never contact production or create real leads. They cover CMS-only pages, hidden/empty/error states, section ordering, featured-project requests, comparison range rendering, review/film SSR and lazy players, FAQ, service details/404, inquiry protections, metadata, escaped content, admin sessions and content payload forwarding. Live browser/device interaction and visual QA remain unverified: the supplied cloud browser cannot reach executor localhost and Vercel previews require sign-in. Perform a real device pass after coordinated deployment.
+
+## Content management review and media library
+
+The existing editorial design on main is retained. This update adds CMS imagery to the company introduction and project summaries to portfolio cards.
+
+The dashboard now groups sections by Home, About, Services, Contact and shared footer/CTA, with search and direct activation/homepage visibility controls. Text, bilingual subtitles/descriptions, buttons, image fields and numeric ordering remain editable in each section. Services, FAQ, values and process steps are edited through the section's Items button. Project descriptions, covers, gallery images/videos, featured/publication state and ordering remain in Projects. Logo and contact/social details remain in Settings.
+
+The persistent media library replaces the session-only upload list. It supports image/video filters, name search and pagination, uploads and optional external HTTPS image links. Every media picker can browse existing files visually rather than requiring an ID. Deletion remains protected when a file is referenced.
+
+Backend requirements: GET /api/admin/media with page/pageSize/type/search; POST /api/admin/media/external; Media.ExternalUrl and the showcase seed migration. Publish the backend before deploying this frontend so the new media operations are available. Seeded projects are clearly labelled design studies with reference imagery, not completed company commissions. No live administrator login was used.
+
+Checks: TypeScript, production Next webpack build, dashboard proxy/authorization integration and public CMS/contact/project integration suites. Browser/device visual QA remains to be completed against the deployed version.
