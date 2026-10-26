@@ -1,52 +1,18 @@
 'use client';
-import { useRef, useState } from 'react';
-import { Upload, LoaderCircle, Trash2, Copy, Image as ImageIcon } from 'lucide-react';
-import { adminRequest, write, type MediaRecord } from '@/lib/admin-api';
+import { useRef, useState, type FormEvent } from 'react';
+import { Upload, LoaderCircle, Trash2, Copy, Search, Link as LinkIcon } from 'lucide-react';
+import { adminRequest, write, type MediaRecord, type MediaPage } from '@/lib/admin-api';
 import { safeUrl } from '@/lib/public-api';
-import { ErrorNotice, Empty, Modal } from './shared';
+import { useRemote, Loading, ErrorNotice, Empty, Modal } from './shared';
 import s from './admin.module.css';
-export default function Media() {
-    const [files, setFiles] = useState<MediaRecord[]>([]), [busy, setBusy] = useState(false), [error, setError] = useState(''), [success, setSuccess] = useState(''), [deleting, setDeleting] = useState<MediaRecord | null>(null);
-    const input = useRef<HTMLInputElement>(null);
-    async function upload(file?: File) { if (!file)
-        return; setError(''); setSuccess(''); if (!/\.(png|jpe?g|webp|ico)$/i.test(file.name) || file.size > 3 * 1024 * 1024) {
-        setError('اختر صورة PNG أو JPG أو WEBP أو ICO بحجم لا يتجاوز 3 ميجابايت.');
-        return;
-    } setBusy(true); try {
-        const body = new FormData();
-        body.append('file', file);
-        const data = await adminRequest<MediaRecord>('admin/media', { method: 'POST', body });
-        setFiles(f => [data, ...f]);
-        setSuccess('تم رفع الصورة. يمكنك استخدامها في السلايدر أو أقسام الموقع.');
-    }
-    catch (e) {
-        setError((e as Error).message);
-    }
-    finally {
-        setBusy(false);
-        if (input.current)
-            input.current.value = '';
-    } }
-    async function remove() { if (!deleting)
-        return; setBusy(true); setError(''); try {
-        await write(`admin/media/${deleting.id}`, 'DELETE');
-        setFiles(f => f.filter(x => x.id !== deleting.id));
-        setDeleting(null);
-        setSuccess('تم حذف الصورة من السجل.');
-    }
-    catch (e) {
-        setError((e as Error).message);
-    }
-    finally {
-        setBusy(false);
-    } }
-    async function copy(file: MediaRecord) { try {
-        await navigator.clipboard.writeText(String(file.id));
-        setSuccess(`تم نسخ رقم الصورة #${file.id}.`);
-    }
-    catch {
-        setError('تعذر النسخ التلقائي. يمكنك نسخ رقم الصورة من البطاقة.');
-    } }
-    return <><div className={s.uploadArea}><div className={s.emptyIcon}><Upload size={28}/></div><h3>صور تعكس هوية علامتك</h3><p>ارفع صور الموقع هنا، أو مباشرة داخل نموذج السلايدر والقسم.</p><button className={s.primary} disabled={busy} onClick={() => input.current?.click()}>{busy ? <LoaderCircle size={17} className={s.spin}/> : <Upload size={17}/>} {busy ? 'جاري الرفع…' : 'اختيار صورة'}</button><small>PNG، JPG، WEBP، ICO • حتى 3 MB</small><input ref={input} className={s.hidden} type="file" accept=".png,.jpg,.jpeg,.webp,.ico" onChange={e => upload(e.target.files?.[0])}/></div>{success && <div className={s.success} role="status">{success}</div>}{!deleting && <ErrorNotice message={error}/>}<div className={s.tableHeading}><h3>صور رفعتها في هذه الجلسة</h3><span>{files.length} صور</span></div><p className={s.hint}>الصور تظل محفوظة على السيرفر. عرض جميع الصور السابقة يحتاج إضافة مسار مكتبة الصور في الباك إند.</p>{files.length ? <div className={s.contentGrid}>{files.map(file => <article key={file.id} className={s.contentCard}><div className={s.slideImage}>{safeUrl(file.url) ? <img src={safeUrl(file.url)} alt={`صورة #${file.id}`}/> : <ImageIcon size={30}/>}</div><div className={s.contentBody}><h3>صورة #{file.id}</h3><div className={s.cardActions}><button className={s.secondary} onClick={() => copy(file)}><Copy size={15}/> نسخ الرقم</button><button className={`${s.iconButton} ${s.danger}`} onClick={() => { setError(''); setDeleting(file); }} aria-label={`حذف الصورة ${file.id}`}><Trash2 size={17}/></button></div></div></article>)}</div> : <Empty title="جاهز لأول صورة؟" description="الصور التي ترفعها هنا ستظهر في هذه المساحة."/>}{deleting && <Modal title="حذف الصورة" onClose={() => { if (!busy)
-        setDeleting(null); }}><p>هل تريد حذف الصورة #{deleting.id}؟ السيرفر يمنع حذف الصور المستخدمة في محتوى الموقع.</p><ErrorNotice message={error}/><div className={s.formActions}><button className={s.dangerButton} onClick={remove} disabled={busy}>{busy ? 'جاري الحذف…' : 'تأكيد الحذف'}</button><button className={s.secondary} onClick={() => setDeleting(null)} disabled={busy}>إلغاء</button></div></Modal>}</>;
+export default function Media(){
+ const [page,setPage]=useState(1),[type,setType]=useState(''),[query,setQuery]=useState(''),[search,setSearch]=useState('');
+ const remote=useRemote<MediaPage>(`admin/media?page=${page}&pageSize=24&type=${type}&search=${encodeURIComponent(search)}`,{items:[],totalCount:0,page:1,pageSize:24});
+ const [busy,setBusy]=useState(false),[error,setError]=useState(''),[success,setSuccess]=useState(''),[deleting,setDeleting]=useState<MediaRecord|null>(null),[external,setExternal]=useState(''),[name,setName]=useState('');
+ const input=useRef<HTMLInputElement>(null);
+ async function upload(file?:File){if(!file)return;setError('');setSuccess('');if(!/\.(png|jpe?g|webp|ico|mp4|webm)$/i.test(file.name)||file.size>3*1024*1024){setError('اختر صورة أو فيديو مدعومًا حتى 3 MB.');return}setBusy(true);try{const body=new FormData();body.append('file',file);await adminRequest<MediaRecord>('admin/media',{method:'POST',body});setSuccess('تم رفع الملف إلى المكتبة. يمكنك اختياره داخل أي قسم أو مشروع.');setPage(1);remote.reload()}catch(e){setError((e as Error).message)}finally{setBusy(false);if(input.current)input.current.value=''}}
+ async function addExternal(e:FormEvent){e.preventDefault();setBusy(true);setError('');try{await write('admin/media/external','POST',{url:external,name});setExternal('');setName('');setSuccess('تمت إضافة الصورة إلى المكتبة.');setPage(1);remote.reload()}catch(e){setError((e as Error).message)}finally{setBusy(false)}}
+ async function remove(){if(!deleting)return;setBusy(true);setError('');try{await write(`admin/media/${deleting.id}`,'DELETE');setDeleting(null);setSuccess('تم حذف سجل الملف.');remote.reload()}catch(e){setError((e as Error).message)}finally{setBusy(false)}}
+ async function copy(file:MediaRecord){try{await navigator.clipboard.writeText(file.url);setSuccess('تم نسخ رابط الملف.')}catch{setError('تعذر النسخ التلقائي.')}}
+ return <><div className={s.uploadArea}><h3>مكتبة الصور والفيديوهات</h3><p>كل الملفات المحفوظة، مع إمكانية إعادة استخدامها في أقسام الموقع والمشاريع.</p><button className={s.primary} disabled={busy} onClick={()=>input.current?.click()}>{busy?<LoaderCircle className={s.spin} size={17}/>:<Upload size={17}/>} رفع صورة أو فيديو</button><small>PNG، JPG، WEBP، ICO، MP4، WEBM • حتى 3 MB</small><input className={s.hidden} ref={input} type="file" accept=".png,.jpg,.jpeg,.webp,.ico,.mp4,.webm" onChange={e=>upload(e.target.files?.[0])}/></div><details className={s.existingMedia}><summary>إضافة صورة برابط خارجي</summary><form onSubmit={addExternal} className={s.formGrid}><label>اسم الصورة<input maxLength={200} value={name} onChange={e=>setName(e.target.value)}/></label><label>رابط HTTPS مباشر للصورة<input required type="url" dir="ltr" maxLength={2048} value={external} onChange={e=>setExternal(e.target.value)}/></label><button className={s.secondary} disabled={busy}><LinkIcon size={16}/> إضافة للمكتبة</button></form></details>{success&&<p className={s.success} role="status">{success}</p>}<ErrorNotice message={error||remote.error} retry={remote.error?remote.reload:undefined}/><form className={s.panelToolbar} onSubmit={e=>{e.preventDefault();setPage(1);setSearch(query)}}><label className={s.librarySearch}>بحث باسم الملف<input value={query} onChange={e=>setQuery(e.target.value)} placeholder="اسم الصورة أو الفيديو"/></label><label>نوع الملف<select value={type} onChange={e=>{setType(e.target.value);setPage(1)}}><option value="">الكل</option><option value="image">صور</option><option value="video">فيديوهات</option></select></label><button className={s.secondary}><Search size={16}/> بحث</button></form><div className={s.tableHeading}><h3>الملفات المحفوظة</h3><span>{remote.data.totalCount} ملف</span></div>{remote.loading?<Loading/>:remote.data.items.length?<div className={s.contentGrid}>{remote.data.items.map(file=><article key={file.id} className={s.contentCard}><div className={s.slideImage}>{safeUrl(file.url)&&(file.contentType?.startsWith('video/')?<video src={safeUrl(file.url)} controls playsInline preload="none"/>:<img src={safeUrl(file.url)} alt={file.originalFileName||`صورة ${file.id}`} loading="lazy"/>)}</div><div className={s.contentBody}><h3>{file.originalFileName||`ملف ${file.id}`}</h3><small>#{file.id}</small><div className={s.cardActions}><button className={s.secondary} onClick={()=>copy(file)}><Copy size={15}/> نسخ الرابط</button><button className={`${s.iconButton} ${s.danger}`} onClick={()=>{setError('');setDeleting(file)}} aria-label={`حذف الملف ${file.id}`}><Trash2 size={17}/></button></div></div></article>)}</div>:!remote.error&&<Empty title="لا توجد ملفات مطابقة" description="ارفع ملفًا جديدًا أو جرّب بحثًا آخر."/>}<div className={s.formActions}><button className={s.secondary} disabled={remote.loading||page<=1} onClick={()=>setPage(p=>p-1)}>السابق</button><span>{page} / {Math.max(1,Math.ceil(remote.data.totalCount/24))}</span><button className={s.secondary} disabled={remote.loading||page*24>=remote.data.totalCount} onClick={()=>setPage(p=>p+1)}>التالي</button></div>{deleting&&<Modal title="حذف الملف" onClose={()=>{if(!busy)setDeleting(null)}}><p>حذف سجل الملف #{deleting.id}؟ الملفات المرتبطة بالمحتوى محمية من الحذف.</p><ErrorNotice message={error}/><div className={s.formActions}><button className={s.dangerButton} disabled={busy} onClick={remove}>تأكيد الحذف</button><button className={s.secondary} disabled={busy} onClick={()=>setDeleting(null)}>إلغاء</button></div></Modal>}</>;
 }
