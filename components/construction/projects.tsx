@@ -48,6 +48,7 @@ export default function Projects({
               <span>{project.year}</span>
             </div>
             <h3>{project.title}</h3>
+            {project.summary && <p className="la-project-summary">{project.summary}</p>}
             {project.location && <p>{project.location}</p>}
           </Link>
         );
