@@ -1,9 +1,10 @@
 /* LA Construction: one restrained layout layer, without decorative spacer sections. */
 .la-site {
   --la-ink:#1b1d1a;
-  --la-paper:#f4f1e9;
+  --la-paper:#fafaf7;
   --la-bronze:#aa8b62;
-  --la-muted:#666a62;
+  --la-muted:#60645e;
+  --la-line:#20251f14;
   --la-gutter:clamp(20px,4.2vw,64px);
   --la-section-space:clamp(28px,3vw,40px);
   --la-layout-gap:clamp(24px,4vw,56px);
@@ -14,7 +15,7 @@
 .la-site h2{font-size:clamp(28px,3.2vw,44px);line-height:1.4}
 .la-site .la-eyebrow{color:var(--la-bronze);font-size:11px;font-weight:600;letter-spacing:.1em}
 .la-site[lang=ar] .la-eyebrow{letter-spacing:0}
-.la-site .la-header{position:sticky;top:0;min-height:84px;padding-inline:var(--la-gutter);background:#f4f1e9fa;border-bottom:1px solid var(--la-line);backdrop-filter:blur(12px)}
+.la-site .la-header{position:sticky;top:0;min-height:84px;padding-inline:var(--la-gutter);background:#fafaf7f5;border-bottom:0;backdrop-filter:blur(12px)}
 .la-site .la-header.is-scrolled{min-height:72px}
 .la-site .la-brand>span{font-size:12px;letter-spacing:.17em}
 .la-site .la-nav{gap:clamp(16px,2vw,28px)}
@@ -62,7 +63,10 @@
 .la-site .la-project-meta{margin-top:16px;font-size:12px}
 .la-site .la-project-card h3{font-size:clamp(22px,2vw,28px);line-height:1.5;margin-top:6px}
 .la-site .la-project-summary{font-size:14px;line-height:1.85;color:var(--la-muted);margin-top:8px;max-width:580px}
-.la-site .la-services-band{background:#e7e2d8}
+.la-site .la-services-band{background:#f1f3ef}
+.la-site .la-service-grid{border:0;gap:32px}
+.la-site .la-service-grid article:nth-child(n){border:0;padding-inline:0}
+.la-site .la-service-thumb{border-radius:4px}
 .la-site .la-service-grid article{display:flex;flex-direction:column;padding-block:24px}
 .la-site .la-service-thumb{display:block;aspect-ratio:4/3;overflow:hidden;background:#d0cabc;margin-bottom:18px}
 .la-site .la-service-thumb img,.la-site .la-service-cover img{width:100%;height:100%;object-fit:cover}
@@ -72,19 +76,30 @@
 .la-site .la-services-catalogue article{padding-block:12px 28px}
 .la-site .la-services-catalogue .la-service-cover{aspect-ratio:4/3}
 .la-site .la-services-catalogue h3{font-size:clamp(26px,3vw,38px)}
-.la-site .la-page-hero{padding-block:20px 32px;background:#e8e3d9}
+.la-site .la-page-hero{padding-block:20px 32px;background:#f1f3ef;border:0}
 .la-site .la-breadcrumb{font-size:12px}
 .la-site .la-page-heading{margin-top:22px;display:block}
 .la-site .la-page-heading h1{font-size:clamp(34px,4.5vw,60px);line-height:1.35;max-width:980px}
 .la-site .la-page-heading .la-lead{font-size:17px;line-height:1.85;margin-top:14px;max-width:720px}
 .la-site .la-company-photo{aspect-ratio:5/4;overflow:hidden}
-.la-site .la-values-band{padding-block:var(--la-section-space);background:#e5dfd4}
+.la-site .la-values-band{padding-block:var(--la-section-space);background:#f1f3ef}
 .la-site .la-values-grid article{padding-top:18px}
-.la-site .la-contact-panel{padding:clamp(24px,3vw,40px);background:#fdfbf6}
-.la-site .la-contact-panel>h2{font-size:clamp(26px,3vw,36px);margin-bottom:24px}
-.la-site .la-contact-form :where(input,textarea,select){padding-inline:10px!important;background:#fffdf8;border-bottom-color:#77766e}
-.la-site .la-contact-form textarea{padding:12px 10px!important}
-.la-site .la-contact-form :where(input,textarea,select):focus{border-bottom-color:var(--la-bronze)}
+/* Open inquiry layout: clear fields, without a surrounding card. */
+.la-site .la-contact-page{grid-template-columns:minmax(230px,.75fr) minmax(0,1.6fr);gap:clamp(32px,6vw,88px);padding-block:40px 48px}
+.la-site .la-contact-panel{padding:0;background:transparent;border:0;min-width:0}
+.la-site .la-contact-panel>h2{font-size:clamp(26px,3vw,36px);margin-bottom:12px}
+.la-site .la-contact-panel>.la-contact-form{margin-top:24px}
+.la-site .la-contact-form .la-fields{gap:22px 20px}
+.la-site .la-contact-form label{font-size:15px;line-height:1.7;font-weight:500}
+.la-site .la-contact-form :where(input,textarea,select){padding:14px 16px!important;margin-top:9px;background:#fff;border:1px solid #d8ddd5;border-radius:6px;box-shadow:none;transition:border-color .18s,box-shadow .18s}
+.la-site .la-contact-form :where(input,select){min-height:56px}
+.la-site .la-contact-form textarea{min-height:150px}
+.la-site .la-contact-form :where(input,textarea)::placeholder{color:#7a8078;opacity:1}
+.la-site .la-contact-form :where(input,textarea,select):hover{border-color:#969f91}
+.la-site .la-contact-form :where(input,textarea,select):focus{outline:2px solid #8b704b;outline-offset:2px;border-color:#8b704b;box-shadow:0 0 0 4px #aa8b6210}
+.la-site .la-contact-form :where(input,textarea,select):disabled{opacity:.65;cursor:not-allowed}
+.la-site .la-contact-form .la-form-hint{font-size:13px;line-height:1.8;margin-top:10px}
+.la-site .la-contact-form .la-button{min-height:56px;border-radius:4px;margin-top:24px;min-width:210px}
 .la-site .la-contact-guide{padding-top:0}
 .la-site .la-contact-guide h2{font-size:28px}
 .la-site .la-contact-guide ol{margin:20px 0 0;padding-inline-start:26px;display:grid;gap:20px;list-style:decimal-leading-zero}
@@ -92,10 +107,13 @@
 .la-site .la-contact-guide h3{font-size:20px;line-height:1.6;color:var(--la-ink);margin-bottom:6px}
 .la-site .la-contact-guide p{font-size:15px;line-height:1.85;color:var(--la-muted)}
 .la-site .la-contact-centered{grid-template-columns:minmax(0,880px);justify-content:center}
-.la-site .la-corporate-cta{padding-block:36px;background:#1b1d1a}
+.la-site .la-corporate-cta{padding-block:40px;background:#eef1eb;color:var(--la-ink)}
+.la-site .la-corporate-cta .la-eyebrow{color:#806543}
+.la-site .la-corporate-cta .la-button{background:var(--la-ink);color:#fff;border:0;border-radius:4px;min-height:56px}
+.la-site .la-corporate-cta .la-button:hover{background:#3c4438}
 .la-site .la-corporate-cta h2{font-size:clamp(30px,3.4vw,46px);line-height:1.4;max-width:800px}
-.la-site .la-corporate-cta p{font-size:16px}
-.la-site .la-corporate-footer{padding-top:36px;background:#20231e;color:#eee9de}
+.la-site .la-corporate-cta p{font-size:16px;color:var(--la-muted)}
+.la-site .la-corporate-footer{padding-top:40px;border:0;background:#191e1a;color:#eee9de}
 .la-site .la-corporate-footer .la-brand img{filter:brightness(0) invert(1)}
 .la-site .la-corporate-footer .la-brand{color:#f0eade}
 .la-site .la-footer-columns{grid-template-columns:1.5fr 1fr;padding-bottom:28px;gap:28px}
@@ -146,10 +164,14 @@
  .la-site .la-page-heading{margin-top:18px}
  .la-site .la-page-heading h1{font-size:clamp(30px,8vw,40px);line-height:1.4}
  .la-site .la-page-heading .la-lead{font-size:16px;margin-top:12px}
- .la-site .la-contact-panel{padding:22px 20px}
+ .la-site .la-contact-panel{padding:0}
  .la-site .la-contact-panel>h2{font-size:26px;margin-bottom:22px}
  .la-site .la-contact-guide h2{font-size:26px}
- .la-site .la-contact-page{gap:28px}
+ .la-site .la-contact-page{grid-template-columns:1fr;gap:28px;padding-block:28px 36px}
+ .la-site .la-contact-page .la-contact-panel{order:-1}
+ .la-site .la-contact-form .la-fields{grid-template-columns:1fr;gap:18px}
+ .la-site .la-contact-guide ol{gap:16px}
+ .la-site .la-contact-form .la-button{width:100%}
  .la-site .la-corporate-cta{padding-block:28px}
  .la-site .la-corporate-cta h2{font-size:29px}
  .la-site .la-corporate-footer{padding-top:28px}

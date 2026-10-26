@@ -15,5 +15,11 @@ export function videoSource(value?:string):{type:'file'|'embed';url:string}|null
 
 export function linkUrl(value?:string){if(!value)return undefined;if((value.startsWith('/')&&!value.startsWith('//')&&!value.includes('\\'))||value.startsWith('#'))return value;try{const url=new URL(value);return ['https:','http:'].includes(url.protocol)?url.href:undefined;}catch{return undefined;}}
 
-/** Keep the selected language when following a CMS link to a local page. */
-export function localizedLink(value:string|undefined,lang:Lang){const safe=linkUrl(value);if(!safe)return undefined;if(!safe.startsWith('/')||safe.startsWith('//'))return safe;const url=new URL(safe,'https://local.invalid');url.searchParams.set('lang',lang);return url.pathname+url.search+url.hash;}
+/** Keep CMS navigation on this site and preserve the selected language. */
+export function localizedLink(value:string|undefined,lang:Lang){
+ const safe=linkUrl(value);if(!safe)return undefined;
+ const url=new URL(safe,'https://local.invalid');
+ const local=safe.startsWith('/')||['aim-front-jade.vercel.app','la-constructions.vercel.app'].includes(url.hostname);
+ if(!local||safe.startsWith('#'))return safe;
+ url.searchParams.set('lang',lang);return url.pathname+url.search+url.hash;
+}
