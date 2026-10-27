@@ -71,8 +71,6 @@ export async function adminRequest<T>(path: string, options: RequestInit = {}): 
         const fields = data?.errors ? Object.values(data.errors).flat().join(' • ') : '';
         const message = res.status === 403 ? 'ليس لديك صلاحية لهذا الإجراء. راجع صلاحيات حسابك مع المسؤول.' : res.status === 401 ? (data?.error || 'انتهت الجلسة. سجّل الدخول مرة أخرى.') : fields || data?.error || data?.detail || (data as {title?:string})?.title || (res.status >= 500 ? 'حدث خطأ بالسيرفر. حاول مرة أخرى.' : 'تعذر تنفيذ الطلب.');
         const translations:Record<string,string>={
-            'Category is referenced by existing leads. Deactivate instead.':'هذا النشاط مرتبط بطلبات موجودة. يمكنك إخفاؤه بدلًا من حذفه.',
-            'City is referenced by existing leads. Deactivate instead.':'هذه المدينة مرتبطة بطلبات موجودة. يمكنك إخفاؤها بدلًا من حذفها.',
             'Media is referenced by content and cannot be deleted. Deactivate or remove references first.':'الصورة مستخدمة في محتوى الموقع. أزل ارتباطها بالمحتوى قبل الحذف.'
         };
         throw new AdminError(res.status, translations[String(message)] || String(message));
@@ -83,6 +81,6 @@ export const write = <T>(path: string, method: string, data?: unknown) => adminR
 export const statuses = [{ value: 1, key: 'New', label: 'جديد' }, { value: 2, key: 'Contacted', label: 'تم التواصل' }, { value: 3, key: 'InProgress', label: 'قيد المتابعة' }, { value: 4, key: 'Closed', label: 'مغلق' }];
 export function statusValue(value: number | string) { return statuses.find(s => s.value === Number(value) || s.key === value)?.value || 1; }
 export function statusLabel(value: number | string) { return statuses.find(s => s.value === Number(value) || s.key === value)?.label || String(value); }
-export function requestLabel(value: number | string) { return value === 1 || value === 'BusinessJoin' ? 'انضمام نشاط' : 'استفسار عام'; }
+export function requestLabel(_value: number | string) { return 'استفسار مشروع'; }
 export function dateLabel(value?: string) { if (!value)
     return '—'; const date = new Date(/(Z|[+-]\d{2}:?\d{2})$/i.test(value) ? value : `${value}Z`); return Number.isNaN(date.getTime()) ? '—' : date.toLocaleString('ar-EG', { dateStyle: 'medium', timeStyle: 'short' }); }
