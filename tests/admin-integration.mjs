@@ -31,6 +31,8 @@ let cookie='';
 const call=(path,method='GET',body,extra={})=>fetch(`${origin}${path}`,{signal:AbortSignal.timeout(5000),method,headers:{...(method==='GET'?{}:{Origin:origin}),...(cookie?{Cookie:cookie}:{}),...(body&&! (body instanceof FormData)?{'Content-Type':'application/json'}:{}),...extra},body:body instanceof FormData?body:body?JSON.stringify(body):undefined});
 try{
  let ready=false;for(let i=0;i<20;i++){try{const r=await fetch(`${origin}/admin`,{signal:AbortSignal.timeout(1000)});if(r.ok){ready=true;break}}catch{}await new Promise(r=>setTimeout(r,200))}assert.ok(ready,serverLogs);console.log('Dashboard server ready.');
+ for(const route of ['/admin/projects','/admin/projects/new','/admin/projects/1/edit','/admin/projects/1','/admin/services/new','/admin/sections/11/items/1/edit','/admin/leads/1','/admin/media/new','/admin/media/42','/admin/settings']){const r=await fetch(origin+route);assert.equal(r.status,200,route);assert.ok((await r.text()).includes('noindex, nofollow'));}
+ for(const route of ['/admin/unknown','/admin/projects/0','/admin/leads/new','/admin/media/1/edit'])assert.equal((await fetch(origin+route)).status,404,route);
  assert.equal((await call('/api/admin-proxy/admin/leads')).status,401);
  assert.equal((await call('/api/admin-session','POST',{email:'admin@test.invalid',password:'fixture'},{Origin:'https://untrusted.invalid'})).status,403);
  assert.equal((await call('/api/admin-session','POST',{email:'admin@test.invalid',password:'wrong'})).status,401);

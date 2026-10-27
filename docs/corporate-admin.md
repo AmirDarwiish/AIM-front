@@ -24,3 +24,14 @@ The administration workspace now follows the construction company identity and w
 - Responsive styles are included; a mobile viewport was not available in the current browser interface, so mobile visual QA remains unverified.
 
 No API contract or database migration is required. Authentication identifiers and existing login credentials remain compatible with the backend. Company contact details still need genuine business values; the interface makes those gaps visible rather than inventing them.
+
+
+## Full-page records and table workflows
+
+Administration now uses real App Router paths instead of hash-only state: collection pages, `/new`, `/{id}/edit` and `/{id}`. Section item routes are nested under `/admin/sections/{sectionId}/items`. Legacy navigation hashes redirect into the equivalent collection path. Invalid IDs and unsupported operations return 404.
+
+Projects, sections, content items, sliders and media use data tables. Content/project tables include visibility switches, per-request disabled state, success/error feedback and client pagination. Project visibility updates first read the full record and preserve its gallery. Content visibility updates refresh the record collection before writing to preserve its current fields. Failed writes keep the prior displayed state. Media has no visibility operation in the current backend contract, so no nonfunctional switch is shown for files.
+
+Create/edit/detail screens are full pages with breadcrumbs and a return action. Saving navigates back to the collection using replace navigation so the completed form is not reopened by Back. Media uploads now use a dedicated creation page with explicit save. Only destructive confirmation dialogs remain modal.
+
+Validation added: strict route parsing tests and HTTP checks for direct/deep routes, invalid IDs and inherited admin noindex. Isolated browser QA verified direct edit refresh, edit/save return, bilingual service draft creation, successful project/service visibility changes, failed service visibility keeping its previous state, retained project gallery, project/media/inquiry detail pages and the dedicated media creation page. Production data was not modified by these tests. Responsive styles are present; mobile viewport visual verification remains unavailable in the current browser API.
