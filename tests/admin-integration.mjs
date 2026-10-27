@@ -1,4 +1,5 @@
 // Run after `next build --webpack`. Uses an isolated fixture API; never contacts production.
+import './admin-project.test.mjs';
 import {createServer} from 'node:http';
 import {spawn} from 'node:child_process';
 import assert from 'node:assert/strict';

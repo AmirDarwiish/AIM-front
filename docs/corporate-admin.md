@@ -35,3 +35,14 @@ Projects, sections, content items, sliders and media use data tables. Content/pr
 Create/edit/detail screens are full pages with breadcrumbs and a return action. Saving navigates back to the collection using replace navigation so the completed form is not reopened by Back. Media uploads now use a dedicated creation page with explicit save. Only destructive confirmation dialogs remain modal.
 
 Validation added: strict route parsing tests and HTTP checks for direct/deep routes, invalid IDs and inherited admin noindex. Isolated browser QA verified direct edit refresh, edit/save return, bilingual service draft creation, successful project/service visibility changes, failed service visibility keeping its previous state, retained project gallery, project/media/inquiry detail pages and the dedicated media creation page. Production data was not modified by these tests. Responsive styles are present; mobile viewport visual verification remains unavailable in the current browser API.
+
+
+## Project review and adaptive workspace fix
+
+The project editor now normalizes nullable API strings and gallery captions before validation or review. This prevents optional null text from reaching string methods in the publication step. Required publishing data (Arabic title, valid slug, cover, Arabic description) is distinct from optional translation/location fields.
+
+The final editor step contains the selected cover and current text next to publication/featured switches. Media selection/upload returns resolved metadata to the editor so newly selected covers appear in the preview before saving. Missing requirements link back to the relevant editor step. Draft saving remains available, and step changes scroll the editor into view.
+
+Sidebar rules were consolidated rather than layered over conflicting historical definitions. The workspace owns content scrolling, all normal-height sidebar actions fit, and the sidebar retains wheel/touch/keyboard scrolling on very short screens while hiding its rail. Mobile off-canvas navigation is inert while closed and the background is inert while the menu is open.
+
+Regression coverage: nullable draft normalization, required/optional readiness and correction targets. Isolated browser checks exercised existing nullable drafts, empty English preview, a complete create → cover selection → preview → publish → table flow, and missing-cover correction. Responsive review used 390×844 and 1100×620 iframe viewports; the mobile document width remained 390px and the short desktop sidebar fit within 620px without an overflowing nav. Fixtures were removed before the final build.

@@ -1,0 +1,14 @@
+import {readFileSync} from 'node:fs';
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import ts from 'typescript';
+const context={exports:{}};
+vm.runInNewContext(ts.transpileModule(readFileSync('lib/admin-project.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText,context);
+const {normalizeProject,newProject,publicationChecks}=context.exports;
+const nullable={id:7,titleAr:'مشروع',slug:'project',titleEn:null,descriptionAr:'وصف المشروع',descriptionEn:null,summaryAr:null,summaryEn:null,locationAr:null,locationEn:null,categoryAr:null,categoryEn:null,coverMediaId:8,assets:[{kind:'image',mediaId:12,captionAr:null,captionEn:null,sortOrder:4}]};
+const project=normalizeProject(nullable);assert.doesNotThrow(()=>publicationChecks(project));assert.equal(project.titleEn,'');assert.equal(project.descriptionEn,'');assert.equal(project.assets[0].captionAr,'');assert.equal(project.assets[0].sortOrder,4);
+const checks=publicationChecks(project);assert.ok(checks.filter(c=>c.required).every(c=>c.done),'optional English/location must not block an otherwise complete Arabic project');assert.ok(checks.filter(c=>!c.required).some(c=>!c.done));
+for(const input of [null,undefined,{}, {assets:null}, {assets:[null,7,'bad']}, {titleAr:null,slug:null,year:null,sortOrder:null}])assert.doesNotThrow(()=>publicationChecks(normalizeProject(input)));
+assert.equal(newProject().isPublished,false);assert.equal(newProject().year,null);assert.equal(normalizeProject({year:2026.5}).year,2026.5,'invalid year must remain visible to validation, not silently disappear');
+const missing=publicationChecks(newProject()).filter(c=>c.required&&!c.done);assert.equal(missing.length,4);assert.equal(missing.find(c=>c.key==='cover').step,'media');assert.equal(missing.find(c=>c.key==='title').step,'copy');
+console.log('PASS: nullable draft normalization, safe review checks, required vs optional publication data and correction step targets.');
