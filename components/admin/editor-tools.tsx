@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import { Check, Circle, ArrowRight, LoaderCircle } from 'lucide-react';
+import { Check, Circle, ArrowRight, ChevronRight, ChevronLeft, LoaderCircle } from 'lucide-react';
 import s from './admin.module.css';
 export function useUnsavedChanges(dirty:boolean){
  useEffect(()=>{window.dispatchEvent(new CustomEvent('la-admin-dirty',{detail:dirty}));const warn=(event:BeforeUnloadEvent)=>{if(dirty){event.preventDefault();event.returnValue='';}};window.addEventListener('beforeunload',warn);return()=>{window.removeEventListener('beforeunload',warn);window.dispatchEvent(new CustomEvent('la-admin-dirty',{detail:false}));};},[dirty]);
@@ -18,4 +18,7 @@ export function EditorPage({title,children,onClose,dirty=false,busy=false}:{titl
 }
 export function VisibilityToggle({checked,onChange,disabled=false,busy=false,label}:{checked:boolean;onChange:()=>void;disabled?:boolean;busy?:boolean;label:string}){return <button type="button" role="switch" aria-checked={checked} aria-label={label} aria-busy={busy} disabled={disabled||busy} className={s.visibilityToggle} onClick={onChange}><span className={s.toggleTrack}><span className={s.toggleThumb}>{busy&&<LoaderCircle size={11} className={s.spin}/>}</span></span><span>{checked?'ظاهر':'مخفي'}</span></button>;}
 
-export function TablePagination({page,pages,total,onChange}:{page:number;pages:number;total:number;onChange:(page:number)=>void}){return <nav className={s.pagination} aria-label="صفحات الجدول"><span>{total} نتيجة · الصفحة {page} من {pages}</span><div><button type="button" className={s.secondary} disabled={page<=1} onClick={()=>onChange(page-1)}>السابق</button><button type="button" className={s.secondary} disabled={page>=pages} onClick={()=>onChange(page+1)}>التالي</button></div></nav>;}
+export function TablePagination({page,pages,total,onChange,disabled=false}:{page:number;pages:number;total:number;onChange:(page:number)=>void;disabled?:boolean}){
+ const visible=Array.from(new Set([1,page-1,page,page+1,pages])).filter(n=>n>=1&&n<=pages).sort((a,b)=>a-b);
+ return <nav className={s.pagination} aria-label="صفحات الجدول"><span>{total.toLocaleString('ar-EG')} نتيجة · الصفحة {page} من {pages}</span><div><button type="button" className={s.secondary} disabled={disabled||page<=1} onClick={()=>onChange(page-1)}><ChevronRight size={14}/>السابق</button>{visible.map((n,i)=><span key={n}>{i>0&&n-visible[i-1]>1&&<span className={s.pageEllipsis}>…</span>}<button type="button" className={s.pageNumber} aria-label={`الصفحة ${n}`} aria-current={n===page?'page':undefined} disabled={disabled} onClick={()=>onChange(n)}>{n}</button></span>)}<button type="button" className={s.secondary} disabled={disabled||page>=pages} onClick={()=>onChange(page+1)}>التالي<ChevronLeft size={14}/></button></div></nav>;
+}

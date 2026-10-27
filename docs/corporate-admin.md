@@ -46,3 +46,9 @@ The final editor step contains the selected cover and current text next to publi
 Sidebar rules were consolidated rather than layered over conflicting historical definitions. The workspace owns content scrolling, all normal-height sidebar actions fit, and the sidebar retains wheel/touch/keyboard scrolling on very short screens while hiding its rail. Mobile off-canvas navigation is inert while closed and the background is inert while the menu is open.
 
 Regression coverage: nullable draft normalization, required/optional readiness and correction targets. Isolated browser checks exercised existing nullable drafts, empty English preview, a complete create → cover selection → preview → publish → table flow, and missing-cover correction. Responsive review used 390×844 and 1100×620 iframe viewports; the mobile document width remained 390px and the short desktop sidebar fit within 620px without an overflowing nav. Fixtures were removed before the final build.
+
+## Consistent data tables and filters
+
+All admin selects (including editor fields) now share an RTL Radix Select control with keyboard navigation, a checked selection indicator, disabled choices and collision-aware portalled menus. Filters use one surface with search affordances, a result count and a reset action. Table typography, alternating rows, hover/focus states, media thumbnails, visibility switches and row actions share the dashboard palette. All collections use the same numbered pagination.
+
+Isolated browser QA covered project draft filtering (38 to 13 results), resetting filters, selecting page 3, selecting a content page from mapped options, keyboard End/Enter selection and the inquiry filter/table layout. A 390px mobile iframe retained a 390px document width with horizontal scrolling confined to the table. Temporary data and preview routes were removed before the production build; no production records were modified.
