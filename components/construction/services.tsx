@@ -24,7 +24,7 @@ export default function Services({
         const image = imageUrl(item.imageUrl);
         return (
           <article key={item.id} onPointerMove={moveSpatialSurface} onPointerLeave={resetSpatialSurface}>
-            {!expanded?<Link className="la-service-model" href={href} aria-label={item.title}><ArchitectureScene kind={(['structure','interior','terraces'] as SceneKind[])[index%3]}/></Link>:image && (
+            {!expanded?<Link className="la-service-model" href={href} aria-label={item.title}>{image?<img src={image} alt={item.title} width="1000" height="750" loading="lazy" decoding="async"/>:<ArchitectureScene kind={(['structure','interior','terraces'] as SceneKind[])[index%3]}/>}</Link>:image && (
               <Link
                 className={expanded ? 'la-service-cover' : 'la-service-thumb'}
                 href={href}

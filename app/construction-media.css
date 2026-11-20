@@ -1,0 +1,72 @@
+/* Photography and reading settings shared by the public website. */
+.la-site{
+ --la-photo-surface:#e9ece5;
+ --la-photo-gap:clamp(14px,2vw,24px);
+ --la-viewer-control:48px;
+}
+/* Let the browser shape Arabic; avoid literal tatweel or letter spacing in stored copy. */
+.la-site[lang=ar] :is(.la-prose p,.la-lead,.la-section-description,.la-project-summary,.la-service-copy p,.la-values-grid p,.la-faq-list details p,.la-contact-guide p,.la-contact-panel>p,.la-corporate-cta p,.la-footer-identity>p){
+ text-align:justify;text-align-last:start;text-justify:auto;
+ letter-spacing:normal;word-spacing:normal;line-height:1.95;hyphens:none;
+}
+.la-site[lang=en] :is(.la-prose p,.la-lead,.la-section-description,.la-project-summary,.la-service-copy p){text-align:start;text-align-last:start;line-height:1.85}
+.la-site .la-prose{max-width:76ch}
+/* Consistent frames keep both portrait and landscape site photographs visible. */
+.la-site .la-gallery{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--la-photo-gap);align-items:start}
+.la-site .la-gallery>figure:nth-child(n){grid-column:auto;margin:0}
+.la-site .la-gallery .la-gallery-image{aspect-ratio:4/3;background:var(--la-photo-surface)}
+.la-site .la-gallery .la-gallery-image img{object-fit:contain;object-position:center;transition:filter .2s ease}
+.la-site .la-gallery .la-gallery-image:hover img{filter:brightness(.96)}
+.la-site .la-gallery[data-count='1'] .la-gallery-image{aspect-ratio:4/3;max-height:560px}
+.la-site .la-gallery-image{cursor:zoom-in;min-width:0;border:0}
+.la-site .la-gallery-image:focus-visible{outline:3px solid var(--la-bronze);outline-offset:3px}
+.la-site .la-gallery-image>svg{pointer-events:none}
+.la-site .la-project-cover{height:auto;aspect-ratio:auto;transform:none;background:var(--la-photo-surface)}
+.la-site .la-cover-gallery,.la-site .la-cover-gallery>figure{height:auto;margin:0}
+.la-site .la-cover-gallery .la-gallery-image{height:clamp(280px,62vh,680px);aspect-ratio:auto;background:var(--la-photo-surface)}
+.la-site .la-cover-gallery .la-gallery-image img{object-fit:contain;object-position:center}
+.la-site .la-inline-gallery,.la-site .la-inline-gallery>figure,.la-site .la-inline-gallery .la-gallery-image{width:100%;height:100%;margin:0;aspect-ratio:auto}
+.la-site .la-inline-gallery .la-gallery-image{background:var(--la-photo-surface)}
+.la-site .la-inline-gallery .la-gallery-image img{width:100%;height:100%;object-fit:contain;object-position:center}
+.la-site .la-inline-gallery~.la-lightbox{transform:none}
+.la-site :is(.la-intro-image,.la-company-photo,.la-service-detail-photo){background:var(--la-photo-surface);transform:none}
+.la-site .la-service-model>img{display:block;width:100%;height:100%;object-fit:contain;background:var(--la-photo-surface)}
+.la-site .la-project-image>img,.la-site .la-service-cover>img,.la-site .la-service-thumb>img{object-position:center}
+.la-site .la-featured-grid[data-count='3'] .la-project-card:first-child .la-project-image{aspect-ratio:4/3}
+/* Dialog coordinates are physical; previous/next positions are logical for each language. */
+.la-site .la-lightbox{
+ position:fixed;inset:0;margin:0;width:100%;max-width:none;height:100dvh;max-height:none;
+ padding:64px max(12px,env(safe-area-inset-left)) max(16px,env(safe-area-inset-bottom));
+ background:#101710f7;color:#fff;overflow:hidden;transform:none;border:0;
+}
+.la-site .la-lightbox[open]{display:flex;flex-direction:column;align-items:stretch;gap:12px}
+.la-site .la-lightbox .la-lightbox-stage{
+ position:relative;display:flex;align-items:center;justify-content:center;flex:1;min-height:0;
+ width:100%;margin:0;padding-inline:68px;touch-action:pan-y pinch-zoom;
+}
+.la-site .la-lightbox-stage>img{display:block;width:100%;height:100%;min-height:0;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.la-site .la-lightbox button{width:var(--la-viewer-control);height:var(--la-viewer-control);min-width:var(--la-viewer-control);min-height:var(--la-viewer-control);padding:0;border:1px solid #ffffff40;border-radius:50%;background:#202a20e6;display:grid;place-items:center;color:white;cursor:pointer;z-index:2}
+.la-site .la-lightbox button:hover{background:#4b5a45}
+.la-site .la-lightbox button:focus-visible{outline:3px solid #e2c796;outline-offset:4px}
+.la-site .la-lightbox .la-lightbox-close{position:absolute;top:max(10px,env(safe-area-inset-top));inset-inline-end:16px}
+.la-site .la-lightbox .la-lightbox-prev,.la-site .la-lightbox .la-lightbox-next{position:absolute;top:50%;transform:translateY(-50%)}
+.la-site .la-lightbox .la-lightbox-prev{inset-inline-start:8px}
+.la-site .la-lightbox .la-lightbox-next{inset-inline-end:8px}
+.la-site .la-lightbox .la-lightbox-info{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;margin:0;min-height:56px;flex-shrink:0}
+.la-site .la-lightbox-info p{color:#f6f7f1;margin:0;text-align:center!important;text-align-last:center!important;line-height:1.6;font-size:15px;max-width:80ch}
+.la-site .la-lightbox-info bdi{font-size:14px;font-variant-numeric:tabular-nums;color:#d4dfcf;unicode-bidi:isolate}
+@media(max-width:980px){.la-site .la-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){
+ .la-site .la-gallery{gap:16px 12px}
+ .la-site .la-gallery>figure{padding:6px 6px 12px;border-radius:10px}
+ .la-site .la-gallery figcaption{font-size:13px;padding-inline:2px;margin-top:8px}
+ .la-site .la-cover-gallery .la-gallery-image{height:clamp(250px,48svh,480px)}
+ .la-site .la-lightbox{padding-inline:8px;--la-viewer-control:44px}
+ .la-site .la-lightbox .la-lightbox-stage{padding-inline:0;padding-bottom:58px}
+ .la-site .la-lightbox .la-lightbox-prev,.la-site .la-lightbox .la-lightbox-next{top:auto;bottom:0;transform:none}
+ .la-site .la-lightbox .la-lightbox-prev{inset-inline-start:calc(50% - 66px)}
+ .la-site .la-lightbox .la-lightbox-next{inset-inline-end:calc(50% - 66px)}
+ .la-site .la-lightbox-info p{font-size:14px}
+}
+@media(max-width:380px){.la-site .la-gallery{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.la-site .la-gallery .la-gallery-image img{transition:none}}
