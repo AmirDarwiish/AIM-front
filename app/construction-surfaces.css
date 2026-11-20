@@ -1,0 +1,102 @@
+/* Shared public-site materials. Admin screens retain their own theme. */
+.la-site{
+ --la-page-gradient:radial-gradient(ellipse at 95% 8%,#dce8df80,transparent 42%),linear-gradient(145deg,#fafcf9,#f1f5f0 58%,#fafbf7);
+ --la-glass-fill:#ffffffba;
+ --la-glass-solid:#f8fbf7;
+ --la-glass-gradient:linear-gradient(135deg,#ffffffed,#f2f7efb8);
+ --la-glass-border:1px solid #ffffffd9;
+ --la-glass-shadow:0 12px 32px #1932250d,inset 0 1px 0 #fff;
+ --la-glass-hover-shadow:0 18px 42px #19322519,inset 0 1px 0 #fff;
+ --la-glass-blur:16px;
+ --la-control-fill:#ffffffe0;
+ --la-control-border:1px solid #bdccbb;
+ --la-hero-shade:linear-gradient(90deg,#102116d9,#1021165c 65%,#10211615);
+ --la-surface-radius:18px;
+ --la-section-gradient:linear-gradient(125deg,#e6eee5ab,#f7faf4c7);
+ --la-accent-gradient:linear-gradient(135deg,#324d3c,#16291f);
+ --la-footer-gradient:radial-gradient(ellipse at 85% 0%,#49675066,transparent 65%),linear-gradient(140deg,#1e3025,#111b15);
+ --la-card-face:var(--la-glass-gradient);
+ --la-card-rest:var(--la-glass-shadow);
+ --la-card-raised:var(--la-glass-hover-shadow);
+ background:var(--la-page-gradient);
+}
+.la-site .la-header,.la-site .la-header.is-scrolled{background:var(--la-glass-fill);border-bottom:var(--la-glass-border);backdrop-filter:blur(var(--la-glass-blur));-webkit-backdrop-filter:blur(var(--la-glass-blur))}
+.la-site :is(.la-project-card,.la-service-grid article,.la-services-catalogue article,.la-values-grid article,.la-story-card,.la-service-detail aside,.la-contact-panel,.la-guide-grid article,.la-guide-checklist){
+ background:var(--la-glass-gradient);border:var(--la-glass-border);border-radius:var(--la-surface-radius);box-shadow:var(--la-glass-shadow);
+ backdrop-filter:blur(var(--la-glass-blur));-webkit-backdrop-filter:blur(var(--la-glass-blur));
+}
+.la-site :is(.la-page-hero,.la-services-band,.la-values-band,.la-corporate-cta,.la-client-stories){background:var(--la-section-gradient)}
+.la-site .la-footer-modern{background:var(--la-footer-gradient)}
+.la-site .la-button-dark,.la-site .la-corporate-cta .la-button,.la-site .la-contact-link{background:var(--la-accent-gradient);border:1px solid #ffffff25;color:#fff;box-shadow:0 5px 18px #1a342122}
+.la-site .la-button-dark:hover,.la-site .la-contact-link:hover{filter:brightness(1.12)}
+.la-site .la-contact-form :is(input,textarea),.la-site .la-phone-control{background:var(--la-control-fill);border:var(--la-control-border);box-shadow:inset 0 1px 2px #203b2105}
+.la-site .la-contact-form .la-phone-control>input{background:transparent;border:0;box-shadow:none}
+.la-site :is(.la-project-image,.la-service-cover,.la-intro-image,.la-company-photo){box-shadow:0 8px 28px #1a342115;transform:none}
+.la-site .la-project-cover{box-shadow:var(--la-glass-shadow);border:var(--la-glass-border)}
+.la-site .la-project-card{padding:12px 12px 22px}
+.la-site .la-project-card:hover{box-shadow:var(--la-glass-hover-shadow)}
+.la-site .la-service-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px;margin-bottom:8px}
+.la-site .la-service-actions .la-text-link,.la-site .la-service-actions .la-service-work-link{margin:0}
+.la-site[dir=rtl]{--la-hero-shade:linear-gradient(270deg,#102116d9,#1021165c 65%,#10211615)}
+.la-site .la-hero .la-hero-shade{background:var(--la-hero-shade)}
+.la-site :is(.la-project-card,.la-service-grid article,.la-services-catalogue article,.la-values-grid article,.la-story-card,.la-contact-panel,.la-service-detail aside)::before,
+.la-site :is(.la-project-card,.la-service-grid article,.la-services-catalogue article,.la-values-grid article,.la-story-card,.la-contact-panel,.la-service-detail aside)::after{display:none}
+.la-site .la-service-detail{padding-block:32px 20px;align-items:start}
+.la-site .la-service-work-link{display:inline-flex;align-items:center;min-height:44px;margin-block:14px 0;padding:8px 16px;border:1px solid #b2c5af;border-radius:30px;background:var(--la-glass-gradient);color:#274632;font-weight:500}
+.la-site .la-service-projects{padding-block:32px 44px;scroll-margin-top:110px}
+.la-site .la-service-projects .la-project-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr))}
+.la-site .la-service-projects .la-project-image{aspect-ratio:4/3}
+.la-site .la-service-projects .la-section-description{max-width:64ch}
+.la-site .la-service-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.la-site .la-service-tags a{display:inline-flex;align-items:center;min-height:40px;padding:6px 16px;border:1px solid #bacab4;border-radius:30px;background:var(--la-glass-gradient);font-size:14px;line-height:1.7}
+.la-site .la-service-tags a:hover{border-color:var(--la-bronze)}
+.la-site .la-project-story{display:grid;gap:48px}
+.la-site .la-project-chapter{min-width:0}
+.la-site .la-chapter-copy{max-width:76ch;margin-bottom:24px;padding-inline-start:20px;border-inline-start:3px solid #a5b89a}
+.la-site .la-chapter-copy h2{font-size:clamp(24px,2.7vw,34px);line-height:1.5;margin:0 0 8px}
+.la-site .la-chapter-copy p{color:var(--la-muted);font-size:17px;line-height:1.9;text-align:start;margin:0}
+.la-site .la-project-gallery>.la-section-head{display:none}
+.la-site .la-project-end{display:flex;justify-content:space-between;align-items:center;gap:28px;margin-block:0 48px;padding:32px;background:var(--la-glass-gradient);border:var(--la-glass-border);border-radius:var(--la-surface-radius);box-shadow:var(--la-glass-shadow)}
+.la-site .la-project-end h2{font-size:clamp(26px,3vw,38px);margin-bottom:10px}
+.la-site .la-project-end p{line-height:1.9;color:var(--la-muted)}
+.la-site .la-project-end .la-button{flex-shrink:0}
+.la-site .la-hero:has(>picture) .la-hero-spatial{grid-template-columns:minmax(0,1fr)}
+.la-site .la-hero:has(>picture) .la-hero-model{display:none}
+.la-site .la-hero:has(>picture) h1{max-width:920px}
+.la-site .la-page-heading>.la-architecture-scene{max-width:180px;justify-self:end}
+.la-site .la-guide-body{line-height:1.9}
+.la-site .la-guide-body :is(p,li){text-align:start;word-spacing:normal;letter-spacing:normal}
+@supports not (backdrop-filter:blur(1px)){
+ .la-site :is(.la-header,.la-project-card,.la-service-grid article,.la-values-grid article,.la-contact-panel){background:var(--la-glass-solid)}
+}
+@media(max-width:980px){
+ .la-site .la-nav.is-open{background:var(--la-glass-solid);border-bottom:var(--la-glass-border)}
+}
+@media(max-width:760px){
+ .la-site,.la-site[dir=rtl]{--la-surface-radius:14px;--la-glass-blur:10px;--la-hero-shade:linear-gradient(0deg,#102116e8,#10211638 95%)}
+ .la-site .la-page-heading{grid-template-columns:minmax(0,1fr);gap:0}
+ .la-site .la-page-heading>.la-architecture-scene{display:none}
+ .la-site .la-page-heading h1{font-size:clamp(28px,7.5vw,36px)}
+ .la-site .la-hero:has(>picture){padding-block:60px 42px;min-height:520px}
+ .la-site .la-service-detail{padding-block:26px 14px}
+ .la-site .la-service-projects{padding-block:24px 32px;scroll-margin-top:90px}
+ .la-site .la-service-projects .la-project-grid{grid-template-columns:minmax(0,1fr);gap:26px}
+ .la-site .la-project-story{gap:34px}
+ .la-site .la-chapter-copy{padding-inline-start:14px;margin-bottom:20px}
+ .la-site .la-chapter-copy p{font-size:16px;line-height:1.9}
+ .la-site .la-project-end{display:block;padding:24px 20px;margin-bottom:32px}
+ .la-site .la-project-end .la-button{margin-top:20px;justify-content:center;width:100%}
+ .la-site .la-service-tags{gap:8px}
+ .la-site .la-service-tags a{font-size:13px;padding:6px 12px}
+ .la-site .la-services-catalogue article:nth-child(n){padding:18px;gap:20px}
+}
+@media(prefers-reduced-motion:reduce){.la-site .la-button-dark{transition:none}}
+
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){.la-site :is(.la-project-card,.la-service-grid article,.la-services-catalogue article,.la-story-card):hover{transform:translateY(-3px);box-shadow:var(--la-glass-hover-shadow)}}
+
+.la-site .la-contact-page>aside{padding:26px;background:var(--la-glass-gradient);border:var(--la-glass-border);border-radius:var(--la-surface-radius);box-shadow:var(--la-glass-shadow)}
+.la-site .la-contact-page>aside .la-contact-guide{margin-top:28px;padding-top:24px;border-top:1px solid #b9cbb180}
+.la-site .la-contact-page>aside .la-contact-guide h2{font-size:24px;line-height:1.6}
+.la-site .la-contact-page>aside .la-contact-guide h3{font-size:19px}
+
+.la-site .la-hero .la-button{background:var(--la-glass-gradient);border:var(--la-glass-border);border-radius:10px;backdrop-filter:blur(var(--la-glass-blur));-webkit-backdrop-filter:blur(var(--la-glass-blur));color:var(--la-ink)}

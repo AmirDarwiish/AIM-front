@@ -14,3 +14,16 @@ export async function homeData(lang:Lang){
  const [home,projects]=await Promise.all([siteData(lang),publicData<ProjectPage>(`projects?lang=${lang}&pageSize=4&featuredOnly=true`).catch(()=>null)]);
  return {home,projects};
 }
+
+/** Fetch all published pages so service portfolios do not stop at the first page. */
+export const projectCatalogue=cache(async(lang:Lang):Promise<ProjectPage>=>{
+ const first=await publicData<ProjectPage>(`projects?lang=${lang}&page=1&pageSize=24`);
+ const size=Math.max(1,first.pageSize||24),pages=Math.ceil(first.totalCount/size);
+ const items=[...first.items];
+ for(let page=2;page<=pages;page++){
+  const next=await publicData<ProjectPage>(`projects?lang=${lang}&page=${page}&pageSize=24`);
+  if(!next.items.length)break;
+  items.push(...next.items);
+ }
+ return {...first,items};
+});

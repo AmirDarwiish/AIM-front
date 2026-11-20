@@ -20,7 +20,7 @@ export default function Services({
   return (
     <div className={expanded ? 'la-services-catalogue' : 'la-service-grid'}>
       {items.map((item,index) => {
-        const href = `/services/${item.id}?lang=${lang}`;
+        const href = `/services/${item.id}?lang=${lang}#service-projects`;
         const image = imageUrl(item.imageUrl);
         return (
           <article key={item.id} onPointerMove={moveSpatialSurface} onPointerLeave={resetSpatialSurface}>
@@ -37,7 +37,7 @@ export default function Services({
               <Heading><Link href={href}>{item.title}</Link></Heading>
               {item.description && <p>{item.description}</p>}
               <Link className="la-text-link" href={href}>
-                {lang === 'en' ? 'Explore this service' : 'تفاصيل الخدمة'}
+                {lang === 'en' ? 'Service & related work' : 'الخدمة وسابقة الأعمال'}
                 <ArrowUpRight size={19} />
               </Link>
             </div>
