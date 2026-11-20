@@ -100,3 +100,12 @@
 .la-site .la-contact-page>aside .la-contact-guide h3{font-size:19px}
 
 .la-site .la-hero .la-button{background:var(--la-glass-gradient);border:var(--la-glass-border);border-radius:10px;backdrop-filter:blur(var(--la-glass-blur));-webkit-backdrop-filter:blur(var(--la-glass-blur));color:var(--la-ink)}
+
+/* Let copy use its entire layout column and wrap at the available edge.
+   Paragraph boundaries come from markup, not manual newlines in CMS copy. */
+.la-site :is(.la-prose,.la-lead,.la-section-description,.la-project-summary,.la-chapter-copy){width:100%;max-width:none;min-width:0}
+.la-site :is(p,.la-prose p,.la-service-copy p){white-space:normal;text-wrap:wrap;overflow-wrap:break-word}
+.la-site :is(.la-hero-copy p,.la-page-heading .la-lead,.la-project-title .la-lead,.la-service-projects .la-section-description,.la-services-catalogue p,.la-corporate-cta p,.la-footer-identity>p,.la-extra p){width:100%;max-width:none}
+.la-site :is(h1,h2,h3){white-space:normal;text-wrap:wrap}
+.la-site .la-service-copy{min-width:0;align-self:stretch}
+.la-site .la-service-copy p{align-self:stretch;width:100%}

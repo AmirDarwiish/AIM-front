@@ -3,6 +3,7 @@ import {moveSpatialSurface,resetSpatialSurface} from '@/lib/spatial-interaction'
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { imageUrl } from '@/lib/construction';
+import { serviceImage } from '@/lib/service-images';
 import ArchitectureScene,{type SceneKind} from './architecture-scene';
 import type { Item, Lang } from '@/lib/public-api';
 
@@ -21,7 +22,7 @@ export default function Services({
     <div className={expanded ? 'la-services-catalogue' : 'la-service-grid'}>
       {items.map((item,index) => {
         const href = `/services/${item.id}?lang=${lang}#service-projects`;
-        const image = imageUrl(item.imageUrl);
+        const image = imageUrl(serviceImage(item));
         return (
           <article key={item.id} onPointerMove={moveSpatialSurface} onPointerLeave={resetSpatialSurface}>
             {!expanded?<Link className="la-service-model" href={href} aria-label={item.title}>{image?<img src={image} alt={item.title} width="1000" height="750" loading="lazy" decoding="async"/>:<ArchitectureScene kind={(['structure','interior','terraces'] as SceneKind[])[index%3]}/>}</Link>:image && (
