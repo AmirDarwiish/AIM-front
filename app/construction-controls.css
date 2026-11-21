@@ -74,10 +74,12 @@
 .la-site .la-company-links :is(.la-text-link,.la-portfolio-link){margin:0}
 
 /* Framed drawing-sheet action; a distinct, restrained architectural detail. */
-.la-site .la-portfolio-link{position:relative;isolation:isolate;margin-top:24px;padding:13px 20px;border:1px solid var(--la-action-border);border-radius:2px;gap:14px;background:var(--la-action-background);color:var(--la-action-on-primary);box-shadow:none;transition:background var(--la-action-motion)}
+.la-site .la-portfolio-link{display:inline-flex;align-items:center;justify-content:center;max-width:100%;font-weight:500;line-height:1.5;text-decoration:none;position:relative;isolation:isolate;margin-top:24px;padding:13px 20px;border:1px solid var(--la-action-border);border-radius:2px;gap:14px;background:var(--la-action-background);color:var(--la-action-on-primary);box-shadow:none;transition:background var(--la-action-motion)}
 .la-site .la-portfolio-link::after{content:"";pointer-events:none;position:absolute;inset:5px;background:linear-gradient(currentColor,currentColor) left top/9px 1px no-repeat,linear-gradient(currentColor,currentColor) left top/1px 9px no-repeat,linear-gradient(currentColor,currentColor) right bottom/9px 1px no-repeat,linear-gradient(currentColor,currentColor) right bottom/1px 9px no-repeat;opacity:.45}
 .la-site .la-portfolio-link .la-portfolio-symbol{display:grid;place-items:center;align-self:stretch;padding-inline-end:14px;border-inline-end:1px solid #ffffff38}
-.la-site .la-portfolio-link small{color:inherit;opacity:.7;font-size:10px;letter-spacing:.02em}
+.la-site .la-portfolio-link>span{min-width:0}
+.la-site .la-portfolio-link>svg{flex-shrink:0}
+.la-site .la-portfolio-link small{display:block;margin-top:4px;color:inherit;opacity:.7;font-size:10px;letter-spacing:.02em}
 .la-site .la-portfolio-link:hover{background:var(--la-action-hover);color:var(--la-action-on-primary)}
 .la-site .la-hero-actions .la-portfolio-link{margin:0;min-height:62px}
 .la-site .la-hero-actions .la-portfolio-link-hero{background:var(--la-action-on-dark);color:var(--la-action-ink);border-color:var(--la-action-on-dark)}
@@ -102,10 +104,11 @@
 .la-site .la-portfolio-help{font-size:12px;color:var(--la-muted);margin:12px 0 0;line-height:1.6}
 @media(min-width:981px) and (max-width:1200px){.la-site .la-header .la-nav{gap:15px;font-size:13px}.la-site .la-header .la-header-actions{gap:12px}}
 @media(max-width:600px){
- .la-site .la-hero-actions{gap:14px 16px}
- .la-site .la-hero-actions .la-portfolio-link{padding:12px 18px;gap:12px;min-height:60px}
- .la-site .la-hero-actions .la-button{padding-inline:18px}
- .la-site .la-hero-actions .la-hero-quote{flex-basis:100%;font-size:14px}
+ .la-site .la-hero-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 12px}
+ .la-site .la-hero-actions .la-portfolio-link{padding:10px;gap:8px;min-height:58px;font-size:13px}
+ .la-site .la-hero-actions .la-portfolio-symbol{display:none}
+ .la-site .la-hero-actions .la-button{padding:10px;min-height:58px;font-size:13px;gap:8px}
+ .la-site .la-hero-actions .la-hero-quote{grid-column:1/-1;justify-self:start;font-size:14px}
  .la-site .la-portfolio-toolbar{flex-wrap:wrap;gap:12px 16px;padding:12px var(--la-gutter)}
  .la-site .la-portfolio-heading{padding-inline-start:16px}
  .la-site .la-portfolio-heading h1{font-size:18px}
