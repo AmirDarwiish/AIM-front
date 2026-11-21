@@ -1,11 +1,18 @@
 import { cache } from 'react';
+import { unstable_cache } from 'next/cache';
 import { apiBase } from './admin-server';
 import type { Lang } from './public-api';
 import type { SiteContent, ProjectPage } from './construction';
-export async function publicData<T>(path:string):Promise<T>{
- const res=await fetch(`${apiBase()}/api/public/${path}`,{cache:'no-store',signal:AbortSignal.timeout(12000),redirect:'error'});
+async function readPublicData(origin:string,path:string){
+ const res=await fetch(`${origin}/api/public/${path}`,{cache:'no-store',signal:AbortSignal.timeout(12000),redirect:'error'});
  if(!res.ok)throw Object.assign(new Error('Content unavailable'),{status:res.status});
  return res.json();
+}
+// Only anonymous, published content is cached. Admin reads and writes stay live.
+const cachedPublicData=unstable_cache(readPublicData,['la-public-v1'],{revalidate:60,tags:['la-public-content']});
+export async function publicData<T>(path:string):Promise<T>{
+ return (process.env.AIM_PUBLIC_CACHE_DISABLED==='1'
+  ?readPublicData(apiBase(),path):cachedPublicData(apiBase(),path)) as Promise<T>;
 }
 export const siteData=cache(async(lang:Lang):Promise<SiteContent|null>=>{
  try{const home=await publicData<SiteContent>(`website/home?lang=${lang}`);return /^LA\s+Construction$/i.test(home.siteName||'')||(home.sections||[]).some(s=>s.sectionKey.startsWith('la-'))?home:null;}catch{return null;}

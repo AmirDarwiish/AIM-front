@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import { revalidateTag } from 'next/cache';
 import { apiBase, SESSION_COOKIE, sameOrigin, clearSession, sessionUser, allowedPath, fail } from '@/lib/admin-server';
 export const runtime = 'nodejs';
 async function proxy(request: Request, context: {
@@ -25,6 +26,8 @@ async function proxy(request: Request, context: {
         const res = await fetch(`${apiBase()}/api/${path}${new URL(request.url).search}`, { method, headers, body: method === 'GET' ? undefined : await request.arrayBuffer(), cache: 'no-store', signal: AbortSignal.timeout(30000), redirect: 'error' });
         if (res.status === 401)
             await clearSession();
+        if (res.ok && method !== 'GET' && !path.startsWith('admin/leads'))
+            revalidateTag('la-public-content', { expire: 0 });
         return new Response(res.status === 204 ? null : await res.arrayBuffer(), { status: res.status, headers: { 'Content-Type': res.headers.get('content-type') || 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
     }
     catch {

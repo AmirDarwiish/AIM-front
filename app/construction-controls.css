@@ -1,0 +1,57 @@
+/* Public interaction tokens. Every CTA uses the same gold palette and states. */
+.la-site{
+ --la-action-gold:#b9955c;
+ --la-action-gold-light:#d9c198;
+ --la-action-ink:#211b12;
+ --la-action-text:#76511e;
+ --la-action-on-dark:#eddbbb;
+ --la-action-background:linear-gradient(135deg,var(--la-action-gold-light),var(--la-action-gold));
+ --la-action-hover:linear-gradient(135deg,#e4ceaa,#c4a16a);
+ --la-action-border:#a67f44;
+ --la-action-focus:#88612d;
+ --la-action-shadow:0 5px 16px #76511e20,inset 0 1px 0 #ffffff70;
+ --la-action-radius:10px;
+ --la-action-height:48px;
+ --la-action-disabled-opacity:.5;
+ --la-action-motion:160ms ease;
+ --la-action-secondary-fill:#fffaf2b8;
+ --la-action-secondary-hover:#f0e3ce;
+ --la-action-viewer-fill:#211b12e6;
+ --la-accent-gradient:var(--la-action-background);
+ --la-bronze:var(--la-action-text);
+}
+.la-site :is(.la-button,.la-hero .la-button,.la-contact-form .la-button,.la-corporate-cta .la-button,.la-contact-link){
+ display:inline-flex;align-items:center;justify-content:center;gap:14px;min-height:var(--la-action-height);padding:12px 22px;
+ background:var(--la-action-background);color:var(--la-action-ink);border:1px solid var(--la-action-border);border-radius:var(--la-action-radius);box-shadow:var(--la-action-shadow);
+ font-weight:700;line-height:1.6;text-decoration:none;filter:none;backdrop-filter:none;-webkit-backdrop-filter:none;
+ transition:background var(--la-action-motion),box-shadow var(--la-action-motion),transform var(--la-action-motion);
+}
+.la-site :is(.la-button,.la-hero .la-button,.la-contact-form .la-button,.la-corporate-cta .la-button,.la-contact-link):hover:not(:disabled):not([aria-disabled=true]){background:var(--la-action-hover);color:var(--la-action-ink);border-color:var(--la-action-border);filter:none;box-shadow:var(--la-action-shadow)}
+.la-site :is(.la-button,.la-contact-link):active:not(:disabled){transform:translateY(1px)}
+.la-site :is(.la-service-work-link,.la-pagination a,.la-comparison-tabs button,.la-service-tags a){
+ min-height:44px;border:1px solid var(--la-action-border);border-radius:var(--la-action-radius);background:var(--la-action-secondary-fill);color:var(--la-action-text);font-weight:500;
+}
+.la-site :is(.la-service-work-link,.la-pagination a,.la-comparison-tabs button,.la-service-tags a):hover{background:var(--la-action-secondary-hover);border-color:var(--la-action-border);color:var(--la-action-ink)}
+.la-site .la-comparison-tabs button[aria-pressed=true]{background:var(--la-action-background);color:var(--la-action-ink)}
+.la-site .la-text-link{color:var(--la-action-text);border-color:var(--la-action-border)}
+.la-site .la-text-link:hover{color:var(--la-action-ink);border-color:var(--la-action-ink)}
+.la-site .la-hero-quote{color:var(--la-action-on-dark);text-decoration:underline;text-decoration-color:var(--la-action-gold);text-underline-offset:6px}
+.la-site .la-footer-project{color:var(--la-action-on-dark)}
+.la-site :is(.la-footer-project-icon,.la-project-arrow){color:var(--la-action-ink);background:var(--la-action-background);border:1px solid var(--la-action-border);box-shadow:var(--la-action-shadow)}
+.la-site :is(.la-menu,.la-language,.la-carousel-controls button,.la-media-dialog-heading button){color:var(--la-action-text);border-color:var(--la-action-border);border-radius:var(--la-action-radius)}
+.la-site :is(.la-menu,.la-language,.la-carousel-controls button,.la-media-dialog-heading button):hover{background:var(--la-action-secondary-hover);color:var(--la-action-ink)}
+.la-site .la-site-films .la-carousel-controls button{color:var(--la-action-on-dark)}
+.la-site .la-site-films .la-carousel-controls button:hover{color:var(--la-action-ink)}
+.la-site .la-lightbox button{color:var(--la-action-on-dark);background:var(--la-action-viewer-fill);border-color:var(--la-action-gold);border-radius:var(--la-action-radius)}
+.la-site .la-lightbox button:hover{color:var(--la-action-ink);background:var(--la-action-background)}
+.la-site .la-lightbox button:focus-visible{outline-color:var(--la-action-on-dark)}
+.la-site .la-mobile-card-dots button[aria-current=true] span{background:var(--la-action-gold)}
+.la-site :is(a,button,input,textarea,select,summary):focus-visible{outline:3px solid var(--la-action-focus);outline-offset:4px}
+.la-site :is(.la-hero,.la-footer-modern,.la-lightbox) :is(a,button):focus-visible{outline-color:var(--la-action-on-dark)}
+.la-site :is(button:disabled,[aria-disabled=true]){opacity:var(--la-action-disabled-opacity);cursor:not-allowed;box-shadow:none;transform:none}
+/* Opaque glass cards already have a frosted fill. Avoid a separate GPU blur layer
+   on every scrolling card; keep backdrop blur for the fixed header. */
+.la-site :is(.la-project-card,.la-service-grid article,.la-services-catalogue article,.la-values-grid article,.la-story-card,.la-service-detail aside,.la-contact-panel,.la-guide-grid article,.la-guide-checklist){backdrop-filter:none;-webkit-backdrop-filter:none}
+@media(prefers-reduced-motion:reduce){.la-site{--la-action-motion:0s}.la-site :is(.la-button,.la-contact-link):active:not(:disabled){transform:none}}
+@media(min-width:981px){.la-site .la-contact-link{display:inline-flex}}
+@media(max-width:980px){.la-site .la-contact-link{display:none}}
