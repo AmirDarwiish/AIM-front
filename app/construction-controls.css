@@ -103,6 +103,10 @@
 .la-site .la-portfolio-sheet img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain}
 @media(min-width:981px) and (max-width:1200px){.la-site .la-header .la-nav{gap:15px;font-size:13px}.la-site .la-header .la-header-actions{gap:12px}}
 @media(max-width:600px){
+ .la-site .la-home-intro .la-company-links{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+ .la-site .la-home-intro .la-company-links>a{min-width:0;min-height:48px;margin:0;padding:10px;font-size:13px;gap:8px;justify-content:center}
+ .la-site .la-home-intro .la-company-links .la-portfolio-symbol{display:none}
+ .la-site .la-home-intro .la-company-links>a>svg{flex-shrink:0}
  .la-site .la-hero-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 12px}
  .la-site .la-hero-actions .la-portfolio-link{padding:10px;gap:8px;min-height:48px;font-size:13px}
  .la-site .la-hero-actions .la-portfolio-symbol{display:none}
