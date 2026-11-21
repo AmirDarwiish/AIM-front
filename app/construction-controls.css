@@ -69,3 +69,11 @@
  .la-site .la-header .la-brand img{width:34px;height:42px}
  .la-site .la-header .la-header-actions{gap:8px}
 }
+
+/* Portfolio action stays in page content, away from the compact mobile header. */
+.la-site .la-portfolio-link{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;max-width:100%;padding:12px 18px;margin-top:24px;border:1px solid var(--la-action-subtle-border);border-radius:var(--la-action-radius);background:var(--la-action-secondary-fill);color:var(--la-action-ink);font-weight:500;line-height:1.5;text-decoration:none}
+.la-site .la-portfolio-link span{min-width:0}
+.la-site .la-portfolio-link small{display:block;font-size:11px;font-weight:400;color:var(--la-muted);margin-top:3px}
+.la-site .la-portfolio-link:hover{background:var(--la-action-secondary-hover);border-color:var(--la-action-border)}
+.la-site .la-company-links{display:flex;align-items:center;flex-wrap:wrap;gap:16px 24px;margin-top:22px}
+.la-site .la-company-links :is(.la-text-link,.la-portfolio-link){margin:0}
