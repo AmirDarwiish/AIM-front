@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  outputFileTracingIncludes: {
+    "/portfolio/download": ["./public/documents/LA-Construction-Portfolio.pdf"],
+  },
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'aim.runasp.net', pathname: '/uploads/**', search: '' }],
     deviceSizes: [480, 768, 1024, 1440, 1920],
