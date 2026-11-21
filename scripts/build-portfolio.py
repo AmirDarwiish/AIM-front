@@ -89,8 +89,117 @@ def photo(key,x,y,w,h,mode='cover',focus=(.5,.5)):
         out=BytesIO();im.save(out,format='JPEG',quality=88,optimize=True,progressive=True)
         IMAGE_CACHE[cache_key]=ImageReader(BytesIO(out.getvalue()))
     C.drawImage(IMAGE_CACHE[cache_key],x,H-y-h,w,h,mask='auto')
+    eng_frame(x,y,w,h)
 def caption(t,x,y,w): para(t,x,y,w,9.2,14,fill=MUTED)
 pdfmetrics.registerFont(TTFont('Display',str(ROOT/'public/assets/Portfolio-Display-Bold.ttf')))
+
+# Architectural visual language: vector geometry, not project design drawings.
+ACCENT = '#496b7d'
+GRID = '#dde3e4'
+
+def eng_line(points,stroke=ACCENT,width=.65,dash=None):
+    C.saveState();C.setStrokeColor(color(stroke));C.setLineWidth(width)
+    if dash:C.setDash(*dash)
+    p=C.beginPath();p.moveTo(points[0][0],H-points[0][1])
+    for x,y in points[1:]:p.lineTo(x,H-y)
+    C.drawPath(p,stroke=1,fill=0);C.restoreState()
+
+def eng_node(x,y,r=2,stroke=ACCENT,fill=PAPER):
+    C.saveState();C.setStrokeColor(color(stroke));C.setFillColor(color(fill));C.setLineWidth(.65)
+    C.circle(x,H-y,r,stroke=1,fill=1);C.restoreState()
+
+def eng_grid(x,y,w,h,step=18,dark=False):
+    C.saveState();C.setStrokeAlpha(.32 if dark else .7)
+    ink='#587380' if dark else GRID
+    for xx in range(int(x),int(x+w)+1,step):eng_line([(xx,y),(xx,y+h)],ink,.3)
+    for yy in range(int(y),int(y+h)+1,step):eng_line([(x,yy),(x+w,yy)],ink,.3)
+    C.restoreState()
+
+def eng_hatch(x,y,w,h,stroke=ACCENT):
+    C.saveState();path=C.beginPath();path.rect(x,H-y-h,w,h);C.clipPath(path,stroke=0,fill=0)
+    for start in range(-int(h),int(w)+int(h),7):
+        eng_line([(x+start,y+h),(x+start+h,y)],stroke,.35)
+    C.restoreState()
+
+def eng_frame(x,y,w,h):
+    ink='#ffffff';inset=7;leg=min(15,w/8,h/8)
+    for px,py,sx,sy in [(x+inset,y+inset,1,1),(x+w-inset,y+inset,-1,1),(x+inset,y+h-inset,1,-1),(x+w-inset,y+h-inset,-1,-1)]:
+        eng_line([(px,py+sy*leg),(px,py),(px+sx*leg,py)],ink,.8)
+
+def eng_axon(x,y,w,h,ink=ACCENT,subtle=False):
+    """A conceptual exploded structural frame used as the brand motif."""
+    C.saveState();C.setStrokeAlpha(.52 if subtle else .88);C.setFillAlpha(.06 if subtle else .12)
+    def pt(a,b,z):return(x+w*.5+(a-b)*w*.30,y+h*.84+(a+b)*h*.15-z*h*.21)
+    def polygon(points,fill=False):
+        p=C.beginPath();p.moveTo(points[0][0],H-points[0][1])
+        for xx,yy in points[1:]:p.lineTo(xx,H-yy)
+        p.close();C.setStrokeColor(color(ink));C.setFillColor(color(ink));C.setFillAlpha(.06 if subtle else .08);C.setLineWidth(.65);C.drawPath(p,stroke=1,fill=fill)
+    for z in [0,1.3,2.6]:
+        outline=[pt(-.85,-.7,z),pt(.85,-.7,z),pt(.85,.7,z),pt(-.85,.7,z)]
+        polygon(outline,True)
+        for a in [-.85,0,.85]:eng_line([pt(a,-.7,z),pt(a,.7,z)],ink,.55)
+        for b in [-.7,0,.7]:eng_line([pt(-.85,b,z),pt(.85,b,z)],ink,.55)
+    for a in [-.85,0,.85]:
+        for b in [-.7,.7]:
+            eng_line([pt(a,b,0),pt(a,b,2.6)],ink,.85)
+            for z in [0,1.3,2.6]:
+                xx,yy=pt(a,b,z);eng_node(xx,yy,1.5,ink,PAPER)
+    # Extended alignment axes imply coordination, without fictitious dimensions.
+    for b in [-.7,.7]:eng_line([pt(-1.03,b,0),pt(1.03,b,0)],ink,.45,(2,3))
+    for a in [-.85,.85]:eng_line([pt(a,-.85,0),pt(a,.85,0)],ink,.45,(2,3))
+    C.restoreState()
+
+def eng_icon(kind,x,y,s=35,ink=ACCENT):
+    def p(a,b):return(x+a*s,y+b*s)
+    def line(coords):eng_line([p(*v) for v in coords],ink,1)
+    if kind==0: # slab, beams and columns
+        line([(.08,.24),(.55,.04),(.94,.24),(.48,.46),(.08,.24)])
+        for a,b in [(.08,.24),(.48,.46),(.94,.24)]:line([(a,b),(a,b+.48)])
+        line([(.08,.72),(.48,.94),(.94,.72)])
+    elif kind==1: # finish layers and surface build-up
+        for z in [0,.18,.36]:line([(.08,.2+z),(.52,.02+z),(.94,.23+z),(.49,.43+z),(.08,.2+z)])
+        line([(.49,.79),(.49,.98)])
+    elif kind==2: # a coordinated interior corner
+        line([(.08,.22),(.48,.04),(.93,.24),(.93,.82),(.49,.97),(.08,.76),(.08,.22)])
+        line([(.48,.04),(.48,.63),(.08,.76)])
+        line([(.48,.63),(.93,.82)])
+        line([(.23,.48),(.35,.43),(.35,.71),(.23,.76),(.23,.48)])
+    elif kind==3: # connected engineering systems
+        line([(.13,.08),(.13,.43),(.54,.43),(.54,.91)])
+        line([(.87,.08),(.87,.67),(.27,.67),(.27,.91)])
+        for a,b in [(.13,.08),(.87,.08),(.54,.91),(.27,.91)]:eng_node(*p(a,b),2.2,ink,PAPER)
+    else: # planning and coordination
+        for b,end in [(.2,.9),(.48,.7),(.76,.83)]:
+            line([(.08,b),(end,b)])
+            for a in [.26,end]:line([(a,b-.07),(a,b+.07)])
+        line([(.08,.04),(.08,.94)])
+
+def eng_callout(anchor,box,text,w=112):
+    ax,ay=anchor;bx,by=box;h=24
+    edge=bx+w if ax>bx+w/2 else bx
+    elbow=(edge,ay)
+    eng_line([(ax,ay),elbow,(edge,by+h/2)],'#ffffff',.8)
+    eng_node(ax,ay,3,'#ffffff',ACCENT)
+    C.saveState();C.setFillAlpha(.94);rect(bx,by,w,h,INK);C.restoreState()
+    ar(text,bx+w-8,by+6,10,'Medium','#ffffff')
+
+def eng_page(dark=False):
+    ink='#54717e' if dark else '#b3c1c7'
+    eng_line([(22,94),(22,780)],ink,.35,(2,5))
+    for yy in [94,230,366,502,638,780]:
+        eng_line([(18,yy),(27,yy)],ink,.5)
+    eng_line([(M,78),(W-M,78)],ink,.4)
+    for xx in [M,W-M]:
+        eng_line([(xx,74),(xx,82)],ink,.7)
+    # A quiet coordinate field sits in the unused title margin.
+    eng_grid(M,106,124,82,16,dark)
+
+def eng_foot(dark=False):
+    ink='#a1b2ba' if dark else ACCENT
+    eng_line([(M,791),(M+64,791)],ink,1.2)
+    eng_hatch(M,787,28,4,ink)
+    eng_node(W-M-35,817,2.3,ink,INK if dark else PAPER)
+
 
 def display_width(t,size):
     shaped=shapeStr(t,'Display',size,force=True)
@@ -108,10 +217,12 @@ def label(t,x,y,fill=MUTED): ar(t,x,y,11,'Medium',fill)
 def begin(kicker,bookmark=None,title='',dark=False):
     global PAGE
     PAGE+=1;rect(0,0,W,H,INK if dark else PAPER)
+    eng_page(dark)
     logo(M,28,24,'#ffffff' if dark else INK)
     en(kicker,W-M-155,39,8,'Helvetica','#b9c0c2' if dark else MUTED)
     if bookmark:C.bookmarkPage(bookmark);C.addOutlineEntry(title,bookmark,0)
 def end(dark=False):
+    eng_foot(dark)
     rule(M,798,CW,'#51595c' if dark else LINE)
     en('LA CONSTRUCTION',M,814,7.5,'Helvetica-Bold','#dce0df' if dark else MUTED)
     en(f'{PAGE:02}',W-M-20,807,16,'Helvetica','#ffffff' if dark else INK)
@@ -124,14 +235,20 @@ def worklink(slug,y=764,dark=False):
     en('VIEW PROJECT',M,y+2,8,fill=fill)
     C.linkURL(f'https://www.la-construction.online/projects/{slug}?lang=ar',(M,H-y-20,W-M,H-y+4),relative=0,thickness=0)
 def section_tag(number,name,y=100,dark=False):
-    en(number,M,y,35,'Helvetica','#6f7b80' if dark else '#b4bab9')
+    eng_line([(M,y+48),(M+47,y+48),(M+47,y-5),(M,y-5)],ACCENT,.65)
+    en(number,M+4,y+2,31,'Helvetica',ACCENT)
     label(name,W-M,y+14,'#c8cecf' if dark else MUTED)
 def brief(label_text,t,x,y,w):
+    eng_line([(x,y+5),(x+17,y+5)],ACCENT,1.1)
     label(label_text,x+w,y,INK)
     return body(t,x,y+28,w,12.5)
 
 # 01 | Cover: typography leads; the actual building anchors the lower half.
 PAGE=1;rect(0,0,W,H,PAPER)
+eng_grid(0,91,W,251,22)
+eng_axon(M,100,195,175)
+eng_line([(M,309),(M+154,309)],ACCENT,.7)
+ar('فكرة مترابطة وتنفيذ متكامل',M+166,322,9,'Medium',ACCENT)
 logo(M,33,40)
 en('COMPANY PROFILE',W-M-122,55,9,'Helvetica',MUTED)
 display('من التخطيط\nإلى التسليم',W-M,127,42)
@@ -140,6 +257,8 @@ rule(M,337,CW)
 en('LA CONSTRUCTION  /  SELECTED WORKS',M,357,9,'Helvetica-Bold',INK)
 ar('ملف الشركة وسابقة الأعمال',W-M,353,12)
 photo('al-amir-121',0,402,W,440,focus=(.48,.43))
+eng_line([(22,391),(W-22,391)],ACCENT,.6)
+for xx in [M,270,W-M]:eng_line([(xx,386),(xx,397)],ACCENT,.8)
 C.bookmarkPage('cover');C.addOutlineEntry('LA Construction','cover',0)
 C.linkURL('https://www.la-construction.online',(M,H-390,W-M,H-325),relative=0,thickness=0)
 C.showPage()
@@ -172,7 +291,8 @@ services=[
  ('إدارة المشاريع والإشراف الهندسي','MANAGEMENT','التخطيط ومتابعة الوقت والتكلفة والجودة، وتوثيق التقدّم والتغييرات.')]
 for i,(title,eng,copy) in enumerate(services):
     y=242+i*104
-    en(f'0{i+1}',M,y+4,29,'Helvetica','#9aa3a5')
+    eng_icon(i,M,y+3,33)
+    en(f'0{i+1}',M,y+49,9,'Helvetica',ACCENT)
     ar(title,W-M,y,18,'Medium')
     en(eng,M+59,y+31,8,'Helvetica-Bold')
     body(copy,M+59,y+52,CW-59,12.2)
@@ -189,9 +309,11 @@ steps=[
  ('التنفيذ','تنفيذ مرحلي تحت إشراف هندسي، مع مراجعة الجودة قبل الانتقال لما يلي.'),
  ('المتابعة','تقارير تقدّم وصور للموقع، وإدارة مكتوبة للتغييرات المؤثرة في النطاق.'),
  ('التسليم','معاينة نهائية ومعالجة الملاحظات وتسليم المستندات وفق التعاقد.')]
+eng_line([(W-M-17,255),(W-M-17,580)],ACCENT,.7)
 for i,(title,copy) in enumerate(steps):
     y=245+i*65
-    en(f'0{i+1}',W-M-24,y,11,'Helvetica-Bold',INK)
+    eng_node(W-M-17,y+9,13,ACCENT,PAPER)
+    en(f'0{i+1}',W-M-24,y+1,10,'Helvetica-Bold',ACCENT)
     ar(title,W-M-48,y-2,16,'Medium')
     body(copy,M,y-2,287,11.7)
     if i<5:rule(M,y+48,CW)
@@ -202,6 +324,7 @@ end()
 
 # 05 | Portfolio index, with interactive project navigation.
 begin('04 / SELECTED WORK','portfolio','سابقة الأعمال',True)
+eng_grid(M,100,CW,126,20,True)
 display('من أرض الواقع\nإلى تفاصيل التنفيذ',W-M,113,30,'#ffffff')
 body('أعمال إنشائية وتشطيبات داخلية وتجهيزات تخصصية، تعرض مراحل التنفيذ وطبيعة الأعمال المنفّذة بالمواقع.',M,255,CW,13.5,'#cbd2d4')
 entries=[('الأمير','الإنشاء والمباني والهياكل المعدنية','al-amir',6),('بيورتي','الأعمال الخرسانية وتسلسل التنفيذ','purity',8),('شقة AP','المحارة وتجهيز الأسطح والتأسيس','ap-apartment',10),('مبنى M السكني','الهيكل الخرساني والمباني والواجهات','m-residential-building',11),('أعمال MEP','التمديدات الداخلية والشبكات الخارجية','mep-site-works',12)]
@@ -220,6 +343,8 @@ begin('PROJECT 01 / AL-AMIR','al-amir','مشروع الأمير')
 section_tag('01','أعمال إنشائية')
 display('مشروع الأمير',W-M,148,32)
 photo('al-amir-32',0,224,W,333,focus=(.5,.45))
+eng_callout((145,445),(M,497),'الهيكل الخرساني',117)
+eng_callout((390,420),(405,274),'الهيكل المعدني',132)
 caption('الهيكل الخرساني وأعمال المباني في إحدى مراحل التنفيذ',M,569,CW)
 brief('نطاق الأعمال المعروض','حفر وأساسات وعناصر خرسانية ومبانٍ، إلى جانب مساحات ذات هياكل وأسقف معدنية.',M+198,610,CW-198)
 brief('محور التنسيق','ترابط الهيكل والمباني وتجهيز المساحات داخل الموقع.',M,610,172)
@@ -242,6 +367,7 @@ begin('PROJECT 02 / PURITY','purity','مشروع بيورتي')
 section_tag('02','أعمال خرسانية')
 display('مشروع بيورتي',W-M,149,32)
 photo('purity-14',0,224,W,240)
+eng_callout((340,345),(M,421),'التسليح والنجارة',120)
 caption('تجهيز وتسليح ونجارة العناصر الإنشائية بالموقع',M,477,CW)
 display('تسلسل يبدأ من الأساسات',W-M,523,22)
 body('يشمل نطاق الأعمال المعروض تجهيز الأساسات وحدادة ونجارة العناصر الخرسانية وأعمال الصب. وتكشف اللقطات العلوية والأرضية انتقال العمل بين عناصر المشروع ومراحل الهيكل.',M,575,CW,13.5)
@@ -266,6 +392,7 @@ section_tag('03','شقة AP | تشطيبات داخلية')
 display('تهيئة الأسطح\nأساس التشطيب',W-M,149,28)
 photo('ap-4',M,287,281,332,focus=(.45,.45))
 photo('ap-11',M+298,287,CW-298,169)
+eng_callout((452,342),(355,417),'تجهيز الأسطح',120)
 label('المحارة والتأسيس',W-M,483)
 body('تجهيز الحوائط وتنفيذ المحارة داخل الفراغات، مع ظهور مسارات تأسيس في بعض المناطق.',M+298,516,CW-298,12)
 rule(M,650,CW)
@@ -286,6 +413,7 @@ begin('SPECIALIST WORK / INTERNAL MEP','mep-site-works','أعمال الميكا
 section_tag('05','أعمال MEP | التأسيس الداخلي')
 display('شبكات تُنسّق\nقبل إغلاق الأسطح',W-M,147,27)
 photo('mep-3',M,278,CW,253)
+eng_callout((280,360),(M+12,479),'مسارات التمديدات',128)
 caption('توزيع مسارات التمديدات الكهربائية داخل الفراغات',M,542,CW)
 photo('mep-2',M,585,184,143)
 label('كهرباء وسباكة وتنسيق مسارات',W-M,585)
@@ -301,6 +429,7 @@ body('مد المواسير وشبكات الصرف الخارجية، وتنف�
 label('محور التنسيق',W-M,400)
 body('المسارات ونقاط الربط وإتاحة الوصول إلى الشبكات عبر غرف التفتيش.',M+229,430,CW-229,12)
 photo('mep-16',M,518,CW,210)
+eng_callout((330,653),(395,548),'مسارات الشبكات',135)
 worklink('mep-site-works');end()
 
 # 14 | Formal, direct close with decision-makers and a working website QR.
