@@ -54,6 +54,7 @@ export default function Header({ lang, logoUrl }: { lang: Lang; logoUrl?: string
     ['/about', en ? 'About' : 'عن الشركة'],
     ['/services', en ? 'Services' : 'الخدمات'],
     ['/projects', en ? 'Projects' : 'المشاريع'],
+    ['/portfolio', en ? 'Portfolio' : 'البورتفوليو'],
     ['/contact', en ? 'Contact' : 'تواصل معنا'],
   ];
 

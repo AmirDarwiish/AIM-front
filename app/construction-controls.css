@@ -70,10 +70,48 @@
  .la-site .la-header .la-header-actions{gap:8px}
 }
 
-/* Portfolio action stays in page content, away from the compact mobile header. */
-.la-site .la-portfolio-link{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;max-width:100%;padding:12px 18px;margin-top:24px;border:1px solid var(--la-action-subtle-border);border-radius:var(--la-action-radius);background:var(--la-action-secondary-fill);color:var(--la-action-ink);font-weight:500;line-height:1.5;text-decoration:none}
-.la-site .la-portfolio-link span{min-width:0}
-.la-site .la-portfolio-link small{display:block;font-size:11px;font-weight:400;color:var(--la-muted);margin-top:3px}
-.la-site .la-portfolio-link:hover{background:var(--la-action-secondary-hover);border-color:var(--la-action-border)}
 .la-site .la-company-links{display:flex;align-items:center;flex-wrap:wrap;gap:16px 24px;margin-top:22px}
 .la-site .la-company-links :is(.la-text-link,.la-portfolio-link){margin:0}
+
+/* Framed drawing-sheet action; a distinct, restrained architectural detail. */
+.la-site .la-portfolio-link{position:relative;isolation:isolate;margin-top:24px;padding:13px 20px;border:1px solid var(--la-action-border);border-radius:2px;gap:14px;background:var(--la-action-background);color:var(--la-action-on-primary);box-shadow:none;transition:background var(--la-action-motion)}
+.la-site .la-portfolio-link::after{content:"";pointer-events:none;position:absolute;inset:5px;background:linear-gradient(currentColor,currentColor) left top/9px 1px no-repeat,linear-gradient(currentColor,currentColor) left top/1px 9px no-repeat,linear-gradient(currentColor,currentColor) right bottom/9px 1px no-repeat,linear-gradient(currentColor,currentColor) right bottom/1px 9px no-repeat;opacity:.45}
+.la-site .la-portfolio-link .la-portfolio-symbol{display:grid;place-items:center;align-self:stretch;padding-inline-end:14px;border-inline-end:1px solid #ffffff38}
+.la-site .la-portfolio-link small{color:inherit;opacity:.7;font-size:10px;letter-spacing:.02em}
+.la-site .la-portfolio-link:hover{background:var(--la-action-hover);color:var(--la-action-on-primary)}
+.la-site .la-hero-actions .la-portfolio-link{margin:0;min-height:62px}
+.la-site .la-hero-actions .la-portfolio-link-hero{background:var(--la-action-on-dark);color:var(--la-action-ink);border-color:var(--la-action-on-dark)}
+.la-site .la-hero-actions .la-portfolio-link-hero:hover{background:#fff}
+.la-site .la-portfolio-link-hero .la-portfolio-symbol{border-color:#24242430}
+.la-site .la-nav a[href^='/portfolio']{border-bottom-color:var(--la-action-subtle-border)}
+.la-site.la-portfolio-viewer{min-height:100dvh;background:#e9e9e5}
+.la-site .la-portfolio-toolbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:24px;padding:16px var(--la-gutter);border-bottom:1px solid var(--la-action-subtle-border);background:#fafaf7}
+.la-site .la-portfolio-back{display:flex;align-items:center;gap:12px;min-height:44px;color:var(--la-action-ink);flex-shrink:0}
+.la-site .la-portfolio-heading{flex:1;min-width:0;border-inline-start:1px solid var(--la-action-subtle-border);padding-inline-start:24px}
+.la-site .la-portfolio-kicker{display:block;color:var(--la-muted);font-size:9px;letter-spacing:.12em;margin-bottom:5px}
+.la-site .la-portfolio-heading h1{font-size:20px;line-height:1.4;margin:0}
+.la-site .la-portfolio-tools{display:flex;align-items:center;gap:20px;flex-shrink:0}
+.la-site :is(.la-portfolio-download,.la-portfolio-open){display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;font-size:14px;white-space:nowrap;text-decoration:none}
+.la-site .la-portfolio-download{padding:10px 18px;background:var(--la-action-background);color:var(--la-action-on-primary);border:1px solid var(--la-action-border);border-radius:2px}
+.la-site .la-portfolio-download:hover{background:var(--la-action-hover)}
+.la-site .la-portfolio-open{color:var(--la-action-ink);text-decoration:underline;text-underline-offset:5px}
+.la-site .la-portfolio-canvas{max-width:1120px;margin-inline:auto;padding:18px var(--la-gutter) 24px}
+.la-site .la-portfolio-caption{display:flex;align-items:center;gap:9px;margin-bottom:12px;font-size:12px;color:var(--la-muted)}
+.la-site .la-portfolio-caption>span:last-child{margin-inline-start:auto;font-size:10px;letter-spacing:.08em}
+.la-site .la-portfolio-document{display:block;width:100%;height:calc(100dvh - 155px);min-height:420px;border:1px solid var(--la-action-subtle-border);background:white}
+.la-site .la-portfolio-help{font-size:12px;color:var(--la-muted);margin:12px 0 0;line-height:1.6}
+@media(min-width:981px) and (max-width:1200px){.la-site .la-header .la-nav{gap:15px;font-size:13px}.la-site .la-header .la-header-actions{gap:12px}}
+@media(max-width:600px){
+ .la-site .la-hero-actions{gap:14px 16px}
+ .la-site .la-hero-actions .la-portfolio-link{padding:12px 18px;gap:12px;min-height:60px}
+ .la-site .la-hero-actions .la-button{padding-inline:18px}
+ .la-site .la-hero-actions .la-hero-quote{flex-basis:100%;font-size:14px}
+ .la-site .la-portfolio-toolbar{flex-wrap:wrap;gap:12px 16px;padding:12px var(--la-gutter)}
+ .la-site .la-portfolio-heading{padding-inline-start:16px}
+ .la-site .la-portfolio-heading h1{font-size:18px}
+ .la-site .la-portfolio-kicker{font-size:8px}
+ .la-site .la-portfolio-tools{flex-basis:100%;justify-content:space-between;flex-direction:row-reverse;border-top:1px solid var(--la-action-subtle-border);padding-top:10px}
+ .la-site .la-portfolio-canvas{padding:14px 12px 20px}
+ .la-site .la-portfolio-document{height:calc(100dvh - 205px)}
+ .la-site .la-portfolio-caption{font-size:11px}
+}

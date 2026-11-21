@@ -6,7 +6,7 @@ import { pageUrl } from '@/lib/seo';
 import type { ProjectPage } from '@/lib/construction';
 export const dynamic='force-dynamic';
 export default async function sitemap():Promise<MetadataRoute.Sitemap>{
- const paths=new Set(['/','/about','/services','/projects','/contact','/guides',...guides.map(g=>`/guides/${g.slug}`)]);
+ const paths=new Set(['/','/about','/services','/projects','/portfolio','/contact','/guides',...guides.map(g=>`/guides/${g.slug}`)]);
  const homes=await Promise.all([siteData('ar'),siteData('en')]);
  for(const home of homes)for(const s of serviceItems(home,'ar'))paths.add(`/services/${s.id}`);
  // Include every published project; avoid invented modification dates.
