@@ -7,7 +7,8 @@ const compiled=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.
 const {GET}=await import('data:text/javascript;base64,'+Buffer.from(compiled).toString('base64'));
 const response=await GET();
 assert.equal(response.status,200);
-assert.equal(response.headers.get('Content-Type'),'application/pdf');
+assert.equal(response.headers.get('Cache-Control'),'no-store');
+assert.equal(response.headers.get('Content-Type'),'application/octet-stream');
 assert.match(response.headers.get('Content-Disposition'),/^attachment; filename="LA-Construction-Portfolio.pdf"$/);
 const actual=Buffer.from(await response.arrayBuffer());
 assert.equal(response.headers.get('Content-Length'),String(actual.byteLength));

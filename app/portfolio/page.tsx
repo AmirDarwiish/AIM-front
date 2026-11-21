@@ -21,7 +21,7 @@ export default async function Portfolio({searchParams}:Props){
    <div className="la-portfolio-heading"><span className="la-portfolio-kicker" dir="ltr">LA CONSTRUCTION / PORTFOLIO</span><h1>{en?'Company portfolio':'بورتفوليو الشركة'}</h1></div>
    <div className="la-portfolio-tools">
     <a className="la-portfolio-open" href={pdf} target="_blank" rel="noopener noreferrer">{en?'Open PDF':'فتح الملف'}<ArrowUpRight size={16} aria-hidden="true"/><span className="sr-only">{en?' (new tab)':' (تبويب جديد)'}</span></a>
-    <a className="la-portfolio-download" href="/portfolio/download" download="LA-Construction-Portfolio.pdf"><Download size={18} aria-hidden="true"/><span>{en?'Download PDF':'تحميل PDF'}</span></a>
+    <a className="la-portfolio-download" href="/portfolio/download?v=2" download="LA-Construction-Portfolio.pdf"><Download size={18} aria-hidden="true"/><span>{en?'Download PDF':'تحميل PDF'}</span></a>
    </div>
   </header>
   <main className="la-portfolio-canvas">
